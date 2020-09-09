@@ -184,7 +184,6 @@ public class ACChannel {
                 case .message:
                     self.executeCallback(callbacks: self.onMessage, message: message)
                 case .ping:
-                    self.client?.pingRoundWatcher.ping()
                     self.executeCallback(callbacks: self.onPing)
                 default: break
                 }

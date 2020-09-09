@@ -136,6 +136,12 @@ public final class ACClient {
         }
         ws.onText = { [weak self] text in
             guard let self = self else { return }
+            let message = ACSerializer.responseFrom(stringData: text)
+            switch message.type {
+            case .ping:
+                self.pingRoundWatcher.ping()
+            default: break
+            }
             self.clientConcurrentQueue.async { [text] in
                 let closures = self.onText
                 for closure in closures {
