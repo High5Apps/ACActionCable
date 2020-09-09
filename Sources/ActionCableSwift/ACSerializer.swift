@@ -48,6 +48,13 @@ public class ACSerializer {
             return ACMessage(type: messageType)
         case .welcome, .ping:
             return ACMessage(type: messageType)
+        case .disconnect:
+            let reconnect = dict["reconnect"] as? Bool
+            var message = ACMessage(type: messageType, reconnect: reconnect)
+            if let disconnectReason = dict["reason"] as? String {
+                message.disconnectReason = DisconnectReason(string: disconnectReason)
+            }
+            return message
         case .message, .unrecognized:
             var message = ACMessage(type: messageType)
             if let identifier = dict["identifier"] as? String {

@@ -56,6 +56,7 @@ public enum ACMessageType: String {
     case cancelSubscription = "cancel_subscription"
     case hibernateSubscription = "hibernate_subscription"
     case welcome = "welcome"
+    case disconnect = "disconnect"
     case ping = "ping"
     case message = "message"
     case unrecognized = "___unrecognized"
@@ -66,6 +67,8 @@ public enum ACMessageType: String {
             self = ACMessageType.welcome
         case ACMessageType.ping.rawValue:
             self = ACMessageType.ping
+        case ACMessageType.disconnect.rawValue:
+            self = ACMessageType.disconnect
         case ACMessageType.confirmSubscription.rawValue:
             self = ACMessageType.confirmSubscription
         case ACMessageType.rejectSubscription.rawValue:
@@ -76,6 +79,26 @@ public enum ACMessageType: String {
             self = ACMessageType.hibernateSubscription
         default:
             self = ACMessageType.unrecognized
+        }
+    }
+}
+
+public enum DisconnectReason: String {
+    case unauthorized = "unauthorized"
+    case invalidRequest = "invalid_request"
+    case serverRestart = "server_restart"
+    case unrecognized = "___unrecognized"
+    
+    init(string: String) {
+        switch(string) {
+        case DisconnectReason.unauthorized.rawValue:
+            self = DisconnectReason.unauthorized
+        case DisconnectReason.invalidRequest.rawValue:
+            self = DisconnectReason.invalidRequest
+        case DisconnectReason.serverRestart.rawValue:
+            self = DisconnectReason.serverRestart
+        default:
+            self = DisconnectReason.unrecognized
         }
     }
 }
@@ -114,11 +137,15 @@ public struct ACMessage {
     public var message: [String: Any]? // not string
     public var identifier: [String: Any]?
     public var channelName: String? { identifier?["channel"] as? String }
+    public var disconnectReason: DisconnectReason?
+    public var reconnect: Bool?
 
-    public init(type: ACMessageType, message: [String: Any]? = nil, identifier: [String: Any]? = nil) {
+    public init(type: ACMessageType, message: [String: Any]? = nil, identifier: [String: Any]? = nil, disconnectReason: DisconnectReason? = nil, reconnect: Bool? = nil) {
         self.type = type
         self.message = message
         self.identifier = identifier
+        self.disconnectReason = disconnectReason
+        self.reconnect = reconnect
     }
 }
 

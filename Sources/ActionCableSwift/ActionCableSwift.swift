@@ -138,6 +138,10 @@ public final class ACClient {
             guard let self = self else { return }
             let message = ACSerializer.responseFrom(stringData: text)
             switch message.type {
+            case .disconnect:
+                if let reconnect = message.reconnect {
+                    self.pingRoundWatcher.setFinish(to: !reconnect)
+                }
             case .ping:
                 self.pingRoundWatcher.ping()
             default: break
