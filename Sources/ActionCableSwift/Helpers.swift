@@ -177,6 +177,7 @@ public final class PingRoundWatcher {
             guard let self = self else { return }
             self.setFinish(to: false)
             self.setStarted(to: true)
+            self.updateLastPoint()
             while true {
                 if self.finish { return }
 
