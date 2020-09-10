@@ -72,7 +72,11 @@ public final class ACClient {
         isConnectedLock.unlock()
     }
 
-    public func disconnect() {
+    public func disconnect(allowReconnect: Bool = true) {
+        if !allowReconnect {
+            pingRoundWatcher.stop()
+        }
+        
         isConnectedLock.lock()
         ws.disconnect()
         isConnectedLock.unlock()
