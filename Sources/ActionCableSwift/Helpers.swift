@@ -201,6 +201,10 @@ public final class PingRoundWatcher {
             self.setStarted(to: false)
         }.start()
     }
+    
+    public func stop() {
+        setFinish(to: true)
+    }
 
     public func ping() {
         updateLastPoint()
@@ -230,7 +234,7 @@ public final class PingRoundWatcher {
         self.client?.getIsConnected() ?? false
     }
 
-    public func setFinish(to: Bool) {
+    private func setFinish(to: Bool) {
         lock.lock()
         finish = to
         lock.unlock()

@@ -139,8 +139,8 @@ public final class ACClient {
             let message = ACSerializer.responseFrom(stringData: text)
             switch message.type {
             case .disconnect:
-                if let reconnect = message.reconnect {
-                    self.pingRoundWatcher.setFinish(to: !reconnect)
+                if let reconnect = message.reconnect, !reconnect {
+                    self.pingRoundWatcher.stop()
                 }
             case .ping:
                 self.pingRoundWatcher.ping()
@@ -197,7 +197,7 @@ public final class ACClient {
     }
 
     deinit {
-        pingRoundWatcher.setFinish(to: true)
+        pingRoundWatcher.stop()
     }
 }
 
