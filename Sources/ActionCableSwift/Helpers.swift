@@ -175,6 +175,7 @@ public final class PingRoundWatcher {
 
         Thread { [weak self] in
             guard let self = self else { return }
+            self.setFinish(to: false)
             self.setStarted(to: true)
             while true {
                 if self.finish { return }
@@ -197,6 +198,7 @@ public final class PingRoundWatcher {
                     usleep(self._checksDelay)
                 }
             }
+            self.setStarted(to: false)
         }.start()
     }
 
