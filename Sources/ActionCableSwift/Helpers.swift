@@ -178,9 +178,7 @@ public final class PingRoundWatcher {
             self.setFinish(to: false)
             self.setStarted(to: true)
             self.updateLastPoint()
-            while true {
-                if self.finish { return }
-
+            while !self.finish {
                 if !self.isConnected() {
                     self.client?.disconnect()
                     usleep(200_000)
