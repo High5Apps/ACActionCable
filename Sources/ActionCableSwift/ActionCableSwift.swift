@@ -1,6 +1,12 @@
 
 import Foundation
 
+public typealias ACConnectionHandler = (_ headers: [String: String]?) -> Void
+public typealias ACDisconnectionHandler = (_ reason: String?) -> Void
+public typealias ACEventHandler = () -> Void
+public typealias ACTextHandler = (_ text: String) -> Void
+public typealias ACDataHandler = (_ data: Data) -> Void
+
 public final class ACClient {
 
     public var ws: ACWebSocketProtocol
@@ -15,13 +21,13 @@ public final class ACClient {
     private let sendLock: NSLock = .init()
 
     /// callbacks
-    private var onConnected: [((_ headers: [String: String]?) -> Void)] = []
-    private var onDisconnected: [((_ reason: String?) -> Void)] = []
-    private var onCancelled: [(() -> Void)] = []
-    private var onText: [((_ text: String) -> Void)] = []
-    private var onBinary: [((_ data: Data) -> Void)] = []
-    private var onPing: [(() -> Void)] = []
-    private var onPong: [(() -> Void)] = []
+    private var onConnected: [ACConnectionHandler] = []
+    private var onDisconnected: [ACDisconnectionHandler] = []
+    private var onCancelled: [ACEventHandler] = []
+    private var onText: [ACTextHandler] = []
+    private var onBinary: [ACDataHandler] = []
+    private var onPing: [ACEventHandler] = []
+    private var onPong: [ACEventHandler] = []
 
     public init(ws: ACWebSocketProtocol,
                 headers: [String: String]? = nil,
@@ -34,31 +40,31 @@ public final class ACClient {
         pingRoundWatcher.client = self
     }
 
-    public func addOnConnected(_ handler: @escaping (_ headers: [String: String]?) -> Void) {
+    public func addOnConnected(_ handler: @escaping ACConnectionHandler, identifier: String? = nil) {
         onConnected.append(handler)
     }
 
-    public func addOnDisconnected(_ handler: @escaping (_ reason: String?) -> Void) {
+    public func addOnDisconnected(_ handler: @escaping ACDisconnectionHandler) {
         onDisconnected.append(handler)
     }
 
-    public func addOnCancelled(_ handler: @escaping () -> Void) {
+    public func addOnCancelled(_ handler: @escaping ACEventHandler) {
         onCancelled.append(handler)
     }
 
-    public func addOnText(_ handler: @escaping (_ text: String) -> Void) {
+    public func addOnText(_ handler: @escaping ACTextHandler) {
         onText.append(handler)
     }
 
-    public func addOnBinary(_ handler: @escaping (_ data: Data) -> Void) {
+    public func addOnBinary(_ handler: @escaping ACDataHandler) {
         onBinary.append(handler)
     }
 
-    public func addOnPing(_ handler: @escaping () -> Void) {
+    public func addOnPing(_ handler: @escaping ACEventHandler) {
         onPing.append(handler)
     }
 
-    public func addOnPong(_ handler: @escaping () -> Void) {
+    public func addOnPong(_ handler: @escaping ACEventHandler) {
         onPong.append(handler)
     }
 
@@ -82,7 +88,7 @@ public final class ACClient {
         isConnectedLock.unlock()
     }
 
-    public func send(text: String, _ completion: (() -> Void)? = nil) {
+    public func send(text: String, _ completion: ACEventHandler? = nil) {
         sendLock.lock()
         ws.send(text: text) {
             completion?()
@@ -90,7 +96,7 @@ public final class ACClient {
         sendLock.unlock()
     }
 
-    public func send(data: Data, _ completion: (() -> Void)? = nil) {
+    public func send(data: Data, _ completion: ACEventHandler? = nil) {
         sendLock.lock()
         ws.send(data: data) {
             completion?()
