@@ -8,7 +8,6 @@
 import Foundation
 
 public typealias ACAction = () -> Void
-public typealias ACResponseCallback = (_ channel: ACChannel, _ message: ACMessage?) -> Void
 public typealias ACResponseCallbackWithOptionalMessage = (_ channel: ACChannel, _ message: ACMessage?) -> Void
 
 public class ACChannel {
@@ -24,14 +23,14 @@ public class ACChannel {
     private let channelSerialQueue = DispatchQueue(label: "com.ACChannel.SerialQueue")
 
     /// callbacks
-    private var onMessage: [ACResponseCallback] = []
+    private var onMessage: [ACResponseCallbackWithOptionalMessage] = []
     private var onSubscribe: [ACResponseCallbackWithOptionalMessage] = []
     private var onUnsubscribe: [ACResponseCallbackWithOptionalMessage] = []
     private var onRejectSubscription: [ACResponseCallbackWithOptionalMessage] = []
     private var onPing: [ACResponseCallbackWithOptionalMessage] = []
     private var actionsBuffer: [ACAction] = []
 
-    public func addOnMessage(_ handler: @escaping ACResponseCallback) {
+    public func addOnMessage(_ handler: @escaping ACResponseCallbackWithOptionalMessage) {
         onMessage.append(handler)
     }
 
@@ -191,7 +190,7 @@ public class ACChannel {
         }
     }
 
-    private func executeCallback(callbacks: [ACResponseCallback], message: ACMessage) {
+    private func executeCallback(callbacks: [ACResponseCallbackWithOptionalMessage], message: ACMessage) {
         for closure in callbacks {
             closure(self, message)
         }
