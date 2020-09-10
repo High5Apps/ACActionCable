@@ -32,9 +32,6 @@ public final class ACClient {
         self.options = options ?? ACClientOptions()
         setupWSCallbacks()
         pingRoundWatcher.client = self
-        if self.options.reconnect {
-            self.pingRoundWatcher.start()
-        }
     }
 
     public func addOnConnected(_ handler: @escaping (_ headers: [String: String]?) -> Void) {
@@ -107,6 +104,9 @@ public final class ACClient {
         ws.onConnected = { [weak self] headers in
             guard let self = self else { return }
             self.setIsConnected(to: true)
+            if self.options.reconnect {
+                self.pingRoundWatcher.start()
+            }
             self.clientConcurrentQueue.async { [headers] in
                 let closures = self.onConnected
                 for closure in closures {
