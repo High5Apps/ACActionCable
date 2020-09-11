@@ -16,13 +16,13 @@ public typealias ACDataHandler = (_ data: Data) -> Void
 public struct ACClientTap {
     let id: String
     
-    private let onConnected: ACConnectionHandler?
-    private let onDisconnected: ACDisconnectionHandler?
-    private let onCancelled: ACEventHandler?
-    private let onText: ACTextHandler?
-    private let onBinary: ACDataHandler?
-    private let onPing: ACEventHandler?
-    private let onPong: ACEventHandler?
+    let onConnected: ACConnectionHandler?
+    let onDisconnected: ACDisconnectionHandler?
+    let onCancelled: ACEventHandler?
+    let onText: ACTextHandler?
+    let onBinary: ACDataHandler?
+    let onPing: ACEventHandler?
+    let onPong: ACEventHandler?
     
     public init(onConnected: ACConnectionHandler? = nil,
                 onDisconnected: ACDisconnectionHandler? = nil,

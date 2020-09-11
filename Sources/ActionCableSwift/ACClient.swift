@@ -14,6 +14,7 @@ public final class ACClient {
     private let sendLock: NSLock = .init()
     
     private var subscriptions: Set<ACSubscription> = []
+    private var taps: Set<ACClientTap> = []
 
     /// callbacks
     private var onConnected: [String: [ACConnectionHandler]] = [:]
@@ -121,6 +122,16 @@ public final class ACClient {
             send(text: unsubscribe)
         }
     }
+    
+    // MARK: Callbacks
+    
+    public func add(_ tap: ACClientTap) {
+        taps.insert(tap)
+    }
+    
+    public func remove(_ tap: ACClientTap) {
+        taps.remove(tap)
+    }
 
     private func setupWSCallbacks() {
         ws.onConnected = { [weak self] headers in
@@ -130,6 +141,7 @@ public final class ACClient {
                 self.connectionMonitor.start()
             }
             self.clientConcurrentQueue.async { [headers] in
+                self.taps.forEach() { $0.onConnected?(headers) }
                 self.onConnected.values.forEach { (closures) in
                     closures.forEach() { $0(headers) }
                 }
@@ -139,6 +151,7 @@ public final class ACClient {
             guard let self = self else { return }
             self.setIsConnected(to: false)
             self.clientConcurrentQueue.async { [reason] in
+                self.taps.forEach() { $0.onDisconnected?(reason) }
                 let closures = self.onDisconnected
                 for closure in closures {
                     closure(reason)
@@ -149,6 +162,7 @@ public final class ACClient {
             guard let self = self else { return }
             self.setIsConnected(to: false)
             self.clientConcurrentQueue.async {
+                self.taps.forEach() { $0.onCancelled?() }
                 let closures = self.onCancelled
                 for closure in closures {
                     closure()
@@ -171,6 +185,7 @@ public final class ACClient {
                 self.subscriptions.forEach() { $0.onMessage(message) }
             }
             self.clientConcurrentQueue.async { [text] in
+                self.taps.forEach() { $0.onText?(text) }
                 let closures = self.onText
                 for closure in closures {
                     closure(text)
@@ -180,6 +195,7 @@ public final class ACClient {
         ws.onBinary = { [weak self] data in
             guard let self = self else { return }
             self.clientConcurrentQueue.async { [data] in
+                self.taps.forEach() { $0.onBinary?(data) }
                 let closures = self.onBinary
                 for closure in closures {
                     closure(data)
@@ -189,6 +205,7 @@ public final class ACClient {
         ws.onPing = { [weak self] in
             guard let self = self else { return }
             self.clientConcurrentQueue.async {
+                self.taps.forEach() { $0.onPing?() }
                 let closures = self.onPing
                 for closure in closures {
                     closure()
@@ -199,6 +216,7 @@ public final class ACClient {
             guard let self = self else { return }
             let closures = self.onPong
             self.clientConcurrentQueue.async {
+                self.taps.forEach() { $0.onPong?() }
                 for closure in closures {
                     closure()
                 }
