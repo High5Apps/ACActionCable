@@ -33,3 +33,10 @@ extension ACChannelIdentifier: Equatable {
         lhs.string == rhs.string
     }
 }
+
+extension ACChannelIdentifier: Hashable {
+    
+    public func hash(into hasher: inout Hasher) {
+      hasher.combine(string)
+    }
+}
