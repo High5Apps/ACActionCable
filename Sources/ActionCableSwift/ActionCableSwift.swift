@@ -21,7 +21,7 @@ public final class ACClient {
     private let sendLock: NSLock = .init()
 
     /// callbacks
-    private var onConnected: [ACConnectionHandler] = []
+    private var onConnected: [String: [ACConnectionHandler]] = [:]
     private var onDisconnected: [ACDisconnectionHandler] = []
     private var onCancelled: [ACEventHandler] = []
     private var onText: [ACTextHandler] = []
@@ -41,7 +41,15 @@ public final class ACClient {
     }
 
     public func addOnConnected(_ handler: @escaping ACConnectionHandler, identifier: String? = nil) {
-        onConnected.append(handler)
+        let identifier = identifier ?? UUID().uuidString
+        if onConnected[identifier] == nil {
+            onConnected[identifier] = []
+        }
+        onConnected[identifier]!.append(handler)
+    }
+    
+    public func removeOnConnectedHandlers(with identifier: String) {
+        onConnected.removeValue(forKey: identifier)
     }
 
     public func addOnDisconnected(_ handler: @escaping ACDisconnectionHandler) {
@@ -118,9 +126,8 @@ public final class ACClient {
                 self.pingRoundWatcher.start()
             }
             self.clientConcurrentQueue.async { [headers] in
-                let closures = self.onConnected
-                for closure in closures {
-                    closure(headers)
+                self.onConnected.values.forEach { (closures) in
+                    closures.forEach() { $0(headers) }
                 }
             }
         }

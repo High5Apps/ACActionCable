@@ -20,6 +20,7 @@ public class ACChannel {
     public var isSubscribed = false
     public var bufferingIfDisconnected = false
     public var identifier: ACChannelIdentifier
+    public var identifierString: String? { try? ACSerializer.serialize(identifier) }
 
     private let channelSerialQueue = DispatchQueue(label: "com.ACChannel.SerialQueue")
 
@@ -72,6 +73,9 @@ public class ACChannel {
     }
 
     public func subscribe(sendAsData: Bool = false) throws {
+        if options.resubscribeOnReconnection {
+            addAutoSubscribe()
+        }
         if sendAsData {
             let data: Data = try ACSerializer.requestFrom(command: .subscribe, identifier: identifier)
             client?.send(data: data)
@@ -82,6 +86,9 @@ public class ACChannel {
     }
 
     public func unsubscribe(sendAsData: Bool = false) throws {
+        if options.resubscribeOnReconnection {
+            removeAutoSubscribe()
+        }
         if sendAsData {
             let data: Data = try ACSerializer.requestFrom(command: .unsubscribe, identifier: identifier)
             client?.send(data: data)
@@ -136,13 +143,23 @@ public class ACChannel {
     private func setupAutoSubscribe() {
         if options.autoSubscribe {
             if client?.isConnected ?? false { try? subscribe() }
-            self.client?.addOnConnected { [weak self] (headers) in
-                guard let self = self else { return }
-                self.channelSerialQueue.async {
-                    try? self.subscribe()
-                }
+            addAutoSubscribe()
+        }
+    }
+    
+    private func addAutoSubscribe() {
+        let handler: ACConnectionHandler = { [weak self] (headers) in
+            guard let self = self else { return }
+            self.channelSerialQueue.async {
+                try? self.subscribe()
             }
         }
+        client?.addOnConnected(handler, identifier: identifierString)
+    }
+    
+    private func removeAutoSubscribe() {
+        guard let identifierString = identifierString else { return }
+        client?.removeOnConnectedHandlers(with: identifierString)
     }
 
     private func setupOnDisconnectCallbacks() {

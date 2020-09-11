@@ -88,16 +88,20 @@ public class ACSerializer {
             data["action"] = action
             let payload: [String : Any] = [
                 "command": command.rawValue,
-                "identifier": try identifier.toJSON(options: .sortedKeys),
+                "identifier": try Self.serialize(identifier),
                 "data": try data.toJSON()
             ]
             return payload
         case .subscribe, .unsubscribe:
             let payload: [String : Any] = [
                 "command": command.rawValue,
-                "identifier": try identifier.toJSON(options: .sortedKeys)
+                "identifier": try Self.serialize(identifier)
             ]
             return payload
         }
+    }
+    
+    class func serialize(_ identifier: ACChannelIdentifier) throws -> String {
+        try identifier.toJSON(options: .sortedKeys)
     }
 }
