@@ -12,7 +12,7 @@ public final class ACClient {
     public var ws: ACWebSocketProtocol
     public var isConnected: Bool = false
     public var headers: [String: String]?
-    public let pingRoundWatcher = PingRoundWatcher()
+    public let connectionMonitor = ACConnectionMontior()
     public var options: ACClientOptions
 
     private let clientConcurrentQueue = DispatchQueue(label: "com.ACClient.Conccurent", attributes: .concurrent)
@@ -36,7 +36,7 @@ public final class ACClient {
         self.headers = headers
         self.options = options ?? ACClientOptions()
         setupWSCallbacks()
-        pingRoundWatcher.client = self
+        connectionMonitor.client = self
     }
 
     public func addOnConnected(_ handler: @escaping ACConnectionHandler, identifier: String? = nil) {
@@ -83,7 +83,7 @@ public final class ACClient {
 
     public func disconnect(allowReconnect: Bool = true) {
         if !allowReconnect {
-            pingRoundWatcher.stop()
+            connectionMonitor.stop()
         }
         
         isConnectedLock.lock()
@@ -117,7 +117,7 @@ public final class ACClient {
             guard let self = self else { return }
             self.setIsConnected(to: true)
             if self.options.reconnect {
-                self.pingRoundWatcher.start()
+                self.connectionMonitor.start()
             }
             self.clientConcurrentQueue.async { [headers] in
                 self.onConnected.values.forEach { (closures) in
@@ -151,10 +151,10 @@ public final class ACClient {
             switch message.type {
             case .disconnect:
                 if let reconnect = message.reconnect, !reconnect {
-                    self.pingRoundWatcher.stop()
+                    self.connectionMonitor.stop()
                 }
             case .ping:
-                self.pingRoundWatcher.ping()
+                self.connectionMonitor.ping()
             default: break
             }
             self.clientConcurrentQueue.async { [text] in
@@ -208,7 +208,7 @@ public final class ACClient {
     }
 
     deinit {
-        pingRoundWatcher.stop()
+        connectionMonitor.stop()
     }
 }
 

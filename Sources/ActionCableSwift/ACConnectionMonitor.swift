@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  ACConnectionMontior.swift
 //  
 //
 //  Created by Julian Tigler on 9/11/20.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public final class PingRoundWatcher {
+public final class ACConnectionMontior {
 
 
     weak var client: ACClient?
