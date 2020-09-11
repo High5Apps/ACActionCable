@@ -7,11 +7,6 @@
 
 import Foundation
 
-public enum ACSchema: String {
-    case ws
-    case wss
-}
-
 public enum ACCommand: String {
     case subscribe
     case unsubscribe
