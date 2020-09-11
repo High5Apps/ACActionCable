@@ -105,10 +105,10 @@ public final class ACClient {
     
     // MARK: Subscriptions
     
-    public func subscribe(to channelIdentifier: ACChannelIdentifier, with textHandler: @escaping ACTextHandler) -> ACSubscription? {
+    public func subscribe(to channelIdentifier: ACChannelIdentifier, with messageHandler: @escaping ACMessageHandler) -> ACSubscription? {
         guard let subscribe: String = try? ACSerializer.requestFrom(command: .subscribe, identifier: channelIdentifier) else { return nil }
         
-        let subscription = ACSubscription(client: self, channelIdentifier: channelIdentifier, onText: textHandler)
+        let subscription = ACSubscription(client: self, channelIdentifier: channelIdentifier, onMessage: messageHandler)
         subscriptions.insert(subscription)
         send(text: subscribe)
         
@@ -172,12 +172,14 @@ public final class ACClient {
                 self.connectionMonitor.ping()
             default: break
             }
+            self.clientConcurrentQueue.async { [message] in
+                self.subscriptions.forEach() { $0.onMessage(message) }
+            }
             self.clientConcurrentQueue.async { [text] in
                 let closures = self.onText
                 for closure in closures {
                     closure(text)
                 }
-                self.subscriptions.forEach() { $0.onText(text) }
             }
         }
         ws.onBinary = { [weak self] data in

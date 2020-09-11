@@ -7,19 +7,21 @@
 
 import Foundation
 
+public typealias ACMessageHandler = (ACMessage) -> Void
+
 public class ACSubscription {
     
     let channelIdentifier: ACChannelIdentifier
-    let onText: ACTextHandler
+    let onMessage: ACMessageHandler
     
     private let messageQueue = DispatchQueue(label: "com.ACSubscription.messageQueue")
     
     private unowned var client: ACClient
     
-    public init(client: ACClient, channelIdentifier: ACChannelIdentifier, onText: @escaping ACTextHandler) {
+    public init(client: ACClient, channelIdentifier: ACChannelIdentifier, onMessage: @escaping ACMessageHandler) {
         self.client = client
         self.channelIdentifier = channelIdentifier
-        self.onText = onText
+        self.onMessage = onMessage
     }
 
     public func send(actionName: String, data: [String: Any] = [:], completion: ACEventHandler? = nil) {
