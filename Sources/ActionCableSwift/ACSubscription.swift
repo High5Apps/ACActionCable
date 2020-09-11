@@ -10,8 +10,8 @@ import Foundation
 public class ACSubscription {
     
     let channelIdentifier: ACChannelIdentifier
+    let onText: ACTextHandler
     
-    private let onText: ACTextHandler
     private let messageQueue = DispatchQueue(label: "com.ACSubscription.messageQueue")
     
     private unowned var client: ACClient

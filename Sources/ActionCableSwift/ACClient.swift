@@ -12,6 +12,8 @@ public final class ACClient {
     private let clientConcurrentQueue = DispatchQueue(label: "com.ACClient.Conccurent", attributes: .concurrent)
     private let isConnectedLock: NSLock = .init()
     private let sendLock: NSLock = .init()
+    
+    private var subscriptions: Set<ACSubscription> = []
 
     /// callbacks
     private var onConnected: [String: [ACConnectionHandler]] = [:]
@@ -100,6 +102,25 @@ public final class ACClient {
         }
         sendLock.unlock()
     }
+    
+    // MARK: Subscriptions
+    
+    public func subscribe(to channelIdentifier: ACChannelIdentifier, with textHandler: @escaping ACTextHandler) -> ACSubscription? {
+        guard let subscribe: String = try? ACSerializer.requestFrom(command: .subscribe, identifier: channelIdentifier) else { return nil }
+        
+        let subscription = ACSubscription(client: self, channelIdentifier: channelIdentifier, onText: textHandler)
+        subscriptions.insert(subscription)
+        send(text: subscribe)
+        
+        return subscription
+    }
+    
+    public func unsubscribe(from subscription: ACSubscription) {
+        guard let unsubscribe: String = try? ACSerializer.requestFrom(command: .unsubscribe, identifier: subscription.channelIdentifier) else { return }
+        if subscriptions.remove(subscription) != nil {
+            send(text: unsubscribe)
+        }
+    }
 
     @discardableResult
     public func makeChannel(identifier: ACChannelIdentifier, options: ACChannelOptions? = nil) -> ACChannel {
@@ -156,6 +177,7 @@ public final class ACClient {
                 for closure in closures {
                     closure(text)
                 }
+                self.subscriptions.forEach() { $0.onText(text) }
             }
         }
         ws.onBinary = { [weak self] data in
