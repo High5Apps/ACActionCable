@@ -9,6 +9,7 @@ import Foundation
 
 public typealias ACAction = () -> Void
 public typealias ACResponseCallbackWithOptionalMessage = (_ channel: ACChannel, _ message: ACMessage?) -> Void
+public typealias ACChannelIdentifier = [String: Any]
 
 public class ACChannel {
 
@@ -18,7 +19,7 @@ public class ACChannel {
     weak var client: ACClient?
     public var isSubscribed = false
     public var bufferingIfDisconnected = false
-    public var identifier: [String: Any]
+    public var identifier: ACChannelIdentifier
 
     private let channelSerialQueue = DispatchQueue(label: "com.ACChannel.SerialQueue")
 
@@ -56,7 +57,7 @@ public class ACChannel {
 
     public init(channelName: String,
                 client: ACClient,
-                identifier: [String: Any] = [:],
+                identifier: ACChannelIdentifier = [:],
                 options: ACChannelOptions? = nil
     ) {
         self.channelName = channelName

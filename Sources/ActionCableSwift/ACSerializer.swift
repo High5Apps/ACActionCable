@@ -12,7 +12,7 @@ public class ACSerializer {
 
     public class func requestFrom(command: ACCommand,
                                   action: String? = nil,
-                                  identifier: [String: Any],
+                                  identifier: ACChannelIdentifier,
                                   data: [String: Any] = [:]
     ) throws -> String {
         try makeRequestDictionary(command: command,
@@ -24,7 +24,7 @@ public class ACSerializer {
 
     public class func requestFrom(command: ACCommand,
                                   action: String? = nil,
-                                  identifier: [String: Any],
+                                  identifier: ACChannelIdentifier,
                                   data: [String: Any] = [:]
     ) throws -> Data {
         try makeRequestDictionary(command: command,
@@ -58,7 +58,7 @@ public class ACSerializer {
         case .message, .unrecognized:
             var message = ACMessage(type: messageType)
             if let identifier = dict["identifier"] as? String {
-                message.identifier = try? identifier.toDictionary()
+                message.identifier = try? identifier.toChannelIdentifier()
             }
             message.message = dict["message"] as? [String: Any]
             return message
@@ -78,7 +78,7 @@ public class ACSerializer {
 
     private class func makeRequestDictionary(command: ACCommand,
                                              action: String? = nil,
-                                             identifier: [String: Any],
+                                             identifier: ACChannelIdentifier,
                                              data: [String: Any]
     ) throws -> [String: Any] {
         switch command {

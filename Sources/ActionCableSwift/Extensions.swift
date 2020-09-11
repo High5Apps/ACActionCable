@@ -9,12 +9,12 @@ import Foundation
 
 extension String {
 
-    func toDictionary() throws -> [String: Any] {
+    func toChannelIdentifier() throws -> ACChannelIdentifier {
         guard
             let data = data(using: .utf8)
             else { throw ACError.badStringData }
         guard
-            let dict = try JSONSerialization.jsonObject(with: data) as? [String: Any]
+            let dict = try JSONSerialization.jsonObject(with: data) as? ACChannelIdentifier
             else { throw ACError.badDictionaryData }
 
         return dict

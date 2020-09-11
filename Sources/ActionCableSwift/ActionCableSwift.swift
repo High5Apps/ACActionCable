@@ -105,7 +105,7 @@ public final class ACClient {
     }
 
     @discardableResult
-    public func makeChannel(name: String, identifier: [String: Any] = [:], options: ACChannelOptions? = nil) -> ACChannel {
+    public func makeChannel(name: String, identifier: ACChannelIdentifier = [:], options: ACChannelOptions? = nil) -> ACChannel {
         channels[name] = ACChannel(channelName: name, client: self, identifier: identifier, options: options)
         return channels[name]!
     }
