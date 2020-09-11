@@ -122,11 +122,6 @@ public final class ACClient {
         }
     }
 
-    @discardableResult
-    public func makeChannel(identifier: ACChannelIdentifier, options: ACChannelOptions? = nil) -> ACChannel {
-        ACChannel(client: self, identifier: identifier, options: options)
-    }
-
     private func setupWSCallbacks() {
         ws.onConnected = { [weak self] headers in
             guard let self = self else { return }
