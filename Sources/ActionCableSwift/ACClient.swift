@@ -1,12 +1,6 @@
 
 import Foundation
 
-public typealias ACConnectionHandler = (_ headers: [String: String]?) -> Void
-public typealias ACDisconnectionHandler = (_ reason: String?) -> Void
-public typealias ACEventHandler = () -> Void
-public typealias ACTextHandler = (_ text: String) -> Void
-public typealias ACDataHandler = (_ data: Data) -> Void
-
 public final class ACClient {
 
     public var ws: ACWebSocketProtocol
