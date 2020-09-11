@@ -2,6 +2,8 @@
 import Foundation
 
 public final class ACClient {
+    
+    // MARK: Properties
 
     public var ws: ACWebSocketProtocol
     public var isConnected: Bool = false
@@ -15,15 +17,8 @@ public final class ACClient {
     
     private var subscriptions: Set<ACSubscription> = []
     private var taps: Set<ACClientTap> = []
-
-    /// callbacks
-    private var onConnected: [String: [ACConnectionHandler]] = [:]
-    private var onDisconnected: [ACDisconnectionHandler] = []
-    private var onCancelled: [ACEventHandler] = []
-    private var onText: [ACTextHandler] = []
-    private var onBinary: [ACDataHandler] = []
-    private var onPing: [ACEventHandler] = []
-    private var onPong: [ACEventHandler] = []
+    
+    // MARK: Initialization
 
     public init(ws: ACWebSocketProtocol,
                 headers: [String: String]? = nil,
@@ -35,42 +30,8 @@ public final class ACClient {
         setupWSCallbacks()
         connectionMonitor.client = self
     }
-
-    public func addOnConnected(_ handler: @escaping ACConnectionHandler, identifier: String? = nil) {
-        let identifier = identifier ?? UUID().uuidString
-        if onConnected[identifier] == nil {
-            onConnected[identifier] = []
-        }
-        onConnected[identifier]!.append(handler)
-    }
     
-    public func removeOnConnectedHandlers(with identifier: String) {
-        onConnected.removeValue(forKey: identifier)
-    }
-
-    public func addOnDisconnected(_ handler: @escaping ACDisconnectionHandler) {
-        onDisconnected.append(handler)
-    }
-
-    public func addOnCancelled(_ handler: @escaping ACEventHandler) {
-        onCancelled.append(handler)
-    }
-
-    public func addOnText(_ handler: @escaping ACTextHandler) {
-        onText.append(handler)
-    }
-
-    public func addOnBinary(_ handler: @escaping ACDataHandler) {
-        onBinary.append(handler)
-    }
-
-    public func addOnPing(_ handler: @escaping ACEventHandler) {
-        onPing.append(handler)
-    }
-
-    public func addOnPong(_ handler: @escaping ACEventHandler) {
-        onPong.append(handler)
-    }
+    // MARK: Connection management
 
     public func connect() {
         isConnectedLock.lock()
@@ -87,6 +48,8 @@ public final class ACClient {
         ws.disconnect()
         isConnectedLock.unlock()
     }
+    
+    // MARK: Sending messages
 
     public func send(text: String, _ completion: ACEventHandler? = nil) {
         sendLock.lock()
@@ -142,9 +105,6 @@ public final class ACClient {
             }
             self.clientConcurrentQueue.async { [headers] in
                 self.taps.forEach() { $0.onConnected?(headers) }
-                self.onConnected.values.forEach { (closures) in
-                    closures.forEach() { $0(headers) }
-                }
             }
         }
         ws.onDisconnected = { [weak self] reason in
@@ -152,10 +112,6 @@ public final class ACClient {
             self.setIsConnected(to: false)
             self.clientConcurrentQueue.async { [reason] in
                 self.taps.forEach() { $0.onDisconnected?(reason) }
-                let closures = self.onDisconnected
-                for closure in closures {
-                    closure(reason)
-                }
             }
         }
         ws.onCancelled = { [weak self] in
@@ -163,10 +119,6 @@ public final class ACClient {
             self.setIsConnected(to: false)
             self.clientConcurrentQueue.async {
                 self.taps.forEach() { $0.onCancelled?() }
-                let closures = self.onCancelled
-                for closure in closures {
-                    closure()
-                }
             }
         }
         ws.onText = { [weak self] text in
@@ -186,43 +138,29 @@ public final class ACClient {
             }
             self.clientConcurrentQueue.async { [text] in
                 self.taps.forEach() { $0.onText?(text) }
-                let closures = self.onText
-                for closure in closures {
-                    closure(text)
-                }
             }
         }
         ws.onBinary = { [weak self] data in
             guard let self = self else { return }
             self.clientConcurrentQueue.async { [data] in
                 self.taps.forEach() { $0.onBinary?(data) }
-                let closures = self.onBinary
-                for closure in closures {
-                    closure(data)
-                }
             }
         }
         ws.onPing = { [weak self] in
             guard let self = self else { return }
             self.clientConcurrentQueue.async {
                 self.taps.forEach() { $0.onPing?() }
-                let closures = self.onPing
-                for closure in closures {
-                    closure()
-                }
             }
         }
         ws.onPong = { [weak self] in
             guard let self = self else { return }
-            let closures = self.onPong
             self.clientConcurrentQueue.async {
                 self.taps.forEach() { $0.onPong?() }
-                for closure in closures {
-                    closure()
-                }
             }
         }
     }
+    
+    // MARK: isConnected
 
     func setIsConnected(to: Bool) {
         isConnectedLock.lock()
