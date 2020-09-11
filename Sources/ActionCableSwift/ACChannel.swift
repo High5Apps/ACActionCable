@@ -9,18 +9,15 @@ import Foundation
 
 public typealias ACAction = () -> Void
 public typealias ACResponseCallbackWithOptionalMessage = (_ channel: ACChannel, _ message: ACMessage?) -> Void
-public typealias ACChannelIdentifier = [String: Any]
 
 public class ACChannel {
 
-    public let channelName: String
     public let options: ACChannelOptions
 
     weak var client: ACClient?
     public var isSubscribed = false
     public var bufferingIfDisconnected = false
     public var identifier: ACChannelIdentifier
-    public var identifierString: String? { try? ACSerializer.serialize(identifier) }
 
     private let channelSerialQueue = DispatchQueue(label: "com.ACChannel.SerialQueue")
 
@@ -56,14 +53,11 @@ public class ACChannel {
         actionsBuffer.insert(action, at: 0)
     }
 
-    public init(channelName: String,
-                client: ACClient,
-                identifier: ACChannelIdentifier = [:],
+    public init(client: ACClient,
+                identifier: ACChannelIdentifier,
                 options: ACChannelOptions? = nil
     ) {
-        self.channelName = channelName
         self.identifier = identifier
-        self.identifier["channel"] = channelName
         self.client = client
         self.options = options ?? ACChannelOptions()
         setupAutoSubscribe()
@@ -154,12 +148,11 @@ public class ACChannel {
                 try? self.subscribe()
             }
         }
-        client?.addOnConnected(handler, identifier: identifierString)
+        client?.addOnConnected(handler, identifier: identifier.string)
     }
     
     private func removeAutoSubscribe() {
-        guard let identifierString = identifierString else { return }
-        client?.removeOnConnectedHandlers(with: identifierString)
+        client?.removeOnConnectedHandlers(with: identifier.string)
     }
 
     private func setupOnDisconnectCallbacks() {

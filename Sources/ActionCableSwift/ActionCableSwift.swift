@@ -15,7 +15,6 @@ public final class ACClient {
     public let pingRoundWatcher = PingRoundWatcher()
     public var options: ACClientOptions
 
-    private var channels: [String: ACChannel] = [:]
     private let clientConcurrentQueue = DispatchQueue(label: "com.ACClient.Conccurent", attributes: .concurrent)
     private let isConnectedLock: NSLock = .init()
     private let sendLock: NSLock = .init()
@@ -76,10 +75,6 @@ public final class ACClient {
         onPong.append(handler)
     }
 
-    subscript(name: String) -> ACChannel? {
-        channels[name]
-    }
-
     public func connect() {
         isConnectedLock.lock()
         ws.connect(headers: headers)
@@ -113,9 +108,8 @@ public final class ACClient {
     }
 
     @discardableResult
-    public func makeChannel(name: String, identifier: ACChannelIdentifier = [:], options: ACChannelOptions? = nil) -> ACChannel {
-        channels[name] = ACChannel(channelName: name, client: self, identifier: identifier, options: options)
-        return channels[name]!
+    public func makeChannel(identifier: ACChannelIdentifier, options: ACChannelOptions? = nil) -> ACChannel {
+        ACChannel(client: self, identifier: identifier, options: options)
     }
 
     private func setupWSCallbacks() {

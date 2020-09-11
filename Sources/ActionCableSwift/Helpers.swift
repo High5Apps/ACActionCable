@@ -138,7 +138,6 @@ public struct ACMessage {
     public var type: ACMessageType
     public var message: [String: Any]? // not string
     public var identifier: ACChannelIdentifier?
-    public var channelName: String? { identifier?["channel"] as? String }
     public var disconnectReason: DisconnectReason?
     public var reconnect: Bool?
 

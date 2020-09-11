@@ -58,7 +58,7 @@ public class ACSerializer {
         case .confirmSubscription, .message, .unrecognized:
             var message = ACMessage(type: messageType)
             if let identifier = dict["identifier"] as? String {
-                message.identifier = try? identifier.toChannelIdentifier()
+                message.identifier = ACChannelIdentifier(string: identifier)
             }
             message.message = dict["message"] as? [String: Any]
             return message
@@ -88,20 +88,16 @@ public class ACSerializer {
             data["action"] = action
             let payload: [String : Any] = [
                 "command": command.rawValue,
-                "identifier": try Self.serialize(identifier),
+                "identifier": identifier.string,
                 "data": try data.toJSON()
             ]
             return payload
         case .subscribe, .unsubscribe:
             let payload: [String : Any] = [
                 "command": command.rawValue,
-                "identifier": try Self.serialize(identifier)
+                "identifier": identifier.string,
             ]
             return payload
         }
-    }
-    
-    class func serialize(_ identifier: ACChannelIdentifier) throws -> String {
-        try identifier.toJSON(options: .sortedKeys)
     }
 }
