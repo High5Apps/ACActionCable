@@ -7,6 +7,12 @@
 
 import Foundation
 
+public typealias ACConnectionHandler = (_ headers: [String: String]?) -> Void
+public typealias ACDisconnectionHandler = (_ reason: String?) -> Void
+public typealias ACEventHandler = () -> Void
+public typealias ACTextHandler = (_ text: String) -> Void
+public typealias ACDataHandler = (_ data: Data) -> Void
+
 public protocol ACWebSocketProtocol {
 
     var url: URL {get set}
@@ -14,13 +20,13 @@ public protocol ACWebSocketProtocol {
     func connect(headers: [String: String]?)
     func disconnect()
 
-    var onConnected: ((_ headers: [String: String]?) -> Void)? { get set }
-    var onDisconnected: ((_ reason: String?) -> Void)? { get set }
-    var onCancelled: (() -> Void)? { get set }
-    var onText: ((_ text: String) -> Void)? { get set }
-    var onBinary: ((_ data: Data) -> Void)? { get set }
-    var onPing: (() -> Void)? { get set }
-    var onPong: (() -> Void)? { get set }
+    var onConnected: ACConnectionHandler? { get set }
+    var onDisconnected: ACDisconnectionHandler? { get set }
+    var onCancelled: ACEventHandler? { get set }
+    var onText: ACTextHandler? { get set }
+    var onBinary: ACDataHandler? { get set }
+    var onPing: ACEventHandler? { get set }
+    var onPong: ACEventHandler? { get set }
 
     func send(data: Data)
     func send(data: Data, _ completion: (() -> Void)?)

@@ -22,6 +22,15 @@
 
 /* Begin PBXBuildFile section */
 		C2859552250C39B400F11571 /* ACWebSocketProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* ACWebSocketProtocol.swift */; };
+		C2859554250C3B7D00F11571 /* ACFakeWebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2859553250C3B7C00F11571 /* ACFakeWebSocket.swift */; };
+		C2859555250C3F8B00F11571 /* ACClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* ACClient.swift */; };
+		C2859556250C3F9800F11571 /* ACChannelIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* ACChannelIdentifier.swift */; };
+		C2859557250C3F9D00F11571 /* ACClientOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* ACClientOptions.swift */; };
+		C2859558250C3F9F00F11571 /* ACClientTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ACClientTap.swift */; };
+		C2859559250C3FA200F11571 /* ACConnectionMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* ACConnectionMonitor.swift */; };
+		C285955A250C3FA500F11571 /* ACMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* ACMessage.swift */; };
+		C285955B250C3FA700F11571 /* ACSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* ACSerializer.swift */; };
+		C285955C250C3FAA00F11571 /* ACSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* ACSubscription.swift */; };
 		OBJ_100 /* HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_38 /* HTTP.swift */; };
 		OBJ_101 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_40 /* String.swift */; };
 		OBJ_102 /* StringCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_41 /* StringCommon.swift */; };
@@ -83,6 +92,7 @@
 /* Begin PBXFileReference section */
 		"ActionCableSwift::ActionCableSwift::Product" /* ActionCableSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ActionCableSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"ActionCableSwift::ActionCableSwiftTests::Product" /* ActionCableSwiftTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = ActionCableSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2859553250C3B7C00F11571 /* ACFakeWebSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACFakeWebSocket.swift; sourceTree = "<group>"; };
 		OBJ_10 /* ACClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACClient.swift; sourceTree = "<group>"; };
 		OBJ_11 /* ACClientOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACClientOptions.swift; sourceTree = "<group>"; };
 		OBJ_12 /* ACClientTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACClientTap.swift; sourceTree = "<group>"; };
@@ -142,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_19 /* ActionCableSwiftTests */,
+				C2859553250C3B7C00F11571 /* ACFakeWebSocket.swift */,
 			);
 			name = Tests;
 			sourceTree = SOURCE_ROOT;
@@ -453,8 +464,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				C2859559250C3FA200F11571 /* ACConnectionMonitor.swift in Sources */,
+				C285955C250C3FAA00F11571 /* ACSubscription.swift in Sources */,
+				C2859555250C3F8B00F11571 /* ACClient.swift in Sources */,
+				C2859557250C3F9D00F11571 /* ACClientOptions.swift in Sources */,
+				C2859556250C3F9800F11571 /* ACChannelIdentifier.swift in Sources */,
+				C2859558250C3F9F00F11571 /* ACClientTap.swift in Sources */,
 				OBJ_83 /* ACClientTests.swift in Sources */,
+				C285955A250C3FA500F11571 /* ACMessage.swift in Sources */,
+				C2859554250C3B7D00F11571 /* ACFakeWebSocket.swift in Sources */,
 				C2859552250C39B400F11571 /* ACWebSocketProtocol.swift in Sources */,
+				C285955B250C3FA700F11571 /* ACSerializer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
