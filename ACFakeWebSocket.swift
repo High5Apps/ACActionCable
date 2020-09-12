@@ -34,11 +34,16 @@ class ACFakeWebSocket: ACWebSocketProtocol {
     init(stringURL: String = "https://example.com",
          onConnect: ACConnectionHandler? = nil,
          onDisconnect: ACEventHandler? = nil,
+         disconnectReason: String? = nil,
          onSendText: ACTextHandler? = nil,
          onSendData: ACDataHandler? = nil) {
         url = URL(string: stringURL)!
-        self.onConnect = onConnect
-        self.onDisconnect = onDisconnect
+        self.onConnect = onConnect ?? { (headers) in
+            self.onConnected?(headers)
+        }
+        self.onDisconnect = onDisconnect ?? {
+            self.onDisconnected?(disconnectReason)
+        }
         self.onSendText = onSendText
         self.onSendData = onSendData
     }

@@ -99,7 +99,7 @@ public final class ACClient {
     private func setupWSCallbacks() {
         ws.onConnected = { [weak self] headers in
             guard let self = self else { return }
-            self.setIsConnected(to: true)
+            self.isConnected = true
             if self.options.reconnect {
                 self.connectionMonitor.start()
             }
@@ -109,14 +109,14 @@ public final class ACClient {
         }
         ws.onDisconnected = { [weak self] reason in
             guard let self = self else { return }
-            self.setIsConnected(to: false)
+            self.isConnected = false
             self.clientConcurrentQueue.async { [reason] in
                 self.taps.forEach() { $0.onDisconnected?(reason) }
             }
         }
         ws.onCancelled = { [weak self] in
             guard let self = self else { return }
-            self.setIsConnected(to: false)
+            self.isConnected = false
             self.clientConcurrentQueue.async {
                 self.taps.forEach() { $0.onCancelled?() }
             }
@@ -158,22 +158,6 @@ public final class ACClient {
                 self.taps.forEach() { $0.onPong?() }
             }
         }
-    }
-    
-    // MARK: isConnected
-
-    func setIsConnected(to: Bool) {
-        isConnectedLock.lock()
-        isConnected = to
-        isConnectedLock.unlock()
-    }
-
-    func getIsConnected() -> Bool {
-        isConnectedLock.lock()
-        let result = isConnected
-        isConnectedLock.unlock()
-
-        return result
     }
 
     deinit {

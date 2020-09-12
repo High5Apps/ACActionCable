@@ -50,7 +50,7 @@ public final class ACConnectionMontior {
                     continue
                 } else {
                     self.lock.lock()
-                    self.client?.setIsConnected(to: false)
+                    self.client?.isConnected = false
                     self.lock.unlock()
                     usleep(self._checksDelay)
                 }
@@ -88,7 +88,7 @@ public final class ACConnectionMontior {
     }
 
     private func isConnected() -> Bool {
-        self.client?.getIsConnected() ?? false
+        self.client?.isConnected ?? false
     }
 
     private func setFinish(to: Bool) {
