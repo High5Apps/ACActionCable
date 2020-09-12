@@ -44,7 +44,7 @@ public class ACSerializer {
 
         let messageType = checkResponseType(dict)
         switch messageType {
-        case .rejectSubscription, .cancelSubscription, .hibernateSubscription:
+        case  .cancelSubscription, .hibernateSubscription:
             return ACMessage(type: messageType)
         case .welcome, .ping:
             return ACMessage(type: messageType)
@@ -55,7 +55,7 @@ public class ACSerializer {
                 message.disconnectReason = DisconnectReason(string: disconnectReason)
             }
             return message
-        case .confirmSubscription, .message, .unrecognized:
+        case .confirmSubscription, .rejectSubscription, .message, .unrecognized:
             var message = ACMessage(type: messageType)
             if let identifier = dict["identifier"] as? String {
                 message.identifier = ACChannelIdentifier(string: identifier)

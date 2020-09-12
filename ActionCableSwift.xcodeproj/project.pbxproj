@@ -33,6 +33,7 @@
 		C285955C250C3FAA00F11571 /* ACSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* ACSubscription.swift */; };
 		C285955E250C45CA00F11571 /* ACClientTapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C285955D250C45CA00F11571 /* ACClientTapTests.swift */; };
 		C2859560250C534E00F11571 /* ACChannelIdentifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C285955F250C534E00F11571 /* ACChannelIdentifierTests.swift */; };
+		C2859564250C5C9900F11571 /* ACSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2859563250C5C9900F11571 /* ACSerializerTests.swift */; };
 		OBJ_100 /* HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_38 /* HTTP.swift */; };
 		OBJ_101 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_40 /* String.swift */; };
 		OBJ_102 /* StringCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_41 /* StringCommon.swift */; };
@@ -97,6 +98,7 @@
 		C2859553250C3B7C00F11571 /* ACFakeWebSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACFakeWebSocket.swift; sourceTree = "<group>"; };
 		C285955D250C45CA00F11571 /* ACClientTapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACClientTapTests.swift; sourceTree = "<group>"; };
 		C285955F250C534E00F11571 /* ACChannelIdentifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACChannelIdentifierTests.swift; sourceTree = "<group>"; };
+		C2859563250C5C9900F11571 /* ACSerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACSerializerTests.swift; sourceTree = "<group>"; };
 		OBJ_10 /* ACClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACClient.swift; sourceTree = "<group>"; };
 		OBJ_11 /* ACClientOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACClientOptions.swift; sourceTree = "<group>"; };
 		OBJ_12 /* ACClientTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACClientTap.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 				OBJ_20 /* ACClientTests.swift */,
 				C285955D250C45CA00F11571 /* ACClientTapTests.swift */,
 				C285955F250C534E00F11571 /* ACChannelIdentifierTests.swift */,
+				C2859563250C5C9900F11571 /* ACSerializerTests.swift */,
 			);
 			name = ActionCableSwiftTests;
 			path = Tests/ActionCableSwiftTests;
@@ -281,7 +284,7 @@
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -292,7 +295,6 @@
 				OBJ_47 /* README.md */,
 				OBJ_48 /* ActionCableSwift.podspec */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Sources */ = {
@@ -418,7 +420,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_43 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -483,6 +485,7 @@
 				C2859560250C534E00F11571 /* ACChannelIdentifierTests.swift in Sources */,
 				C2859552250C39B400F11571 /* ACWebSocketProtocol.swift in Sources */,
 				C285955B250C3FA700F11571 /* ACSerializer.swift in Sources */,
+				C2859564250C5C9900F11571 /* ACSerializerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
