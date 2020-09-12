@@ -4,27 +4,25 @@ import Foundation
 public final class ACClient {
     
     // MARK: Properties
+    
+    public var headers: [String: String]? = nil
+    
+    var isConnected: Bool = false
 
-    public var ws: ACWebSocketProtocol
-    public var isConnected: Bool = false
-    public var headers: [String: String]?
-    public let connectionMonitor = ACConnectionMontior()
-    public var options: ACClientOptions
-
+    private var socket: ACWebSocketProtocol
+    private var subscriptions: Set<ACSubscription> = []
+    private var taps: Set<ACClientTap> = []
+    
+    private let connectionMonitor = ACConnectionMontior()
+    private let options: ACClientOptions
     private let clientConcurrentQueue = DispatchQueue(label: "com.ACClient.Conccurent", attributes: .concurrent)
     private let isConnectedLock: NSLock = .init()
     private let sendLock: NSLock = .init()
     
-    private var subscriptions: Set<ACSubscription> = []
-    private var taps: Set<ACClientTap> = []
-    
     // MARK: Initialization
 
-    public init(ws: ACWebSocketProtocol,
-                headers: [String: String]? = nil,
-                options: ACClientOptions? = nil
-    ) {
-        self.ws = ws
+    public init(ws: ACWebSocketProtocol, headers: [String: String]? = nil, options: ACClientOptions? = nil) {
+        self.socket = ws
         self.headers = headers
         self.options = options ?? ACClientOptions()
         setupWSCallbacks()
@@ -35,7 +33,7 @@ public final class ACClient {
 
     public func connect() {
         isConnectedLock.lock()
-        ws.connect(headers: headers)
+        socket.connect(headers: headers)
         isConnectedLock.unlock()
     }
 
@@ -45,7 +43,7 @@ public final class ACClient {
         }
         
         isConnectedLock.lock()
-        ws.disconnect()
+        socket.disconnect()
         isConnectedLock.unlock()
     }
     
@@ -53,7 +51,7 @@ public final class ACClient {
 
     public func send(text: String, _ completion: ACEventHandler? = nil) {
         sendLock.lock()
-        ws.send(text: text) {
+        socket.send(text: text) {
             completion?()
         }
         sendLock.unlock()
@@ -61,7 +59,7 @@ public final class ACClient {
 
     public func send(data: Data, _ completion: ACEventHandler? = nil) {
         sendLock.lock()
-        ws.send(data: data) {
+        socket.send(data: data) {
             completion?()
         }
         sendLock.unlock()
@@ -97,7 +95,7 @@ public final class ACClient {
     }
 
     private func setupWSCallbacks() {
-        ws.onConnected = { [weak self] headers in
+        socket.onConnected = { [weak self] headers in
             guard let self = self else { return }
             self.isConnected = true
             if self.options.reconnect {
@@ -107,21 +105,21 @@ public final class ACClient {
                 self.taps.forEach() { $0.onConnected?(headers) }
             }
         }
-        ws.onDisconnected = { [weak self] reason in
+        socket.onDisconnected = { [weak self] reason in
             guard let self = self else { return }
             self.isConnected = false
             self.clientConcurrentQueue.async { [reason] in
                 self.taps.forEach() { $0.onDisconnected?(reason) }
             }
         }
-        ws.onCancelled = { [weak self] in
+        socket.onCancelled = { [weak self] in
             guard let self = self else { return }
             self.isConnected = false
             self.clientConcurrentQueue.async {
                 self.taps.forEach() { $0.onCancelled?() }
             }
         }
-        ws.onText = { [weak self] text in
+        socket.onText = { [weak self] text in
             guard let self = self else { return }
             let message = ACSerializer.responseFrom(stringData: text)
             switch message.type {
@@ -140,43 +138,29 @@ public final class ACClient {
                 self.taps.forEach() { $0.onText?(text) }
             }
         }
-        ws.onBinary = { [weak self] data in
+        socket.onBinary = { [weak self] data in
             guard let self = self else { return }
             self.clientConcurrentQueue.async { [data] in
                 self.taps.forEach() { $0.onBinary?(data) }
             }
         }
-        ws.onPing = { [weak self] in
+        socket.onPing = { [weak self] in
             guard let self = self else { return }
             self.clientConcurrentQueue.async {
                 self.taps.forEach() { $0.onPing?() }
             }
         }
-        ws.onPong = { [weak self] in
+        socket.onPong = { [weak self] in
             guard let self = self else { return }
             self.clientConcurrentQueue.async {
                 self.taps.forEach() { $0.onPong?() }
             }
         }
     }
+    
+    // MARK: Deinitialization
 
     deinit {
         connectionMonitor.stop()
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
