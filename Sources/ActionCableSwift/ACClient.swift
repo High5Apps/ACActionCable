@@ -123,7 +123,7 @@ public final class ACClient {
         }
         socket.onText = { [weak self] text in
             guard let self = self else { return }
-            guard let data = text.data(using: .utf8), let message = try? self.decoder.decode(ACDecodableMessage.self, from: data) else {
+            guard let data = text.data(using: .utf8), let message = try? self.decoder.decode(ACMessage.self, from: data) else {
                 os_log("Failed to parse message from text: %@", text)
                 return
             }

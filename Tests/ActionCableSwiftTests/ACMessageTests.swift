@@ -13,13 +13,13 @@ class ACMessageTests: XCTestCase {
     
     func testShouldDecodeWelcome() throws {
         let string = #"{"type":"welcome"}"#
-        let message = try! decoder.decode(ACDecodableMessage.self, from: string.data(using: .utf8)!)
+        let message = try! decoder.decode(ACMessage.self, from: string.data(using: .utf8)!)
         XCTAssertEqual(.welcome, message.type)
     }
     
     func testShouldDesrializePing() throws {
         let string = #"{"type":"ping","message":1599874600}"#
-        let message = try! decoder.decode(ACDecodableMessage.self, from: string.data(using: .utf8)!)
+        let message = try! decoder.decode(ACMessage.self, from: string.data(using: .utf8)!)
         XCTAssertEqual(.ping, message.type)
 
         switch message.body {
@@ -50,7 +50,7 @@ class ACMessageTests: XCTestCase {
             #"{"identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}","message":{"Bar":{"bim":"moz"}}}"#,
             #"{"identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}","message":{"Foo":{"bar":1,"zap":"bam"}}}"#,
         ].forEach { (string) in
-            let message = try! decoder.decode(ACDecodableMessage.self, from: string.data(using: .utf8)!)
+            let message = try! decoder.decode(ACMessage.self, from: string.data(using: .utf8)!)
             XCTAssertNil(message.type)
             switch message.body {
             case .dictionary(let bodyObject):
@@ -74,7 +74,7 @@ class ACMessageTests: XCTestCase {
     
     func testShouldDecodeConfirmationSubscription() throws {
         let string = #"{"identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}","type":"confirm_subscription"}"#
-        let message = try! decoder.decode(ACDecodableMessage.self, from: string.data(using: .utf8)!)
+        let message = try! decoder.decode(ACMessage.self, from: string.data(using: .utf8)!)
         XCTAssertEqual(.confirmSubscription, message.type)
         
         let channelIdentifier = ACChannelIdentifier(channelName: "TestChannel", identifier: ["test_id": 32])
@@ -83,7 +83,7 @@ class ACMessageTests: XCTestCase {
     
     func testShouldDecodeConfirmationRejection() throws {
         let string = #"{"identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}","type":"reject_subscription"}"#
-        let message = try! decoder.decode(ACDecodableMessage.self, from: string.data(using: .utf8)!)
+        let message = try! decoder.decode(ACMessage.self, from: string.data(using: .utf8)!)
         XCTAssertEqual(.rejectSubscription, message.type)
         
         let channelIdentifier = ACChannelIdentifier(channelName: "TestChannel", identifier: ["test_id": 32])

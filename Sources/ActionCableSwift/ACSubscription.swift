@@ -7,7 +7,7 @@
 
 import Foundation
 
-public typealias ACMessageHandler = (ACDecodableMessage) -> Void
+public typealias ACMessageHandler = (ACMessage) -> Void
 
 public class ACSubscription {
     

@@ -34,37 +34,6 @@ public class ACSerializer {
         ).toJSONData()
     }
 
-    public class func responseFrom(stringData: String) -> ACMessage {
-        guard
-            let data = stringData.data(using: .utf8)
-            else { fatalError(ACError.badStringData.description) }
-        guard
-            let dict = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-            else { fatalError(ACError.badDictionaryData.description) }
-
-        let messageType = checkResponseType(dict)
-        switch messageType {
-        case  .cancelSubscription, .hibernateSubscription:
-            return ACMessage(type: messageType)
-        case .welcome, .ping:
-            return ACMessage(type: messageType)
-        case .disconnect:
-            let reconnect = dict["reconnect"] as? Bool
-            var message = ACMessage(type: messageType, reconnect: reconnect)
-            if let disconnectReason = dict["reason"] as? String {
-                message.disconnectReason = DisconnectReason(string: disconnectReason)
-            }
-            return message
-        case .confirmSubscription, .rejectSubscription, .message, .unrecognized:
-            var message = ACMessage(type: messageType)
-            if let identifier = dict["identifier"] as? String {
-                message.identifier = ACChannelIdentifier(string: identifier)
-            }
-            message.message = dict["message"] as? [String: Any]
-            return message
-        }
-    }
-
     private class func checkResponseType(_ dict: [String: Any]) -> ACMessageType {
         var messageType = ACMessageType.unrecognized
         if let type = dict["type"] as? String {
