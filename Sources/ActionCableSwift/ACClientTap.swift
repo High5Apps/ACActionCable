@@ -14,6 +14,7 @@ public struct ACClientTap {
     let onDisconnected: ACDisconnectionHandler?
     let onCancelled: ACEventHandler?
     let onText: ACTextHandler?
+    let onMessage: ACMessageHandler?
     let onBinary: ACDataHandler?
     let onPing: ACEventHandler?
     let onPong: ACEventHandler?
@@ -22,6 +23,7 @@ public struct ACClientTap {
                 onDisconnected: ACDisconnectionHandler? = nil,
                 onCancelled: ACEventHandler? = nil,
                 onText: ACTextHandler? = nil,
+                onMessage: ACMessageHandler? = nil,
                 onBinary: ACDataHandler? = nil,
                 onPing: ACEventHandler? = nil,
                 onPong: ACEventHandler? = nil) {
@@ -30,6 +32,7 @@ public struct ACClientTap {
         self.onDisconnected = onDisconnected
         self.onCancelled = onCancelled
         self.onText = onText
+        self.onMessage = onMessage
         self.onBinary = onBinary
         self.onPing = onPing
         self.onPong = onPong

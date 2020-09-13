@@ -123,10 +123,24 @@ public final class ACClient {
         }
         socket.onText = { [weak self] text in
             guard let self = self else { return }
+            
+            self.clientConcurrentQueue.async { [text] in
+                self.taps.forEach() { $0.onText?(text) }
+            }
+            
             guard let data = text.data(using: .utf8), let message = try? self.decoder.decode(ACMessage.self, from: data) else {
                 os_log("Failed to parse message from text: %@", text)
                 return
             }
+            
+            self.clientConcurrentQueue.async { [message] in
+                self.taps.forEach() { $0.onMessage?(message) }
+            }
+            
+            self.clientConcurrentQueue.async { [message] in
+                self.subscriptions.forEach() { $0.onMessage(message) }
+            }
+            
             switch message.type {
             case .disconnect:
                 if let reconnect = message.reconnect, !reconnect {
@@ -135,12 +149,6 @@ public final class ACClient {
             case .ping:
                 self.connectionMonitor.ping()
             default: break
-            }
-            self.clientConcurrentQueue.async { [message] in
-                self.subscriptions.forEach() { $0.onMessage(message) }
-            }
-            self.clientConcurrentQueue.async { [text] in
-                self.taps.forEach() { $0.onText?(text) }
             }
         }
         socket.onBinary = { [weak self] data in
