@@ -1,5 +1,6 @@
 
 import Foundation
+import os.log
 
 public final class ACClient {
     
@@ -18,6 +19,7 @@ public final class ACClient {
     private let clientConcurrentQueue = DispatchQueue(label: "com.ACClient.Conccurent", attributes: .concurrent)
     private let isConnectedLock: NSLock = .init()
     private let sendLock: NSLock = .init()
+    private let decoder = JSONDecoder()
     
     // MARK: Initialization
 
@@ -121,7 +123,10 @@ public final class ACClient {
         }
         socket.onText = { [weak self] text in
             guard let self = self else { return }
-            let message = ACSerializer.responseFrom(stringData: text)
+            guard let data = text.data(using: .utf8), let message = try? self.decoder.decode(ACDecodableMessage.self, from: data) else {
+                os_log("Failed to parse message from text: %@", text)
+                return
+            }
             switch message.type {
             case .disconnect:
                 if let reconnect = message.reconnect, !reconnect {
