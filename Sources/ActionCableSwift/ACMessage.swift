@@ -97,7 +97,7 @@ public struct BodyObject: Decodable {
     private typealias BodyDecoder = (KeyedDecodingContainer<DynamicKey>) throws -> Any
     private static var decoders: [String: BodyDecoder] = [:]
     
-    static func register<A: Decodable>(_ type: A.Type, for typeName: String) {
+    public static func register<A: Decodable>(_ type: A.Type, for typeName: String) {
         decoders[typeName] = { container in
             try container.decode(A.self, forKey: DynamicKey(stringValue: typeName)!)
         }
