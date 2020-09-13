@@ -74,7 +74,7 @@ public enum Body: Decodable {
 }
 
 public struct BodyObject: Decodable {
-    let object: Any?
+    public let object: Any?
     
     private enum CodingKeys: String, CodingKey {
         case object
