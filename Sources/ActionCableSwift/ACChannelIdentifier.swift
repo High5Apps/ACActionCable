@@ -40,3 +40,13 @@ extension ACChannelIdentifier: Hashable {
       hasher.combine(string)
     }
 }
+
+extension ACChannelIdentifier: Decodable {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        guard let string = try? container.decode(String.self), let channelIdentifier = ACChannelIdentifier(string: string) else {
+            throw DecodingError.typeMismatch(ACChannelIdentifier.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Failed to parse ACChannelIdentifier"))
+        }
+        self = channelIdentifier
+    }
+}

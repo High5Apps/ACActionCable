@@ -13,59 +13,6 @@ public enum ACCommand: String {
     case message
 }
 
-public enum ACMessageType: String {
-    case confirmSubscription = "confirm_subscription"
-    case rejectSubscription = "reject_subscription"
-    case cancelSubscription = "cancel_subscription"
-    case hibernateSubscription = "hibernate_subscription"
-    case welcome = "welcome"
-    case disconnect = "disconnect"
-    case ping = "ping"
-    case message = "message"
-    case unrecognized = "___unrecognized"
-
-    init(string: String) {
-        switch(string) {
-        case ACMessageType.welcome.rawValue:
-            self = ACMessageType.welcome
-        case ACMessageType.ping.rawValue:
-            self = ACMessageType.ping
-        case ACMessageType.disconnect.rawValue:
-            self = ACMessageType.disconnect
-        case ACMessageType.confirmSubscription.rawValue:
-            self = ACMessageType.confirmSubscription
-        case ACMessageType.rejectSubscription.rawValue:
-            self = ACMessageType.rejectSubscription
-        case ACMessageType.cancelSubscription.rawValue:
-            self = ACMessageType.cancelSubscription
-        case ACMessageType.hibernateSubscription.rawValue:
-            self = ACMessageType.hibernateSubscription
-        default:
-            self = ACMessageType.unrecognized
-        }
-    }
-}
-
-public enum DisconnectReason: String {
-    case unauthorized = "unauthorized"
-    case invalidRequest = "invalid_request"
-    case serverRestart = "server_restart"
-    case unrecognized = "___unrecognized"
-    
-    init(string: String) {
-        switch(string) {
-        case DisconnectReason.unauthorized.rawValue:
-            self = DisconnectReason.unauthorized
-        case DisconnectReason.invalidRequest.rawValue:
-            self = DisconnectReason.invalidRequest
-        case DisconnectReason.serverRestart.rawValue:
-            self = DisconnectReason.serverRestart
-        default:
-            self = DisconnectReason.unrecognized
-        }
-    }
-}
-
 public enum ACError: Error, CustomStringConvertible {
     case badURL
     case badAction
