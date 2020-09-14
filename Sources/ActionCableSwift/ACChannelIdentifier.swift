@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import SwiftExtensionsPack
+import os.log
 
 public struct ACChannelIdentifier {
     let dictionary: [String: Any]
@@ -17,7 +17,7 @@ public struct ACChannelIdentifier {
         dictionary["channel"] = channelName
         self.dictionary = dictionary
         
-        guard let string = try? self.dictionary.toJSON(options: .sortedKeys) else { return nil }
+        guard let string = Self.json(from: self.dictionary) else { return nil }
         self.string = string
     }
     
@@ -26,6 +26,14 @@ public struct ACChannelIdentifier {
         
         guard let data = string.data(using: .utf8), let dictionary = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else { return nil }
         self.dictionary = dictionary
+    }
+    
+    private static func json(from dictionary: [String: Any]) -> String? {
+        guard let data = try? JSONSerialization.data(withJSONObject: dictionary, options: .sortedKeys) else {
+            os_log("ACChannelIdentifier failed to serialize dictionary")
+            return nil
+        }
+        return String(data: data, encoding: .utf8)
     }
 }
 
