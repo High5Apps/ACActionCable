@@ -19,7 +19,7 @@ public struct ACMessage: Decodable {
         case type
         case identifier
         case body = "message"
-        case disconnectReason = "disconnect_reason"
+        case disconnectReason = "reason"
         case reconnect
     }
 }

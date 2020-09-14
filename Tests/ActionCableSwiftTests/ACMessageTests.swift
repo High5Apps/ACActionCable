@@ -89,4 +89,12 @@ class ACMessageTests: XCTestCase {
         let channelIdentifier = ACChannelIdentifier(channelName: "TestChannel", identifier: ["test_id": 32])
         XCTAssertEqual(channelIdentifier, message.identifier)
     }
+    
+    func testShouldDecodeDisconnect() throws {
+        let string = #"{"type":"disconnect","reason":"unauthorized","reconnect":false}"#
+        let message = try! decoder.decode(ACMessage.self, from: string.data(using: .utf8)!)
+        XCTAssertEqual(.disconnect, message.type)
+        XCTAssertEqual(.unauthorized, message.disconnectReason)
+        XCTAssertEqual(false, message.reconnect)
+    }
 }
