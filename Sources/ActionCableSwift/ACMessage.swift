@@ -27,8 +27,6 @@ public struct ACMessage: Decodable {
 public enum ACMessageType: String, Decodable {
     case confirmSubscription = "confirm_subscription"
     case rejectSubscription = "reject_subscription"
-    case cancelSubscription = "cancel_subscription"
-    case hibernateSubscription = "hibernate_subscription"
     case welcome = "welcome"
     case disconnect = "disconnect"
     case ping = "ping"
@@ -47,10 +45,6 @@ public enum ACMessageType: String, Decodable {
             self = ACMessageType.confirmSubscription
         case ACMessageType.rejectSubscription.rawValue:
             self = ACMessageType.rejectSubscription
-        case ACMessageType.cancelSubscription.rawValue:
-            self = ACMessageType.cancelSubscription
-        case ACMessageType.hibernateSubscription.rawValue:
-            self = ACMessageType.hibernateSubscription
         default:
             self = ACMessageType.unrecognized
         }
