@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftExtensionsPack
 
 public struct ACChannelIdentifier {
     let dictionary: [String: Any]

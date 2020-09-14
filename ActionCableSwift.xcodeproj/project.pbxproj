@@ -28,7 +28,6 @@
 		C2859557250C3F9D00F11571 /* ACClientOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* ACClientOptions.swift */; };
 		C2859558250C3F9F00F11571 /* ACClientTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ACClientTap.swift */; };
 		C2859559250C3FA200F11571 /* ACConnectionMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* ACConnectionMonitor.swift */; };
-		C285955B250C3FA700F11571 /* ACSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* ACSerializer.swift */; };
 		C285955C250C3FAA00F11571 /* ACSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* ACSubscription.swift */; };
 		C285955E250C45CA00F11571 /* ACClientTapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C285955D250C45CA00F11571 /* ACClientTapTests.swift */; };
 		C2859560250C534E00F11571 /* ACChannelIdentifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C285955F250C534E00F11571 /* ACChannelIdentifierTests.swift */; };
@@ -49,7 +48,6 @@
 		OBJ_56 /* ACClientOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* ACClientOptions.swift */; };
 		OBJ_57 /* ACClientTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ACClientTap.swift */; };
 		OBJ_58 /* ACConnectionMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* ACConnectionMonitor.swift */; };
-		OBJ_60 /* ACSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* ACSerializer.swift */; };
 		OBJ_61 /* ACSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* ACSubscription.swift */; };
 		OBJ_62 /* ACWebSocketProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* ACWebSocketProtocol.swift */; };
 		OBJ_64 /* SwiftExtensionsPack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftExtensionsPack::SwiftExtensionsPack::Product" /* SwiftExtensionsPack.framework */; };
@@ -112,7 +110,6 @@
 		OBJ_11 /* ACClientOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACClientOptions.swift; sourceTree = "<group>"; };
 		OBJ_12 /* ACClientTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACClientTap.swift; sourceTree = "<group>"; };
 		OBJ_13 /* ACConnectionMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACConnectionMonitor.swift; sourceTree = "<group>"; };
-		OBJ_15 /* ACSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACSerializer.swift; sourceTree = "<group>"; };
 		OBJ_16 /* ACSubscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACSubscription.swift; sourceTree = "<group>"; };
 		OBJ_17 /* ACWebSocketProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACWebSocketProtocol.swift; sourceTree = "<group>"; };
 		OBJ_20 /* ACClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACClientTests.swift; sourceTree = "<group>"; };
@@ -325,7 +322,6 @@
 				OBJ_13 /* ACConnectionMonitor.swift */,
 				C2F57538250DA9C800446DBE /* ACError.swift */,
 				C2F57535250D856E00446DBE /* ACMessage.swift */,
-				OBJ_15 /* ACSerializer.swift */,
 				OBJ_16 /* ACSubscription.swift */,
 				OBJ_17 /* ACWebSocketProtocol.swift */,
 			);
@@ -467,7 +463,6 @@
 				OBJ_58 /* ACConnectionMonitor.swift in Sources */,
 				C2F57536250D856E00446DBE /* ACMessage.swift in Sources */,
 				C2F57539250DA9C800446DBE /* ACError.swift in Sources */,
-				OBJ_60 /* ACSerializer.swift in Sources */,
 				OBJ_61 /* ACSubscription.swift in Sources */,
 				OBJ_62 /* ACWebSocketProtocol.swift in Sources */,
 			);
@@ -499,7 +494,6 @@
 				C2859560250C534E00F11571 /* ACChannelIdentifierTests.swift in Sources */,
 				C2859552250C39B400F11571 /* ACWebSocketProtocol.swift in Sources */,
 				C2F5753D250DAA8700446DBE /* ACError.swift in Sources */,
-				C285955B250C3FA700F11571 /* ACSerializer.swift in Sources */,
 				C2F5753C250DAA8100446DBE /* ACCommand.swift in Sources */,
 				C2F57537250D9ED600446DBE /* ACMessage.swift in Sources */,
 			);
