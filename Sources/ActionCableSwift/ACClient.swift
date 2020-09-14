@@ -69,7 +69,7 @@ public final class ACClient {
     // MARK: Subscriptions
     
     public func subscribe(to channelIdentifier: ACChannelIdentifier, with messageHandler: @escaping ACMessageHandler) -> ACSubscription? {
-        guard let subscribe: String = try? ACSerializer.requestFrom(command: .subscribe, identifier: channelIdentifier) else { return nil }
+        guard let command = ACCommand(type: .subscribe, identifier: channelIdentifier), let subscribe = command.string else { return nil }
         
         let subscription = ACSubscription(client: self, channelIdentifier: channelIdentifier, onMessage: messageHandler)
         subscriptions.insert(subscription)
@@ -79,7 +79,8 @@ public final class ACClient {
     }
     
     public func unsubscribe(from subscription: ACSubscription) {
-        guard let unsubscribe: String = try? ACSerializer.requestFrom(command: .unsubscribe, identifier: subscription.channelIdentifier) else { return }
+        guard let command = ACCommand(type: .unsubscribe, identifier: subscription.channelIdentifier), let unsubscribe = command.string else { return }
+        
         if subscriptions.remove(subscription) != nil {
             send(text: unsubscribe)
         }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import os.log
 
 public typealias ACMessageHandler = (ACMessage) -> Void
 
@@ -24,15 +25,14 @@ public class ACSubscription {
         self.onMessage = onMessage
     }
 
-    public func send(actionName: String, data: [String: Any] = [:], completion: ACEventHandler? = nil) {
+    public func send(actionName: String, data: [String: Any]? = nil, completion: ACEventHandler? = nil) {
         messageQueue.async { [weak self] in
             guard let self = self else { return }
-            do {
-                let text: String = try ACSerializer.requestFrom(command: .message, action: actionName, identifier: self.channelIdentifier, data: data)
-                self.client.send(text: text) { completion?() }
-            } catch {
-                fatalError(error.localizedDescription)
-            }
+            guard let command = ACCommand(type: .message, identifier: self.channelIdentifier, action: actionName, data: data), let message = command.string else {
+                 os_log("Failed to serialize command: %@", actionName)
+                 return
+             }
+            self.client.send(text: message) { completion?() }
         }
     }
 }

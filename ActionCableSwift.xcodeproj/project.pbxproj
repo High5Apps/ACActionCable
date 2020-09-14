@@ -32,6 +32,7 @@
 		C285955C250C3FAA00F11571 /* ACSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* ACSubscription.swift */; };
 		C285955E250C45CA00F11571 /* ACClientTapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C285955D250C45CA00F11571 /* ACClientTapTests.swift */; };
 		C2859560250C534E00F11571 /* ACChannelIdentifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C285955F250C534E00F11571 /* ACChannelIdentifierTests.swift */; };
+		C2A6264F25100C1300788EE8 /* ACCommandTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A6264E25100C1300788EE8 /* ACCommandTests.swift */; };
 		C2F57534250D854B00446DBE /* ACMessageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F57533250D854B00446DBE /* ACMessageTests.swift */; };
 		C2F57536250D856E00446DBE /* ACMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F57535250D856E00446DBE /* ACMessage.swift */; };
 		C2F57537250D9ED600446DBE /* ACMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F57535250D856E00446DBE /* ACMessage.swift */; };
@@ -102,6 +103,7 @@
 		C2859553250C3B7C00F11571 /* ACFakeWebSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACFakeWebSocket.swift; sourceTree = "<group>"; };
 		C285955D250C45CA00F11571 /* ACClientTapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACClientTapTests.swift; sourceTree = "<group>"; };
 		C285955F250C534E00F11571 /* ACChannelIdentifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACChannelIdentifierTests.swift; sourceTree = "<group>"; };
+		C2A6264E25100C1300788EE8 /* ACCommandTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACCommandTests.swift; sourceTree = "<group>"; };
 		C2F57533250D854B00446DBE /* ACMessageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACMessageTests.swift; sourceTree = "<group>"; };
 		C2F57535250D856E00446DBE /* ACMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACMessage.swift; sourceTree = "<group>"; };
 		C2F57538250DA9C800446DBE /* ACError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACError.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				C285955D250C45CA00F11571 /* ACClientTapTests.swift */,
 				C285955F250C534E00F11571 /* ACChannelIdentifierTests.swift */,
 				C2F57533250D854B00446DBE /* ACMessageTests.swift */,
+				C2A6264E25100C1300788EE8 /* ACCommandTests.swift */,
 			);
 			name = ActionCableSwiftTests;
 			path = Tests/ActionCableSwiftTests;
@@ -490,6 +493,7 @@
 				C285955E250C45CA00F11571 /* ACClientTapTests.swift in Sources */,
 				C2859556250C3F9800F11571 /* ACChannelIdentifier.swift in Sources */,
 				C2859558250C3F9F00F11571 /* ACClientTap.swift in Sources */,
+				C2A6264F25100C1300788EE8 /* ACCommandTests.swift in Sources */,
 				OBJ_83 /* ACClientTests.swift in Sources */,
 				C2859554250C3B7D00F11571 /* ACFakeWebSocket.swift in Sources */,
 				C2859560250C534E00F11571 /* ACChannelIdentifierTests.swift in Sources */,

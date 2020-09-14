@@ -10,7 +10,7 @@ import SwiftExtensionsPack
 
 public class ACSerializer {
 
-    public class func requestFrom(command: ACCommand,
+    public class func requestFrom(command: ACCommandType,
                                   action: String? = nil,
                                   identifier: ACChannelIdentifier,
                                   data: [String: Any] = [:]
@@ -22,7 +22,7 @@ public class ACSerializer {
         ).toJSON()
     }
 
-    public class func requestFrom(command: ACCommand,
+    public class func requestFrom(command: ACCommandType,
                                   action: String? = nil,
                                   identifier: ACChannelIdentifier,
                                   data: [String: Any] = [:]
@@ -34,7 +34,7 @@ public class ACSerializer {
         ).toJSONData()
     }
 
-    private class func makeRequestDictionary(command: ACCommand,
+    private class func makeRequestDictionary(command: ACCommandType,
                                              action: String? = nil,
                                              identifier: ACChannelIdentifier,
                                              data: [String: Any]
