@@ -19,7 +19,6 @@ public final class ACClient {
     private let clientConcurrentQueue = DispatchQueue(label: "com.ACClient.Conccurent", attributes: .concurrent)
     private let isConnectedLock: NSLock = .init()
     private let sendLock: NSLock = .init()
-    private let decoder = JSONDecoder()
     
     // MARK: Initialization
 
@@ -128,7 +127,7 @@ public final class ACClient {
                 self.taps.forEach() { $0.onText?(text) }
             }
             
-            guard let data = text.data(using: .utf8), let message = try? self.decoder.decode(ACMessage.self, from: data) else {
+            guard let message = ACMessage(string: text) else {
                 os_log("Failed to parse message from text: %@", text)
                 return
             }

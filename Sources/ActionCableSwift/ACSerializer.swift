@@ -34,17 +34,6 @@ public class ACSerializer {
         ).toJSONData()
     }
 
-    private class func checkResponseType(_ dict: [String: Any]) -> ACMessageType {
-        var messageType = ACMessageType.unrecognized
-        if let type = dict["type"] as? String {
-            messageType = ACMessageType(string: type)
-        } else if dict["message"] != nil {
-            messageType = ACMessageType.message
-        }
-
-        return messageType
-    }
-
     private class func makeRequestDictionary(command: ACCommand,
                                              action: String? = nil,
                                              identifier: ACChannelIdentifier,

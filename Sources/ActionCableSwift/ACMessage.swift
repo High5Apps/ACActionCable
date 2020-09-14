@@ -8,6 +8,12 @@
 import Foundation
 
 public struct ACMessage: Decodable {
+    
+    public static var decoder: JSONDecoder = {
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        return decoder
+    }()
 
     public var type: ACMessageType?
     public var body: Body?
@@ -22,33 +28,20 @@ public struct ACMessage: Decodable {
         case disconnectReason = "reason"
         case reconnect
     }
+    
+    init?(string: String) {
+        guard let data = string.data(using: .utf8), let message = try? Self.decoder.decode(ACMessage.self, from: data) else { return nil }
+        self = message
+    }
 }
 
 public enum ACMessageType: String, Decodable {
     case confirmSubscription = "confirm_subscription"
     case rejectSubscription = "reject_subscription"
-    case welcome = "welcome"
-    case disconnect = "disconnect"
-    case ping = "ping"
-    case message = "message"
-    case unrecognized = "___unrecognized"
-
-    init(string: String) {
-        switch(string) {
-        case ACMessageType.welcome.rawValue:
-            self = ACMessageType.welcome
-        case ACMessageType.ping.rawValue:
-            self = ACMessageType.ping
-        case ACMessageType.disconnect.rawValue:
-            self = ACMessageType.disconnect
-        case ACMessageType.confirmSubscription.rawValue:
-            self = ACMessageType.confirmSubscription
-        case ACMessageType.rejectSubscription.rawValue:
-            self = ACMessageType.rejectSubscription
-        default:
-            self = ACMessageType.unrecognized
-        }
-    }
+    case welcome
+    case disconnect
+    case ping
+    case message
 }
 
 public enum Body: Decodable {
@@ -91,9 +84,12 @@ public struct BodyObject: Decodable {
     private typealias BodyDecoder = (KeyedDecodingContainer<DynamicKey>) throws -> Any
     private static var decoders: [String: BodyDecoder] = [:]
     
-    public static func register<A: Decodable>(_ type: A.Type, for typeName: String) {
-        decoders[typeName] = { container in
-            try container.decode(A.self, forKey: DynamicKey(stringValue: typeName)!)
+    public static func register<A: Decodable>(_ type: A.Type) {
+        let pascalCaseTypeName = String(describing: type)
+        let camelCaseTypeName = pascalCaseTypeName.prefix(1).lowercased() + pascalCaseTypeName.dropFirst()
+
+        decoders[camelCaseTypeName] = { container in
+            try container.decode(A.self, forKey: DynamicKey(stringValue: camelCaseTypeName)!)
         }
     }
 }
@@ -113,21 +109,7 @@ struct DynamicKey: CodingKey {
 }
 
 public enum DisconnectReason: String, Decodable {
-    case unauthorized = "unauthorized"
+    case unauthorized
     case invalidRequest = "invalid_request"
     case serverRestart = "server_restart"
-    case unrecognized = "___unrecognized"
-    
-    init(string: String) {
-        switch(string) {
-        case DisconnectReason.unauthorized.rawValue:
-            self = DisconnectReason.unauthorized
-        case DisconnectReason.invalidRequest.rawValue:
-            self = DisconnectReason.invalidRequest
-        case DisconnectReason.serverRestart.rawValue:
-            self = DisconnectReason.serverRestart
-        default:
-            self = DisconnectReason.unrecognized
-        }
-    }
 }

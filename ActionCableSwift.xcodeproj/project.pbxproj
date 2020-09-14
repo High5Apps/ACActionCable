@@ -321,10 +321,10 @@
 				C2F5753A250DA9E300446DBE /* ACCommand.swift */,
 				OBJ_13 /* ACConnectionMonitor.swift */,
 				C2F57538250DA9C800446DBE /* ACError.swift */,
+				C2F57535250D856E00446DBE /* ACMessage.swift */,
 				OBJ_15 /* ACSerializer.swift */,
 				OBJ_16 /* ACSubscription.swift */,
 				OBJ_17 /* ACWebSocketProtocol.swift */,
-				C2F57535250D856E00446DBE /* ACMessage.swift */,
 			);
 			name = ActionCableSwift;
 			path = Sources/ActionCableSwift;
