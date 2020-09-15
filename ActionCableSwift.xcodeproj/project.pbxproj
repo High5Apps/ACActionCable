@@ -48,6 +48,7 @@
 /* Begin PBXFileReference section */
 		"ActionCableSwift::ActionCableSwift::Product" /* ActionCableSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ActionCableSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"ActionCableSwift::ActionCableSwiftTests::Product" /* ActionCableSwiftTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = ActionCableSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C202FD2F251159070064BB69 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		C2896D5E2511533200C8E6B7 /* ACFakeWebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACFakeWebSocket.swift; sourceTree = "<group>"; };
 		OBJ_10 /* ACClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACClient.swift; sourceTree = "<group>"; };
 		OBJ_11 /* ACClientTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACClientTap.swift; sourceTree = "<group>"; };
@@ -123,12 +124,13 @@
 		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
-				OBJ_6 /* Package.swift */,
 				OBJ_7 /* Sources */,
 				OBJ_18 /* Tests */,
 				OBJ_27 /* Products */,
-				OBJ_30 /* README.md */,
+				OBJ_6 /* Package.swift */,
 				OBJ_31 /* ActionCableSwift.podspec */,
+				OBJ_30 /* README.md */,
+				C202FD2F251159070064BB69 /* LICENSE */,
 			);
 			sourceTree = "<group>";
 		};
