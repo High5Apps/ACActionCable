@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  ACSubscription.swift
+//  ACActionCable
 //
 //  Created by Julian Tigler on 9/11/20.
 //

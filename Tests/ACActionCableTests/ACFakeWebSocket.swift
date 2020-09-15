@@ -1,6 +1,6 @@
 //
 //  ACFakeWebSocket.swift
-//  ActionCableSwiftTests
+//  ACActionCableTests
 //
 //  Created by Julian Tigler on 9/11/20.
 //

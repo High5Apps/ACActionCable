@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  ACClientTests.swift
+//  ACActionCableTests
 //
 //  Created by Julian Tigler on 9/11/20.
 //

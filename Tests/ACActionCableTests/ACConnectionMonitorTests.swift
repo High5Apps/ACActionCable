@@ -1,6 +1,6 @@
 //
 //  ACConnectionMonitorTests.swift
-//  ActionCableSwiftTests
+//  ACActionCableTests
 //
 //  Created by Julian Tigler on 9/14/20.
 //

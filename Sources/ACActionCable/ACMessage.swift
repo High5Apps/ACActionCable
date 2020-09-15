@@ -1,6 +1,6 @@
 //
 //  ACMessage.swift
-//  ActionCableSwift
+//  ACActionCable
 //
 //  Created by Julian Tigler on 9/12/20.
 //
