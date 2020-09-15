@@ -39,51 +39,24 @@
 		C2F5753B250DA9E300446DBE /* ACCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F5753A250DA9E300446DBE /* ACCommand.swift */; };
 		C2F5753C250DAA8100446DBE /* ACCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F5753A250DA9E300446DBE /* ACCommand.swift */; };
 		C2F5753D250DAA8700446DBE /* ACError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F57538250DA9C800446DBE /* ACError.swift */; };
-		OBJ_100 /* HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_38 /* HTTP.swift */; };
-		OBJ_101 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_40 /* String.swift */; };
-		OBJ_102 /* StringCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_41 /* StringCommon.swift */; };
-		OBJ_109 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_42 /* Package.swift */; };
 		OBJ_54 /* ACChannelIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* ACChannelIdentifier.swift */; };
 		OBJ_55 /* ACClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* ACClient.swift */; };
 		OBJ_57 /* ACClientTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ACClientTap.swift */; };
 		OBJ_58 /* ACConnectionMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* ACConnectionMonitor.swift */; };
 		OBJ_61 /* ACSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* ACSubscription.swift */; };
 		OBJ_62 /* ACWebSocketProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* ACWebSocketProtocol.swift */; };
-		OBJ_64 /* SwiftExtensionsPack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftExtensionsPack::SwiftExtensionsPack::Product" /* SwiftExtensionsPack.framework */; };
 		OBJ_72 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_83 /* ACClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* ACClientTests.swift */; };
 		OBJ_85 /* ActionCableSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "ActionCableSwift::ActionCableSwift::Product" /* ActionCableSwift.framework */; };
-		OBJ_86 /* SwiftExtensionsPack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftExtensionsPack::SwiftExtensionsPack::Product" /* SwiftExtensionsPack.framework */; };
-		OBJ_93 /* Sequence+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* Sequence+Extensions.swift */; };
-		OBJ_94 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* Common.swift */; };
-		OBJ_95 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_29 /* Date.swift */; };
-		OBJ_96 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_31 /* Dictionary.swift */; };
-		OBJ_97 /* DictionaryCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_32 /* DictionaryCommon.swift */; };
-		OBJ_98 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_34 /* Double.swift */; };
-		OBJ_99 /* Float.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_36 /* Float.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		C285954E250C38F700F11571 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = "SwiftExtensionsPack::SwiftExtensionsPack";
-			remoteInfo = SwiftExtensionsPack;
-		};
 		C285954F250C38FB00F11571 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "ActionCableSwift::ActionCableSwift";
 			remoteInfo = ActionCableSwift;
-		};
-		C2859550250C38FB00F11571 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = "SwiftExtensionsPack::SwiftExtensionsPack";
-			remoteInfo = SwiftExtensionsPack;
 		};
 		C2859551250C38FE00F11571 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -112,37 +85,17 @@
 		OBJ_16 /* ACSubscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACSubscription.swift; sourceTree = "<group>"; };
 		OBJ_17 /* ACWebSocketProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACWebSocketProtocol.swift; sourceTree = "<group>"; };
 		OBJ_20 /* ACClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACClientTests.swift; sourceTree = "<group>"; };
-		OBJ_25 /* Sequence+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+Extensions.swift"; sourceTree = "<group>"; };
-		OBJ_27 /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
-		OBJ_29 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
-		OBJ_31 /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
-		OBJ_32 /* DictionaryCommon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryCommon.swift; sourceTree = "<group>"; };
-		OBJ_34 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
-		OBJ_36 /* Float.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Float.swift; sourceTree = "<group>"; };
-		OBJ_38 /* HTTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTP.swift; sourceTree = "<group>"; };
-		OBJ_40 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
-		OBJ_41 /* StringCommon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringCommon.swift; sourceTree = "<group>"; };
-		OBJ_42 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/JulianTigler/git/who-gives/Action-Cable-Swift/.build/checkouts/swift-extensions-pack/Package.swift"; sourceTree = "<group>"; };
 		OBJ_47 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		OBJ_48 /* ActionCableSwift.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ActionCableSwift.podspec; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		OBJ_9 /* ACChannelIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACChannelIdentifier.swift; sourceTree = "<group>"; };
-		"SwiftExtensionsPack::SwiftExtensionsPack::Product" /* SwiftExtensionsPack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SwiftExtensionsPack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		OBJ_103 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		OBJ_63 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_64 /* SwiftExtensionsPack.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,7 +104,6 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_85 /* ActionCableSwift.framework in Frameworks */,
-				OBJ_86 /* SwiftExtensionsPack.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,110 +133,10 @@
 			path = Tests/ActionCableSwiftTests;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_21 /* Dependencies */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_22 /* SwiftExtensionsPack 0.2.9 */,
-			);
-			name = Dependencies;
-			sourceTree = "<group>";
-		};
-		OBJ_22 /* SwiftExtensionsPack 0.2.9 */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_23 /* SwiftExtensionsPack */,
-				OBJ_42 /* Package.swift */,
-			);
-			name = "SwiftExtensionsPack 0.2.9";
-			sourceTree = SOURCE_ROOT;
-		};
-		OBJ_23 /* SwiftExtensionsPack */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_24 /* Array */,
-				OBJ_26 /* Common */,
-				OBJ_28 /* Date */,
-				OBJ_30 /* Dictionary */,
-				OBJ_33 /* Double */,
-				OBJ_35 /* Float */,
-				OBJ_37 /* Net */,
-				OBJ_39 /* String */,
-			);
-			name = SwiftExtensionsPack;
-			path = ".build/checkouts/swift-extensions-pack/Sources/SwiftExtensionsPack";
-			sourceTree = SOURCE_ROOT;
-		};
-		OBJ_24 /* Array */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_25 /* Sequence+Extensions.swift */,
-			);
-			path = Array;
-			sourceTree = "<group>";
-		};
-		OBJ_26 /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_27 /* Common.swift */,
-			);
-			path = Common;
-			sourceTree = "<group>";
-		};
-		OBJ_28 /* Date */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_29 /* Date.swift */,
-			);
-			path = Date;
-			sourceTree = "<group>";
-		};
-		OBJ_30 /* Dictionary */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_31 /* Dictionary.swift */,
-				OBJ_32 /* DictionaryCommon.swift */,
-			);
-			path = Dictionary;
-			sourceTree = "<group>";
-		};
-		OBJ_33 /* Double */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_34 /* Double.swift */,
-			);
-			path = Double;
-			sourceTree = "<group>";
-		};
-		OBJ_35 /* Float */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_36 /* Float.swift */,
-			);
-			path = Float;
-			sourceTree = "<group>";
-		};
-		OBJ_37 /* Net */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_38 /* HTTP.swift */,
-			);
-			path = Net;
-			sourceTree = "<group>";
-		};
-		OBJ_39 /* String */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_40 /* String.swift */,
-				OBJ_41 /* StringCommon.swift */,
-			);
-			path = String;
-			sourceTree = "<group>";
-		};
 		OBJ_43 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				"ActionCableSwift::ActionCableSwiftTests::Product" /* ActionCableSwiftTests.xctest */,
-				"SwiftExtensionsPack::SwiftExtensionsPack::Product" /* SwiftExtensionsPack.framework */,
 				"ActionCableSwift::ActionCableSwift::Product" /* ActionCableSwift.framework */,
 			);
 			name = Products;
@@ -296,7 +148,6 @@
 				OBJ_6 /* Package.swift */,
 				OBJ_7 /* Sources */,
 				OBJ_18 /* Tests */,
-				OBJ_21 /* Dependencies */,
 				OBJ_43 /* Products */,
 				OBJ_47 /* README.md */,
 				OBJ_48 /* ActionCableSwift.podspec */,
@@ -341,7 +192,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				OBJ_65 /* PBXTargetDependency */,
 			);
 			name = ActionCableSwift;
 			productName = ActionCableSwift;
@@ -359,7 +209,6 @@
 			);
 			dependencies = (
 				OBJ_87 /* PBXTargetDependency */,
-				OBJ_88 /* PBXTargetDependency */,
 			);
 			name = ActionCableSwiftTests;
 			productName = ActionCableSwiftTests;
@@ -378,36 +227,6 @@
 			);
 			name = ActionCableSwiftPackageDescription;
 			productName = ActionCableSwiftPackageDescription;
-			productType = "com.apple.product-type.framework";
-		};
-		"SwiftExtensionsPack::SwiftExtensionsPack" /* SwiftExtensionsPack */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_89 /* Build configuration list for PBXNativeTarget "SwiftExtensionsPack" */;
-			buildPhases = (
-				OBJ_92 /* Sources */,
-				OBJ_103 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = SwiftExtensionsPack;
-			productName = SwiftExtensionsPack;
-			productReference = "SwiftExtensionsPack::SwiftExtensionsPack::Product" /* SwiftExtensionsPack.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		"SwiftExtensionsPack::SwiftPMPackageDescription" /* SwiftExtensionsPackPackageDescription */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_105 /* Build configuration list for PBXNativeTarget "SwiftExtensionsPackPackageDescription" */;
-			buildPhases = (
-				OBJ_108 /* Sources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = SwiftExtensionsPackPackageDescription;
-			productName = SwiftExtensionsPackPackageDescription;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -435,21 +254,11 @@
 				"ActionCableSwift::SwiftPMPackageDescription" /* ActionCableSwiftPackageDescription */,
 				"ActionCableSwift::ActionCableSwiftPackageTests::ProductTarget" /* ActionCableSwiftPackageTests */,
 				"ActionCableSwift::ActionCableSwiftTests" /* ActionCableSwiftTests */,
-				"SwiftExtensionsPack::SwiftExtensionsPack" /* SwiftExtensionsPack */,
-				"SwiftExtensionsPack::SwiftPMPackageDescription" /* SwiftExtensionsPackPackageDescription */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		OBJ_108 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
-			files = (
-				OBJ_109 /* Package.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		OBJ_53 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
@@ -497,31 +306,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_92 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
-			files = (
-				OBJ_93 /* Sequence+Extensions.swift in Sources */,
-				OBJ_94 /* Common.swift in Sources */,
-				OBJ_95 /* Date.swift in Sources */,
-				OBJ_96 /* Dictionary.swift in Sources */,
-				OBJ_97 /* DictionaryCommon.swift in Sources */,
-				OBJ_98 /* Double.swift in Sources */,
-				OBJ_99 /* Float.swift in Sources */,
-				OBJ_100 /* HTTP.swift in Sources */,
-				OBJ_101 /* String.swift in Sources */,
-				OBJ_102 /* StringCommon.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		OBJ_65 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = "SwiftExtensionsPack::SwiftExtensionsPack" /* SwiftExtensionsPack */;
-			targetProxy = C285954E250C38F700F11571 /* PBXContainerItemProxy */;
-		};
 		OBJ_77 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "ActionCableSwift::ActionCableSwiftTests" /* ActionCableSwiftTests */;
@@ -532,32 +319,9 @@
 			target = "ActionCableSwift::ActionCableSwift" /* ActionCableSwift */;
 			targetProxy = C285954F250C38FB00F11571 /* PBXContainerItemProxy */;
 		};
-		OBJ_88 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = "SwiftExtensionsPack::SwiftExtensionsPack" /* SwiftExtensionsPack */;
-			targetProxy = C2859550250C38FB00F11571 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		OBJ_106 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -package-description-version 5.0.0";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		OBJ_107 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -package-description-version 5.0.0";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
 		OBJ_3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -745,74 +509,9 @@
 			};
 			name = Release;
 		};
-		OBJ_90 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = ActionCableSwift.xcodeproj/SwiftExtensionsPack_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = SwiftExtensionsPack;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = SwiftExtensionsPack;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
-			};
-			name = Debug;
-		};
-		OBJ_91 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = ActionCableSwift.xcodeproj/SwiftExtensionsPack_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = SwiftExtensionsPack;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = SwiftExtensionsPack;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		OBJ_105 /* Build configuration list for PBXNativeTarget "SwiftExtensionsPackPackageDescription" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_106 /* Debug */,
-				OBJ_107 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		OBJ_2 /* Build configuration list for PBXProject "ActionCableSwift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -854,15 +553,6 @@
 			buildConfigurations = (
 				OBJ_80 /* Debug */,
 				OBJ_81 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		OBJ_89 /* Build configuration list for PBXNativeTarget "SwiftExtensionsPack" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_90 /* Debug */,
-				OBJ_91 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
