@@ -21,7 +21,7 @@ public struct ACMessage: Decodable {
     public var type: ACMessageType?
     public var body: Body?
     public var identifier: ACChannelIdentifier?
-    public var disconnectReason: DisconnectReason?
+    public var disconnectReason: ACDisconnectReason?
     public var reconnect: Bool?
     
     enum CodingKeys: String, CodingKey {
@@ -119,9 +119,9 @@ private struct DynamicKey: CodingKey {
     }
 }
 
-// MARK: DisconnectReason
+// MARK: ACDisconnectReason
 
-public enum DisconnectReason: String, Decodable {
+public enum ACDisconnectReason: String, Decodable {
     case unauthorized
     case invalidRequest = "invalid_request"
     case serverRestart = "server_restart"
