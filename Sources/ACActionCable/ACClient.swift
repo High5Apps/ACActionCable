@@ -68,14 +68,6 @@ public final class ACClient {
         }
         sendLock.unlock()
     }
-
-    public func send(data: Data, _ completion: ACEventHandler? = nil) {
-        sendLock.lock()
-        socket.send(data: data) {
-            completion?()
-        }
-        sendLock.unlock()
-    }
     
     // MARK: Subscriptions
     
@@ -118,11 +110,6 @@ public final class ACClient {
             self.taps.forEach() { $0.onDisconnected?(reason) }
         }
         
-        socket.onCancelled = {
-            self.isConnected = false
-            self.taps.forEach() { $0.onCancelled?() }
-        }
-        
         socket.onText = { (text) in
             self.taps.forEach() { $0.onText?(text) }
             
@@ -130,18 +117,6 @@ public final class ACClient {
             
             self.taps.forEach() { $0.onMessage?(message) }
             self.subscriptions.forEach() { $0.onMessage(message) }
-        }
-        
-        socket.onBinary = { (data) in
-            self.taps.forEach() { $0.onBinary?(data) }
-        }
-        
-        socket.onPing = {
-            self.taps.forEach() { $0.onPing?() }
-        }
-        
-        socket.onPong = {
-            self.taps.forEach() { $0.onPong?() }
         }
     }
     

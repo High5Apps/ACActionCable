@@ -51,14 +51,12 @@ class ACConnectionMonitorTests: XCTestCase {
         XCTAssert(monitor.isRunning)
     }
     
-    func testShouldRecordPingOnActionCablePingNotWebSocketPing() throws {
+    func testShouldRecordPingOnActionCablePing() throws {
         monitor.start()
         XCTAssertNil(monitor.pingedAt)
         socket.onConnected?(nil)
         let pingedAt = monitor.pingedAt
         XCTAssertNotNil(pingedAt)
-        socket.onPing?()
-        XCTAssertEqual(pingedAt!, monitor.pingedAt)
         ping()
         XCTAssert(monitor.pingedAt! > pingedAt!)
     }

@@ -2,7 +2,7 @@
 //  ACWebSocketProtocol.swift
 //  ACActionCable
 //
-//  Created by Oleh Hudeichuk on 15.03.2020.
+//  Created by Julian Tigler on 9/15/20.
 //
 
 import Foundation
@@ -15,14 +15,7 @@ public protocol ACWebSocketProtocol {
 
     var onConnected: ACConnectionHandler? { get set }
     var onDisconnected: ACDisconnectionHandler? { get set }
-    var onCancelled: ACEventHandler? { get set }
     var onText: ACTextHandler? { get set }
-    var onBinary: ACDataHandler? { get set }
-    var onPing: ACEventHandler? { get set }
-    var onPong: ACEventHandler? { get set }
 
-    func send(data: Data)
-    func send(data: Data, _ completion: (() -> Void)?)
-    func send(text: String)
-    func send(text: String, _ completion: (() -> Void)?)
+    func send(text: String, _ completion: ACEventHandler?)
 }
