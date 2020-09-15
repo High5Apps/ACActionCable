@@ -39,8 +39,8 @@ class ACMessageTests: XCTestCase {
             let bimBam: String
         }
         
-        BodyObject.register(Foo.self)
-        BodyObject.register(BarBaz.self)
+        ACMessageBodyObject.register(Foo.self)
+        ACMessageBodyObject.register(BarBaz.self)
         
         [
             #"{"identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}","message":{"bar_baz":{"bim_bam":"moz"}}}"#,

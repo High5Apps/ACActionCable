@@ -55,13 +55,13 @@ public enum ACMessageType: String, Decodable {
 
 public enum Body: Decodable {
     case ping(Date)
-    case dictionary(BodyObject)
+    case dictionary(ACMessageBodyObject)
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if let value = try? container.decode(Date.self) {
             self = .ping(value)
-        } else if let value = try? container.decode(BodyObject.self) {
+        } else if let value = try? container.decode(ACMessageBodyObject.self) {
             self = .dictionary(value)
         } else {
             throw DecodingError.typeMismatch(Body.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Unable to parse message body"))
@@ -69,9 +69,9 @@ public enum Body: Decodable {
     }
 }
 
-// MARK: BodyObject
+// MARK: ACMessageBodyObject
 
-public struct BodyObject: Decodable {
+public struct ACMessageBodyObject: Decodable {
     public let object: Any?
     
     private enum CodingKeys: String, CodingKey {
@@ -81,12 +81,12 @@ public struct BodyObject: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: DynamicKey.self)
         guard container.allKeys.count == 1, let firstKey = container.allKeys.first else {
-            throw DecodingError.typeMismatch(BodyObject.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Expected message container to only have one top-level key"))
+            throw DecodingError.typeMismatch(ACMessageBodyObject.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Expected message container to only have one top-level key"))
         }
         
         let key = firstKey.stringValue
         guard let decoder = Self.decoders[key] else {
-            throw DecodingError.typeMismatch(BodyObject.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "No message decoder registered for key: \(key)"))
+            throw DecodingError.typeMismatch(ACMessageBodyObject.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "No message decoder registered for key: \(key)"))
         }
         
         object = try? decoder(container)
