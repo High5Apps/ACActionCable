@@ -47,6 +47,7 @@
 		"ActionCableSwift::ActionCableSwift::Product" /* ACActionCable.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ACActionCable.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"ActionCableSwift::ActionCableSwiftTests::Product" /* ACActionCableTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = ACActionCableTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C202FD2F251159070064BB69 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		C202FD3225117F870064BB69 /* ACStarscreamWebSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACStarscreamWebSocket.swift; sourceTree = "<group>"; };
 		C2896D5E2511533200C8E6B7 /* ACFakeWebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACFakeWebSocket.swift; sourceTree = "<group>"; };
 		OBJ_10 /* ACClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACClient.swift; sourceTree = "<group>"; };
 		OBJ_11 /* ACClientTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACClientTap.swift; sourceTree = "<group>"; };
@@ -86,6 +87,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C202FD3125117F560064BB69 /* Examples */ = {
+			isa = PBXGroup;
+			children = (
+				C202FD3225117F870064BB69 /* ACStarscreamWebSocket.swift */,
+			);
+			path = Examples;
+			sourceTree = "<group>";
+		};
 		OBJ_18 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -134,6 +143,7 @@
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				C202FD3125117F560064BB69 /* Examples */,
 				OBJ_8 /* ACActionCable */,
 			);
 			name = Sources;
