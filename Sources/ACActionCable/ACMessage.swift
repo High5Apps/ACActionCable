@@ -19,7 +19,7 @@ public struct ACMessage: Decodable {
     }()
 
     public var type: ACMessageType?
-    public var body: Body?
+    public var body: ACMessageBody?
     public var identifier: ACChannelIdentifier?
     public var disconnectReason: ACDisconnectReason?
     public var reconnect: Bool?
@@ -51,9 +51,9 @@ public enum ACMessageType: String, Decodable {
     case message
 }
 
-// MARK: Body
+// MARK: ACMessageBody
 
-public enum Body: Decodable {
+public enum ACMessageBody: Decodable {
     case ping(Date)
     case dictionary(ACMessageBodyObject)
     
@@ -64,7 +64,7 @@ public enum Body: Decodable {
         } else if let value = try? container.decode(ACMessageBodyObject.self) {
             self = .dictionary(value)
         } else {
-            throw DecodingError.typeMismatch(Body.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Unable to parse message body"))
+            throw DecodingError.typeMismatch(ACMessageBody.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Unable to parse message body"))
         }
     }
 }
