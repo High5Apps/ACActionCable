@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import os.log
 
 public struct ACChannelIdentifier {
     let dictionary: [String: Any]
@@ -29,10 +28,7 @@ public struct ACChannelIdentifier {
     }
     
     private static func json(from dictionary: [String: Any]) -> String? {
-        guard let data = try? JSONSerialization.data(withJSONObject: dictionary, options: .sortedKeys) else {
-            os_log("ACChannelIdentifier failed to serialize dictionary")
-            return nil
-        }
+        guard let data = try? JSONSerialization.data(withJSONObject: dictionary, options: .sortedKeys) else { return nil }
         return String(data: data, encoding: .utf8)
     }
 }

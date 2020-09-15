@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import os.log
 
 public enum ACCommandType: String {
     case subscribe
@@ -45,18 +44,12 @@ public struct ACCommand {
         self.action = action
         self.data = data
         if type == .message {
-            guard action != nil else {
-                os_log("ACCommand action cannot be nil when type is message")
-                return nil
-            }
+            guard action != nil else { return nil }
         }
     }
     
     private func json(from dictionary: [String: Any]) -> String? {
-        guard let data = try? JSONSerialization.data(withJSONObject: dictionary, options: .sortedKeys) else {
-            os_log("ACCommand failed to serialize dictionary")
-            return nil
-        }
+        guard let data = try? JSONSerialization.data(withJSONObject: dictionary, options: .sortedKeys) else { return nil }
         return String(data: data, encoding: .utf8)
     }
 }

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import os.log
 
 public typealias ACMessageHandler = (ACMessage) -> Void
 
@@ -28,10 +27,7 @@ public class ACSubscription {
     public func send(actionName: String, data: [String: Any]? = nil, completion: ACEventHandler? = nil) {
         messageQueue.async { [weak self] in
             guard let self = self else { return }
-            guard let command = ACCommand(type: .message, identifier: self.channelIdentifier, action: actionName, data: data), let message = command.string else {
-                 os_log("Failed to serialize command: %@", actionName)
-                 return
-             }
+            guard let command = ACCommand(type: .message, identifier: self.channelIdentifier, action: actionName, data: data), let message = command.string else { return }
             self.client.send(text: message) { completion?() }
         }
     }

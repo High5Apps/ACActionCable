@@ -1,6 +1,5 @@
 
 import Foundation
-import os.log
 
 public final class ACClient {
     
@@ -114,10 +113,7 @@ public final class ACClient {
         socket.onText = { (text) in
             self.taps.forEach() { $0.onText?(text) }
             
-            guard let message = ACMessage(string: text) else {
-                os_log("Failed to parse message from text: %@", text)
-                return
-            }
+            guard let message = ACMessage(string: text) else { return }
             
             self.taps.forEach() { $0.onMessage?(message) }
             self.subscriptions.forEach() { $0.onMessage(message) }
