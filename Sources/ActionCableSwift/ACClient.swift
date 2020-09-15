@@ -9,25 +9,24 @@ public final class ACClient {
     public var headers: [String: String]? = nil
     
     var isConnected: Bool = false
+    var connectionMonitor: ACConnectionMontior?
 
     private var socket: ACWebSocketProtocol
     private var subscriptions: Set<ACSubscription> = []
     private var taps: Set<ACClientTap> = []
     
-    private let connectionMonitor = ACConnectionMontior()
-    private let options: ACClientOptions
-    private let clientConcurrentQueue = DispatchQueue(label: "com.ACClient.Conccurent", attributes: .concurrent)
     private let isConnectedLock: NSLock = .init()
     private let sendLock: NSLock = .init()
     
     // MARK: Initialization
 
-    public init(ws: ACWebSocketProtocol, headers: [String: String]? = nil, options: ACClientOptions? = nil) {
+    public init(ws: ACWebSocketProtocol, headers: [String: String]? = nil, connectionMonitorTimeout: TimeInterval? = nil) {
         self.socket = ws
         self.headers = headers
-        self.options = options ?? ACClientOptions()
         setupWSCallbacks()
-        connectionMonitor.client = self
+        if let timeout = connectionMonitorTimeout {
+            connectionMonitor = ACConnectionMontior(client: self, staleThreshold: timeout)
+        }
     }
     
     // MARK: Connection management
@@ -40,7 +39,7 @@ public final class ACClient {
 
     public func disconnect(allowReconnect: Bool = true) {
         if !allowReconnect {
-            connectionMonitor.stop()
+            connectionMonitor?.stop()
         }
         
         isConnectedLock.lock()
@@ -97,83 +96,49 @@ public final class ACClient {
     }
 
     private func setupWSCallbacks() {
-        socket.onConnected = { [weak self] headers in
-            guard let self = self else { return }
+        socket.onConnected = { (headers) in
             self.isConnected = true
-            if self.options.reconnect {
-                self.connectionMonitor.start()
-            }
-            self.clientConcurrentQueue.async { [headers] in
-                self.taps.forEach() { $0.onConnected?(headers) }
-            }
+            self.taps.forEach() { $0.onConnected?(headers) }
         }
-        socket.onDisconnected = { [weak self] reason in
-            guard let self = self else { return }
+        
+        socket.onDisconnected = { (reason) in
             self.isConnected = false
-            self.clientConcurrentQueue.async { [reason] in
-                self.taps.forEach() { $0.onDisconnected?(reason) }
-            }
+            self.taps.forEach() { $0.onDisconnected?(reason) }
         }
-        socket.onCancelled = { [weak self] in
-            guard let self = self else { return }
+        
+        socket.onCancelled = {
             self.isConnected = false
-            self.clientConcurrentQueue.async {
-                self.taps.forEach() { $0.onCancelled?() }
-            }
+            self.taps.forEach() { $0.onCancelled?() }
         }
-        socket.onText = { [weak self] text in
-            guard let self = self else { return }
-            
-            self.clientConcurrentQueue.async { [text] in
-                self.taps.forEach() { $0.onText?(text) }
-            }
+        
+        socket.onText = { (text) in
+            self.taps.forEach() { $0.onText?(text) }
             
             guard let message = ACMessage(string: text) else {
                 os_log("Failed to parse message from text: %@", text)
                 return
             }
             
-            self.clientConcurrentQueue.async { [message] in
-                self.taps.forEach() { $0.onMessage?(message) }
-            }
-            
-            self.clientConcurrentQueue.async { [message] in
-                self.subscriptions.forEach() { $0.onMessage(message) }
-            }
-            
-            switch message.type {
-            case .disconnect:
-                if let reconnect = message.reconnect, !reconnect {
-                    self.connectionMonitor.stop()
-                }
-            case .ping:
-                self.connectionMonitor.ping()
-            default: break
-            }
+            self.taps.forEach() { $0.onMessage?(message) }
+            self.subscriptions.forEach() { $0.onMessage(message) }
         }
-        socket.onBinary = { [weak self] data in
-            guard let self = self else { return }
-            self.clientConcurrentQueue.async { [data] in
-                self.taps.forEach() { $0.onBinary?(data) }
-            }
+        
+        socket.onBinary = { (data) in
+            self.taps.forEach() { $0.onBinary?(data) }
         }
-        socket.onPing = { [weak self] in
-            guard let self = self else { return }
-            self.clientConcurrentQueue.async {
-                self.taps.forEach() { $0.onPing?() }
-            }
+        
+        socket.onPing = {
+            self.taps.forEach() { $0.onPing?() }
         }
-        socket.onPong = { [weak self] in
-            guard let self = self else { return }
-            self.clientConcurrentQueue.async {
-                self.taps.forEach() { $0.onPong?() }
-            }
+        
+        socket.onPong = {
+            self.taps.forEach() { $0.onPong?() }
         }
     }
     
     // MARK: Deinitialization
 
     deinit {
-        connectionMonitor.stop()
+        connectionMonitor?.stop()
     }
 }

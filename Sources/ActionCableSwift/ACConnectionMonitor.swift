@@ -7,105 +7,116 @@
 
 import Foundation
 import SwiftExtensionsPack
+import os.log
 
 public final class ACConnectionMontior {
-
-
-    weak var client: ACClient?
-    var pingLimit: Int64 = 6
-    var finish: Bool = false
-    var checksDelay: Float32 {
-        get { Float32(_checksDelay) / 1_000_000 }
-        set { _checksDelay = UInt32(newValue * 1_000_000) }
+    
+    // MARK: Properties
+    
+    static var now: () -> Date = { Date() }
+    static var pollIntervalRange: Range<UInt32> = 3..<30
+    static var pollIntervalMultiplier = 5.0
+    static var reconnectDelay: UInt32 = 1
+    
+    var startedAt: Date?
+    var stoppedAt: Date?
+    var pingedAt: Date?
+    var disconnectedAt: Date?
+    var reconnectAttempts = 0
+    
+    var isConnectionStale: Bool {
+        guard let startedAt = startedAt else { return false }
+        let lastEvent = pingedAt ?? startedAt
+        return Self.now() >= lastEvent + staleThreshold
     }
-    private var _checksDelay: UInt32 = 500_000
-    private var lastTimePoint: Int64 = 0
-    private var started: Bool = false
-    private let lock: NSLock = .init()
-    private let startInfoLock: NSLock = .init()
-
-
-    init(client: ACClient? = nil) {
+    
+    var isRunning: Bool {
+        (startedAt != nil) && (stoppedAt == nil)
+    }
+    
+    var disconnectedRecently: Bool {
+        guard let disconnectedAt = disconnectedAt else { return false }
+        return Self.now() < disconnectedAt + staleThreshold
+    }
+    
+    var pollInterval: UInt32 {
+        let interval = UInt32(Self.pollIntervalMultiplier * log(Double(1 + reconnectAttempts)))
+        guard interval > Self.pollIntervalRange.lowerBound else { return Self.pollIntervalRange.lowerBound }
+        guard interval < Self.pollIntervalRange.upperBound else { return Self.pollIntervalRange.upperBound }
+        return interval
+    }
+        
+    let staleThreshold: TimeInterval
+    
+    private weak var client: ACClient?
+    
+    // MARK: Initialization
+    
+    init(client: ACClient, staleThreshold: TimeInterval) {
         self.client = client
+        self.staleThreshold = staleThreshold
+        self.client?.add(ACClientTap(onConnected: onConnected(_:), onDisconnected: onDisconnected(_:), onMessage: onMessage(_:)))
     }
-
+    
+    // MARK: Starting and stopping
+    
     func start() {
-        if isStarted() { return }
-
-        Thread { [weak self] in
-            guard let self = self else { return }
-            self.setFinish(to: false)
-            self.setStarted(to: true)
-            self.updateLastPoint()
-            while !self.finish {
-                if !self.isConnected() {
-                    self.client?.disconnect()
-                    usleep(200_000)
-                    self.client?.connect()
-                    usleep(self._checksDelay)
-                    self.updateLastPoint()
-                    continue
-                }
-                if self.isWorks() {
-                    usleep(self._checksDelay)
-                    continue
-                } else {
-                    self.lock.lock()
-                    self.client?.isConnected = false
-                    self.lock.unlock()
-                    usleep(self._checksDelay)
-                }
+        guard !isRunning else { return }
+        startedAt = Self.now()
+        stoppedAt = nil
+        
+        startPolling()
+    }
+    
+    private func startPolling() {
+        Thread() {
+            while self.stoppedAt == nil {
+                sleep(self.pollInterval)
+                self.reconnectIfStale()
             }
-            self.setStarted(to: false)
         }.start()
     }
     
-    public func stop() {
-        setFinish(to: true)
+    func reconnectIfStale() {
+        guard isConnectionStale && !disconnectedRecently else { return }
+        reconnectAttempts += 1
+        client?.disconnect()
+        sleep(Self.reconnectDelay)
+        client?.connect()
     }
-
-    public func ping() {
-        updateLastPoint()
+    
+    func stop() {
+        guard isRunning else { return }
+        stoppedAt = Self.now()
     }
-
-    private func updateLastPoint() {
-        lock.lock()
-        lastTimePoint = Date().toSeconds()
-        lock.unlock()
+    
+    private func recordPing() {
+        pingedAt = Self.now()
     }
-
-    public func isStarted() -> Bool {
-        startInfoLock.lock()
-        let result: Bool = started
-        startInfoLock.unlock()
-
-        return result
+    
+    // MARK: Tap Callbacks
+    
+    private func onConnected(_ headers: [String: String]?) {
+        reconnectAttempts = 0
+        recordPing()
+        disconnectedAt = nil
+        start()
     }
-
-    private func setStarted(to: Bool) {
-        startInfoLock.lock()
-        started = to
-        startInfoLock.unlock()
+    
+    private func onDisconnected(_ reason: String?) {
+        disconnectedAt = Self.now()
     }
-
-    private func isConnected() -> Bool {
-        self.client?.isConnected ?? false
-    }
-
-    private func setFinish(to: Bool) {
-        lock.lock()
-        finish = to
-        lock.unlock()
-    }
-
-    private func isWorks() -> Bool {
-        lock.lock()
-        let result: Bool = !self.isOldPing()
-        lock.unlock()
-        return result
-    }
-
-    private func isOldPing() -> Bool {
-        (Date().toSeconds() - lastTimePoint) >= pingLimit
+    
+    private func onMessage(_ message: ACMessage) {
+        switch message.type {
+        case .ping:
+            recordPing()
+        case .disconnect:
+            if let reconnect = message.reconnect, !reconnect {
+                stop()
+            }
+        default:
+            break
+        }
     }
 }

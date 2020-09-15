@@ -26,10 +26,10 @@ class ACFakeWebSocket: ACWebSocketProtocol {
     var onPing: ACEventHandler?
     var onPong: ACEventHandler?
     
-    private var onConnect: ACConnectionHandler?
-    private var onDisconnect: ACEventHandler?
-    private var onSendText: ACTextHandler?
-    private var onSendData: ACDataHandler?
+    var onConnect: ACConnectionHandler?
+    var onDisconnect: ACEventHandler?
+    var onSendText: ACTextHandler?
+    var onSendData: ACDataHandler?
     
     init(stringURL: String = "https://example.com",
          onConnect: ACConnectionHandler? = nil,

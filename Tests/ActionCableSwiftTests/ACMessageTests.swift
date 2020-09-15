@@ -16,13 +16,14 @@ class ACMessageTests: XCTestCase {
     }
     
     func testShouldDecodePing() throws {
-        let string = #"{"type":"ping","message":1599874600}"#
+        let timeInterval: TimeInterval = 1599874600
+        let string = "{\"type\":\"ping\",\"message\":\(Int(timeInterval))}"
         let message = ACMessage(string: string)!
         XCTAssertEqual(.ping, message.type)
 
         switch message.body {
-        case .int(let value):
-            XCTAssertEqual(1599874600, value)
+        case .ping(let value):
+            XCTAssertEqual(Date(timeIntervalSince1970: timeInterval), value)
         default:
             XCTFail()
         }

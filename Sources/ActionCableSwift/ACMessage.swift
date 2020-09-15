@@ -12,6 +12,7 @@ public struct ACMessage: Decodable {
     public static var decoder: JSONDecoder = {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
+        decoder.dateDecodingStrategy = .secondsSince1970
         return decoder
     }()
 
@@ -45,13 +46,13 @@ public enum ACMessageType: String, Decodable {
 }
 
 public enum Body: Decodable {
-    case int(Int)
+    case ping(Date)
     case dictionary(BodyObject)
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(Int.self) {
-            self = .int(value)
+        if let value = try? container.decode(Date.self) {
+            self = .ping(value)
         } else if let value = try? container.decode(BodyObject.self) {
             self = .dictionary(value)
         } else {

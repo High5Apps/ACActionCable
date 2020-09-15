@@ -29,4 +29,22 @@ final class ACClientTests: XCTestCase {
         let timeout: DispatchTime = .now() + .seconds(1)
         if semaphore.wait(timeout: timeout) == .timedOut { XCTFail() }
     }
+    
+    func testShouldNotStartConnectionMonitorWithNilTimeout() {
+        let socket = ACFakeWebSocket()
+        let client = ACClient(ws: socket, connectionMonitorTimeout: nil)
+        client.connect()
+        XCTAssertNil(client.connectionMonitor)
+    }
+    
+    func testShouldStartConnectionMonitorWithTimeout() {
+        let expected = 6.0
+        let socket = ACFakeWebSocket()
+        let client = ACClient(ws: socket, connectionMonitorTimeout: expected)
+        client.connect()
+        XCTAssertNotNil(client.connectionMonitor)
+        XCTAssertEqual(expected, client.connectionMonitor!.staleThreshold)
+        socket.onConnected?(nil)
+        XCTAssert(client.connectionMonitor!.isRunning)
+    }
 }
