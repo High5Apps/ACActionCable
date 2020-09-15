@@ -12,7 +12,6 @@
 		C2896D57251152C700C8E6B7 /* ACClientTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* ACClientTap.swift */; };
 		C2896D58251152CA00C8E6B7 /* ACCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ACCommand.swift */; };
 		C2896D59251152CC00C8E6B7 /* ACConnectionMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* ACConnectionMonitor.swift */; };
-		C2896D5A251152D000C8E6B7 /* ACError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* ACError.swift */; };
 		C2896D5B251152D200C8E6B7 /* ACMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* ACMessage.swift */; };
 		C2896D5C251152D400C8E6B7 /* ACSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* ACSubscription.swift */; };
 		C2896D5D251152D600C8E6B7 /* ACWebSocketProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* ACWebSocketProtocol.swift */; };
@@ -22,7 +21,6 @@
 		OBJ_39 /* ACClientTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* ACClientTap.swift */; };
 		OBJ_40 /* ACCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ACCommand.swift */; };
 		OBJ_41 /* ACConnectionMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* ACConnectionMonitor.swift */; };
-		OBJ_42 /* ACError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* ACError.swift */; };
 		OBJ_43 /* ACMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* ACMessage.swift */; };
 		OBJ_44 /* ACSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* ACSubscription.swift */; };
 		OBJ_45 /* ACWebSocketProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* ACWebSocketProtocol.swift */; };
@@ -54,7 +52,6 @@
 		OBJ_11 /* ACClientTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACClientTap.swift; sourceTree = "<group>"; };
 		OBJ_12 /* ACCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACCommand.swift; sourceTree = "<group>"; };
 		OBJ_13 /* ACConnectionMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACConnectionMonitor.swift; sourceTree = "<group>"; };
-		OBJ_14 /* ACError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACError.swift; sourceTree = "<group>"; };
 		OBJ_15 /* ACMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACMessage.swift; sourceTree = "<group>"; };
 		OBJ_16 /* ACSubscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACSubscription.swift; sourceTree = "<group>"; };
 		OBJ_17 /* ACWebSocketProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACWebSocketProtocol.swift; sourceTree = "<group>"; };
@@ -150,7 +147,6 @@
 				OBJ_11 /* ACClientTap.swift */,
 				OBJ_12 /* ACCommand.swift */,
 				OBJ_13 /* ACConnectionMonitor.swift */,
-				OBJ_14 /* ACError.swift */,
 				OBJ_15 /* ACMessage.swift */,
 				OBJ_16 /* ACSubscription.swift */,
 				OBJ_17 /* ACWebSocketProtocol.swift */,
@@ -232,7 +228,6 @@
 				OBJ_39 /* ACClientTap.swift in Sources */,
 				OBJ_40 /* ACCommand.swift in Sources */,
 				OBJ_41 /* ACConnectionMonitor.swift in Sources */,
-				OBJ_42 /* ACError.swift in Sources */,
 				OBJ_43 /* ACMessage.swift in Sources */,
 				OBJ_44 /* ACSubscription.swift in Sources */,
 				OBJ_45 /* ACWebSocketProtocol.swift in Sources */,
@@ -245,7 +240,6 @@
 			files = (
 				OBJ_63 /* ACChannelIdentifierTests.swift in Sources */,
 				C2896D5D251152D600C8E6B7 /* ACWebSocketProtocol.swift in Sources */,
-				C2896D5A251152D000C8E6B7 /* ACError.swift in Sources */,
 				OBJ_64 /* ACClientTapTests.swift in Sources */,
 				C2896D57251152C700C8E6B7 /* ACClientTap.swift in Sources */,
 				C2896D5C251152D400C8E6B7 /* ACSubscription.swift in Sources */,
