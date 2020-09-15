@@ -20,18 +20,14 @@ public final class ACClient {
     
     public var headers: ACRequestHeaders? = nil
     
-    var isConnected: Bool = false
     var connectionMonitor: ACConnectionMontior?
-
+    
     private var socket: ACWebSocketProtocol
     private var subscriptions: Set<ACSubscription> = []
     private var taps: Set<ACClientTap> = []
     
-    private let isConnectedLock: NSLock = .init()
-    private let sendLock: NSLock = .init()
-    
     // MARK: Initialization
-
+    
     public init(ws: ACWebSocketProtocol, headers: ACRequestHeaders? = nil, connectionMonitorTimeout: TimeInterval? = nil) {
         self.socket = ws
         self.headers = headers
@@ -41,32 +37,45 @@ public final class ACClient {
         }
     }
     
-    // MARK: Connection management
-
-    public func connect() {
-        isConnectedLock.lock()
-        socket.connect(headers: headers)
-        isConnectedLock.unlock()
+    private func setupWSCallbacks() {
+        socket.onConnected = { (headers) in
+            self.taps.forEach() { $0.onConnected?(headers) }
+        }
+        
+        socket.onDisconnected = { (reason) in
+            self.taps.forEach() { $0.onDisconnected?(reason) }
+        }
+        
+        socket.onText = { (text) in
+            self.taps.forEach() { $0.onText?(text) }
+            
+            guard let message = ACMessage(string: text) else { return }
+            
+            self.taps.forEach() { $0.onMessage?(message) }
+            self.subscriptions.forEach() { $0.onMessage(message) }
+        }
     }
-
+    
+    // MARK: Connections
+    
+    public func connect() {
+        socket.connect(headers: headers)
+    }
+    
     public func disconnect(allowReconnect: Bool = true) {
         if !allowReconnect {
             connectionMonitor?.stop()
         }
         
-        isConnectedLock.lock()
         socket.disconnect()
-        isConnectedLock.unlock()
     }
     
-    // MARK: Sending messages
-
+    // MARK: Sending
+    
     public func send(text: String, _ completion: ACEventHandler? = nil) {
-        sendLock.lock()
         socket.send(text: text) {
             completion?()
         }
-        sendLock.unlock()
     }
     
     // MARK: Subscriptions
@@ -89,7 +98,7 @@ public final class ACClient {
         }
     }
     
-    // MARK: Callbacks
+    // MARK: Tapping
     
     public func add(_ tap: ACClientTap) {
         taps.insert(tap)
@@ -98,30 +107,9 @@ public final class ACClient {
     public func remove(_ tap: ACClientTap) {
         taps.remove(tap)
     }
-
-    private func setupWSCallbacks() {
-        socket.onConnected = { (headers) in
-            self.isConnected = true
-            self.taps.forEach() { $0.onConnected?(headers) }
-        }
-        
-        socket.onDisconnected = { (reason) in
-            self.isConnected = false
-            self.taps.forEach() { $0.onDisconnected?(reason) }
-        }
-        
-        socket.onText = { (text) in
-            self.taps.forEach() { $0.onText?(text) }
-            
-            guard let message = ACMessage(string: text) else { return }
-            
-            self.taps.forEach() { $0.onMessage?(message) }
-            self.subscriptions.forEach() { $0.onMessage(message) }
-        }
-    }
     
     // MARK: Deinitialization
-
+    
     deinit {
         connectionMonitor?.stop()
     }

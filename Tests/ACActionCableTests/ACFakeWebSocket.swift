@@ -8,16 +8,10 @@
 import Foundation
 
 class ACFakeWebSocket: ACWebSocketProtocol {
+    
+    // MARK: Properties
+    
     var url: URL
-    
-    func connect(headers: ACRequestHeaders?) {
-        onConnect?(headers)
-    }
-    
-    func disconnect() {
-        onDisconnect?()
-    }
-    
     var onConnected: ACConnectionHandler?
     var onDisconnected: ACDisconnectionHandler?
     var onText: ACTextHandler?
@@ -25,6 +19,8 @@ class ACFakeWebSocket: ACWebSocketProtocol {
     var onConnect: ACConnectionHandler?
     var onDisconnect: ACEventHandler?
     var onSendText: ACTextHandler?
+    
+    // MARK: Initialization
     
     init(stringURL: String = "https://example.com",
          onConnect: ACConnectionHandler? = nil,
@@ -40,6 +36,18 @@ class ACFakeWebSocket: ACWebSocketProtocol {
         }
         self.onSendText = onSendText
     }
+    
+    // MARK: Connections
+    
+    func connect(headers: ACRequestHeaders?) {
+        onConnect?(headers)
+    }
+    
+    func disconnect() {
+        onDisconnect?()
+    }
+    
+    // MARK: Sending
     
     func send(text: String, _ completion: ACEventHandler?) {
         onSendText?(text)

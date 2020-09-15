@@ -8,8 +8,13 @@
 import Foundation
 
 public struct ACChannelIdentifier {
+    
+    // MARK: Properties
+    
     let dictionary: [String: Any]
     let string: String
+    
+    // MARK: Initialization
     
     public init?(channelName: String, identifier: [String: Any]) {
         var dictionary = identifier
@@ -27,11 +32,15 @@ public struct ACChannelIdentifier {
         self.dictionary = dictionary
     }
     
+    // MARK: Helpers
+    
     private static func json(from dictionary: [String: Any]) -> String? {
         guard let data = try? JSONSerialization.data(withJSONObject: dictionary, options: .sortedKeys) else { return nil }
         return String(data: data, encoding: .utf8)
     }
 }
+
+// MARK: Equatable
 
 extension ACChannelIdentifier: Equatable {
     public static func == (lhs: ACChannelIdentifier, rhs: ACChannelIdentifier) -> Bool {
@@ -39,12 +48,16 @@ extension ACChannelIdentifier: Equatable {
     }
 }
 
+// MARK: Hashable
+
 extension ACChannelIdentifier: Hashable {
     
     public func hash(into hasher: inout Hasher) {
       hasher.combine(string)
     }
 }
+
+// MARK: Decodable
 
 extension ACChannelIdentifier: Decodable {
     public init(from decoder: Decoder) throws {

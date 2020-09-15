@@ -8,6 +8,9 @@
 import Foundation
 
 public struct ACClientTap {
+    
+    // MARK: Properties
+    
     let id: String
     
     let onConnected: ACConnectionHandler?
@@ -15,11 +18,13 @@ public struct ACClientTap {
     let onText: ACTextHandler?
     let onMessage: ACMessageHandler?
     
+    // MARK: Initialization
+    
     public init(onConnected: ACConnectionHandler? = nil,
                 onDisconnected: ACDisconnectionHandler? = nil,
                 onText: ACTextHandler? = nil,
                 onMessage: ACMessageHandler? = nil) {
-        self.id = UUID().uuidString
+        id = UUID().uuidString
         self.onConnected = onConnected
         self.onDisconnected = onDisconnected
         self.onText = onText
@@ -27,12 +32,16 @@ public struct ACClientTap {
     }
 }
 
+// MARK: Equatable
+
 extension ACClientTap: Equatable {
     
     public static func == (lhs: ACClientTap, rhs: ACClientTap) -> Bool {
         lhs.id == rhs.id
     }
 }
+
+// MARK: Hashable
 
 extension ACClientTap: Hashable {
     

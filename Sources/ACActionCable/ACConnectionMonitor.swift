@@ -7,7 +7,7 @@
 
 import Foundation
 
-public final class ACConnectionMontior {
+class ACConnectionMontior {
     
     // MARK: Properties
     

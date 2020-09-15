@@ -106,12 +106,12 @@
 		OBJ_19 /* ACActionCableTests */ = {
 			isa = PBXGroup;
 			children = (
-				C2896D5E2511533200C8E6B7 /* ACFakeWebSocket.swift */,
 				OBJ_20 /* ACChannelIdentifierTests.swift */,
 				OBJ_21 /* ACClientTapTests.swift */,
 				OBJ_22 /* ACClientTests.swift */,
 				OBJ_23 /* ACCommandTests.swift */,
 				OBJ_24 /* ACConnectionMonitorTests.swift */,
+				C2896D5E2511533200C8E6B7 /* ACFakeWebSocket.swift */,
 				OBJ_26 /* ACMessageTests.swift */,
 			);
 			name = ACActionCableTests;

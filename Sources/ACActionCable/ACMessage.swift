@@ -9,6 +9,8 @@ import Foundation
 
 public struct ACMessage: Decodable {
     
+    // MARK: Properties
+    
     public static var decoder: JSONDecoder = {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -30,11 +32,15 @@ public struct ACMessage: Decodable {
         case reconnect
     }
     
+    // MARK: Initialization
+    
     init?(string: String) {
         guard let data = string.data(using: .utf8), let message = try? Self.decoder.decode(ACMessage.self, from: data) else { return nil }
         self = message
     }
 }
+
+// MARK: ACMessageType
 
 public enum ACMessageType: String, Decodable {
     case confirmSubscription = "confirm_subscription"
@@ -44,6 +50,8 @@ public enum ACMessageType: String, Decodable {
     case ping
     case message
 }
+
+// MARK: Body
 
 public enum Body: Decodable {
     case ping(Date)
@@ -60,6 +68,8 @@ public enum Body: Decodable {
         }
     }
 }
+
+// MARK: BodyObject
 
 public struct BodyObject: Decodable {
     public let object: Any?
@@ -95,7 +105,7 @@ public struct BodyObject: Decodable {
     }
 }
 
-struct DynamicKey: CodingKey {
+private struct DynamicKey: CodingKey {
     var intValue: Int?
     var stringValue: String
     
@@ -108,6 +118,8 @@ struct DynamicKey: CodingKey {
         self.stringValue = stringValue
     }
 }
+
+// MARK: DisconnectReason
 
 public enum DisconnectReason: String, Decodable {
     case unauthorized
