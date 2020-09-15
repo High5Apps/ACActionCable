@@ -12,7 +12,7 @@ final class ACClientTests: XCTestCase {
     func testConnectShouldIncludeHeaders() throws {
         let semaphore = DispatchSemaphore(value: 0)
 
-        let expectedHeaders: [String: String] = [
+        let expectedHeaders: ACRequestHeaders = [
             "Auth": "token",
             "Origin": "http://example.com",
         ]

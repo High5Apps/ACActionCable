@@ -7,16 +7,10 @@
 
 import Foundation
 
-public typealias ACConnectionHandler = (_ headers: [String: String]?) -> Void
-public typealias ACDisconnectionHandler = (_ reason: String?) -> Void
-public typealias ACEventHandler = () -> Void
-public typealias ACTextHandler = (_ text: String) -> Void
-public typealias ACDataHandler = (_ data: Data) -> Void
-
 public protocol ACWebSocketProtocol {
 
     var url: URL {get set}
-    func connect(headers: [String: String]?)
+    func connect(headers: ACRequestHeaders?)
     func disconnect()
 
     var onConnected: ACConnectionHandler? { get set }

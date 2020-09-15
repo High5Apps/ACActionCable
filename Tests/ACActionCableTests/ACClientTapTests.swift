@@ -10,7 +10,7 @@ import XCTest
 class ACClientTapTests: XCTestCase {
     
     func testShouldCallOnConnected() throws {
-        let expectedHeaders: [String: String] = [
+        let expectedHeaders: ACRequestHeaders = [
             "Auth": "token",
             "Origin": "http://example.com",
         ]

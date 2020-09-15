@@ -94,7 +94,7 @@ public final class ACConnectionMontior {
     
     // MARK: Tap Callbacks
     
-    private func onConnected(_ headers: [String: String]?) {
+    private func onConnected(_ headers: ACRequestHeaders?) {
         reconnectAttempts = 0
         recordPing()
         disconnectedAt = nil

@@ -7,11 +7,18 @@
 
 import Foundation
 
+public typealias ACRequestHeaders = [String: String]
+public typealias ACConnectionHandler = (_ headers: ACRequestHeaders?) -> Void
+public typealias ACDisconnectionHandler = (_ reason: String?) -> Void
+public typealias ACEventHandler = () -> Void
+public typealias ACTextHandler = (_ text: String) -> Void
+public typealias ACDataHandler = (_ data: Data) -> Void
+
 public final class ACClient {
     
     // MARK: Properties
     
-    public var headers: [String: String]? = nil
+    public var headers: ACRequestHeaders? = nil
     
     var isConnected: Bool = false
     var connectionMonitor: ACConnectionMontior?
@@ -25,7 +32,7 @@ public final class ACClient {
     
     // MARK: Initialization
 
-    public init(ws: ACWebSocketProtocol, headers: [String: String]? = nil, connectionMonitorTimeout: TimeInterval? = nil) {
+    public init(ws: ACWebSocketProtocol, headers: ACRequestHeaders? = nil, connectionMonitorTimeout: TimeInterval? = nil) {
         self.socket = ws
         self.headers = headers
         setupWSCallbacks()

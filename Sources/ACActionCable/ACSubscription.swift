@@ -7,8 +7,6 @@
 
 import Foundation
 
-public typealias ACMessageHandler = (ACMessage) -> Void
-
 public class ACSubscription {
     
     let channelIdentifier: ACChannelIdentifier
