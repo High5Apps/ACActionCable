@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "ActionCableSwift::ActionCableSwift"
                BuildableName = "ActionCableSwift.framework"
-               BlueprintName = "ActionCableSwift"
-               ReferencedContainer = "container:ActionCableSwift.xcodeproj">
+               BlueprintName = "ACActionCable"
+               ReferencedContainer = "container:ACActionCable.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "ActionCableSwift::ActionCableSwiftTests"
-               BuildableName = "ActionCableSwiftTests.xctest"
-               BlueprintName = "ActionCableSwiftTests"
-               ReferencedContainer = "container:ActionCableSwift.xcodeproj">
+               BuildableName = "ACActionCableTests.xctest"
+               BlueprintName = "ACActionCableTests"
+               ReferencedContainer = "container:ACActionCable.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

@@ -2,21 +2,21 @@
 import PackageDescription
 
 let package = Package(
-    name: "ActionCableSwift",
+    name: "ACActionCable",
     platforms: [
         .macOS(.v10_13),
         .iOS(.v11)
     ],
     products: [
         .library(
-            name: "ActionCableSwift",
-            targets: ["ActionCableSwift"]),
+            name: "ACActionCable",
+            targets: ["ACActionCable"]),
     ],
     targets: [
         .target(
-            name: "ActionCableSwift"),
+            name: "ACActionCable"),
         .testTarget(
-            name: "ActionCableSwiftTests",
-            dependencies: ["ActionCableSwift"]),
+            name: "ACActionCableTests",
+            dependencies: ["ACActionCable"]),
     ]
 )

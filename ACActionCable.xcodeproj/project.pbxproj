@@ -32,7 +32,7 @@
 		OBJ_66 /* ACCommandTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* ACCommandTests.swift */; };
 		OBJ_67 /* ACConnectionMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* ACConnectionMonitorTests.swift */; };
 		OBJ_69 /* ACMessageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_26 /* ACMessageTests.swift */; };
-		OBJ_71 /* ActionCableSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "ActionCableSwift::ActionCableSwift::Product" /* ActionCableSwift.framework */; };
+		OBJ_71 /* ACActionCable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "ActionCableSwift::ActionCableSwift::Product" /* ACActionCable.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,8 +46,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		"ActionCableSwift::ActionCableSwift::Product" /* ActionCableSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ActionCableSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"ActionCableSwift::ActionCableSwiftTests::Product" /* ActionCableSwiftTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = ActionCableSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		"ActionCableSwift::ActionCableSwift::Product" /* ACActionCable.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ACActionCable.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"ActionCableSwift::ActionCableSwiftTests::Product" /* ACActionCableTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = ACActionCableTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C202FD2F251159070064BB69 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		C2896D5E2511533200C8E6B7 /* ACFakeWebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACFakeWebSocket.swift; sourceTree = "<group>"; };
 		OBJ_10 /* ACClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACClient.swift; sourceTree = "<group>"; };
@@ -65,7 +65,7 @@
 		OBJ_24 /* ACConnectionMonitorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACConnectionMonitorTests.swift; sourceTree = "<group>"; };
 		OBJ_26 /* ACMessageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACMessageTests.swift; sourceTree = "<group>"; };
 		OBJ_30 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		OBJ_31 /* ActionCableSwift.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ActionCableSwift.podspec; sourceTree = "<group>"; };
+		OBJ_31 /* ACActionCable.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ACActionCable.podspec; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		OBJ_9 /* ACChannelIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACChannelIdentifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -82,7 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_71 /* ActionCableSwift.framework in Frameworks */,
+				OBJ_71 /* ACActionCable.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,12 +92,12 @@
 		OBJ_18 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_19 /* ActionCableSwiftTests */,
+				OBJ_19 /* ACActionCableTests */,
 			);
 			name = Tests;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_19 /* ActionCableSwiftTests */ = {
+		OBJ_19 /* ACActionCableTests */ = {
 			isa = PBXGroup;
 			children = (
 				C2896D5E2511533200C8E6B7 /* ACFakeWebSocket.swift */,
@@ -108,15 +108,15 @@
 				OBJ_24 /* ACConnectionMonitorTests.swift */,
 				OBJ_26 /* ACMessageTests.swift */,
 			);
-			name = ActionCableSwiftTests;
-			path = Tests/ActionCableSwiftTests;
+			name = ACActionCableTests;
+			path = Tests/ACActionCableTests;
 			sourceTree = SOURCE_ROOT;
 		};
 		OBJ_27 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				"ActionCableSwift::ActionCableSwiftTests::Product" /* ActionCableSwiftTests.xctest */,
-				"ActionCableSwift::ActionCableSwift::Product" /* ActionCableSwift.framework */,
+				"ActionCableSwift::ActionCableSwiftTests::Product" /* ACActionCableTests.xctest */,
+				"ActionCableSwift::ActionCableSwift::Product" /* ACActionCable.framework */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -128,7 +128,7 @@
 				OBJ_18 /* Tests */,
 				OBJ_27 /* Products */,
 				OBJ_6 /* Package.swift */,
-				OBJ_31 /* ActionCableSwift.podspec */,
+				OBJ_31 /* ACActionCable.podspec */,
 				OBJ_30 /* README.md */,
 				C202FD2F251159070064BB69 /* LICENSE */,
 			);
@@ -137,12 +137,12 @@
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_8 /* ActionCableSwift */,
+				OBJ_8 /* ACActionCable */,
 			);
 			name = Sources;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_8 /* ActionCableSwift */ = {
+		OBJ_8 /* ACActionCable */ = {
 			isa = PBXGroup;
 			children = (
 				OBJ_9 /* ACChannelIdentifier.swift */,
@@ -155,16 +155,16 @@
 				OBJ_16 /* ACSubscription.swift */,
 				OBJ_17 /* ACWebSocketProtocol.swift */,
 			);
-			name = ActionCableSwift;
-			path = Sources/ActionCableSwift;
+			name = ACActionCable;
+			path = Sources/ACActionCable;
 			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		"ActionCableSwift::ActionCableSwift" /* ActionCableSwift */ = {
+		"ActionCableSwift::ActionCableSwift" /* ACActionCable */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_33 /* Build configuration list for PBXNativeTarget "ActionCableSwift" */;
+			buildConfigurationList = OBJ_33 /* Build configuration list for PBXNativeTarget "ACActionCable" */;
 			buildPhases = (
 				OBJ_36 /* Sources */,
 				OBJ_46 /* Frameworks */,
@@ -173,14 +173,14 @@
 			);
 			dependencies = (
 			);
-			name = ActionCableSwift;
+			name = ACActionCable;
 			productName = ActionCableSwift;
-			productReference = "ActionCableSwift::ActionCableSwift::Product" /* ActionCableSwift.framework */;
+			productReference = "ActionCableSwift::ActionCableSwift::Product" /* ACActionCable.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		"ActionCableSwift::ActionCableSwiftTests" /* ActionCableSwiftTests */ = {
+		"ActionCableSwift::ActionCableSwiftTests" /* ACActionCableTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_59 /* Build configuration list for PBXNativeTarget "ActionCableSwiftTests" */;
+			buildConfigurationList = OBJ_59 /* Build configuration list for PBXNativeTarget "ACActionCableTests" */;
 			buildPhases = (
 				OBJ_62 /* Sources */,
 				OBJ_70 /* Frameworks */,
@@ -190,9 +190,9 @@
 			dependencies = (
 				OBJ_72 /* PBXTargetDependency */,
 			);
-			name = ActionCableSwiftTests;
+			name = ACActionCableTests;
 			productName = ActionCableSwiftTests;
-			productReference = "ActionCableSwift::ActionCableSwiftTests::Product" /* ActionCableSwiftTests.xctest */;
+			productReference = "ActionCableSwift::ActionCableSwiftTests::Product" /* ACActionCableTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -204,7 +204,7 @@
 				LastSwiftMigration = 9999;
 				LastUpgradeCheck = 9999;
 			};
-			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "ActionCableSwift" */;
+			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "ACActionCable" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -216,8 +216,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				"ActionCableSwift::ActionCableSwift" /* ActionCableSwift */,
-				"ActionCableSwift::ActionCableSwiftTests" /* ActionCableSwiftTests */,
+				"ActionCableSwift::ActionCableSwift" /* ACActionCable */,
+				"ActionCableSwift::ActionCableSwiftTests" /* ACActionCableTests */,
 			);
 		};
 /* End PBXProject section */
@@ -267,7 +267,7 @@
 /* Begin PBXTargetDependency section */
 		OBJ_72 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = "ActionCableSwift::ActionCableSwift" /* ActionCableSwift */;
+			target = "ActionCableSwift::ActionCableSwift" /* ACActionCable */;
 			targetProxy = C2896D532511529D00C8E6B7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -309,20 +309,20 @@
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = ActionCableSwift.xcodeproj/ActionCableSwift_Info.plist;
+				INFOPLIST_FILE = ACActionCable.xcodeproj/ACActionCable_Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = ActionCableSwift;
+				PRODUCT_BUNDLE_IDENTIFIER = ACActionCable;
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
 				SWIFT_VERSION = 5.0;
-				TARGET_NAME = ActionCableSwift;
+				TARGET_NAME = ACActionCable;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
@@ -337,20 +337,20 @@
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = ActionCableSwift.xcodeproj/ActionCableSwift_Info.plist;
+				INFOPLIST_FILE = ACActionCable.xcodeproj/ACActionCable_Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = ActionCableSwift;
+				PRODUCT_BUNDLE_IDENTIFIER = ACActionCable;
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
 				SWIFT_VERSION = 5.0;
-				TARGET_NAME = ActionCableSwift;
+				TARGET_NAME = ACActionCable;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
@@ -390,16 +390,17 @@
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = ActionCableSwift.xcodeproj/ActionCableSwiftTests_Info.plist;
+				INFOPLIST_FILE = ACActionCable.xcodeproj/ACActionCableTests_Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_NAME = ACActionCableTests;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
 				SWIFT_VERSION = 5.0;
-				TARGET_NAME = ActionCableSwiftTests;
+				TARGET_NAME = ACActionCableTests;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
@@ -415,16 +416,17 @@
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = ActionCableSwift.xcodeproj/ActionCableSwiftTests_Info.plist;
+				INFOPLIST_FILE = ACActionCable.xcodeproj/ACActionCableTests_Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_NAME = ACActionCableTests;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
 				SWIFT_VERSION = 5.0;
-				TARGET_NAME = ActionCableSwiftTests;
+				TARGET_NAME = ACActionCableTests;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
@@ -433,7 +435,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		OBJ_2 /* Build configuration list for PBXProject "ActionCableSwift" */ = {
+		OBJ_2 /* Build configuration list for PBXProject "ACActionCable" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				OBJ_3 /* Debug */,
@@ -442,7 +444,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_33 /* Build configuration list for PBXNativeTarget "ActionCableSwift" */ = {
+		OBJ_33 /* Build configuration list for PBXNativeTarget "ACActionCable" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				OBJ_34 /* Debug */,
@@ -451,7 +453,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_59 /* Build configuration list for PBXNativeTarget "ActionCableSwiftTests" */ = {
+		OBJ_59 /* Build configuration list for PBXNativeTarget "ACActionCableTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				OBJ_60 /* Debug */,

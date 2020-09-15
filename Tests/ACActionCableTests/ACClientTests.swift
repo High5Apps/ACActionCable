@@ -6,7 +6,6 @@
 //
 
 import XCTest
-@testable import ActionCableSwift
 
 final class ACClientTests: XCTestCase {
         
