@@ -84,18 +84,25 @@ public final class ACClient {
         guard let command = ACCommand(type: .subscribe, identifier: channelIdentifier), let subscribe = command.string else { return nil }
         
         let subscription = ACSubscription(client: self, channelIdentifier: channelIdentifier, onMessage: messageHandler)
+        
+        guard !subscriptions.contains(subscription) else { return nil }
+
         subscriptions.insert(subscription)
         send(text: subscribe)
         
         return subscription
     }
     
-    public func unsubscribe(from subscription: ACSubscription) {
-        guard let command = ACCommand(type: .unsubscribe, identifier: subscription.channelIdentifier), let unsubscribe = command.string else { return }
+    @discardableResult
+    public func unsubscribe(from subscription: ACSubscription) -> Bool {
+        guard subscriptions.contains(subscription) else { return false }
         
-        if subscriptions.remove(subscription) != nil {
-            send(text: unsubscribe)
-        }
+        guard let command = ACCommand(type: .unsubscribe, identifier: subscription.channelIdentifier), let unsubscribe = command.string else { return false }
+                
+        subscriptions.remove(subscription)
+        send(text: unsubscribe)
+        
+        return true
     }
     
     // MARK: Tapping
