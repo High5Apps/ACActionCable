@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C2329FFE2512A01000673EFD /* ACSubscriptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2329FFD2512A01000673EFD /* ACSubscriptionTests.swift */; };
 		C2896D55251152B800C8E6B7 /* ACChannelIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* ACChannelIdentifier.swift */; };
 		C2896D56251152C500C8E6B7 /* ACClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* ACClient.swift */; };
 		C2896D57251152C700C8E6B7 /* ACClientTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* ACClientTap.swift */; };
@@ -48,6 +49,7 @@
 		"ActionCableSwift::ActionCableSwiftTests::Product" /* ACActionCableTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = ACActionCableTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C202FD2F251159070064BB69 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		C202FD3225117F870064BB69 /* ACStarscreamWebSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACStarscreamWebSocket.swift; sourceTree = "<group>"; };
+		C2329FFD2512A01000673EFD /* ACSubscriptionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACSubscriptionTests.swift; sourceTree = "<group>"; };
 		C2896D5E2511533200C8E6B7 /* ACFakeWebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACFakeWebSocket.swift; sourceTree = "<group>"; };
 		OBJ_10 /* ACClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACClient.swift; sourceTree = "<group>"; };
 		OBJ_11 /* ACClientTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACClientTap.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				OBJ_24 /* ACConnectionMonitorTests.swift */,
 				C2896D5E2511533200C8E6B7 /* ACFakeWebSocket.swift */,
 				OBJ_26 /* ACMessageTests.swift */,
+				C2329FFD2512A01000673EFD /* ACSubscriptionTests.swift */,
 			);
 			name = ACActionCableTests;
 			path = Tests/ACActionCableTests;
@@ -248,6 +251,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				C2329FFE2512A01000673EFD /* ACSubscriptionTests.swift in Sources */,
 				OBJ_63 /* ACChannelIdentifierTests.swift in Sources */,
 				C2896D5D251152D600C8E6B7 /* ACWebSocketProtocol.swift in Sources */,
 				OBJ_64 /* ACClientTapTests.swift in Sources */,
