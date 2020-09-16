@@ -146,7 +146,7 @@ class ACConnectionMonitorTests: XCTestCase {
     }
     
     private func ping() {
-        let text = "{\"type\":\"ping\",\"message\":\(ACConnectionMontior.now().timeIntervalSince1970)}"
+        let text = "{\"type\":\"ping\",\"message\":\(Int(ACConnectionMontior.now().timeIntervalSince1970))}"
         socket.onText?(text)
     }
 }

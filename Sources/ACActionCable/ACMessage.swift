@@ -54,12 +54,12 @@ public enum ACMessageType: String, Decodable {
 // MARK: ACMessageBody
 
 public enum ACMessageBody: Decodable {
-    case ping(Date)
+    case ping(Int)
     case dictionary(ACMessageBodyObject)
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(Date.self) {
+        if let value = try? container.decode(Int.self) {
             self = .ping(value)
         } else if let value = try? container.decode(ACMessageBodyObject.self) {
             self = .dictionary(value)
