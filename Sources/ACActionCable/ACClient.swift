@@ -23,7 +23,7 @@ public final class ACClient {
     var connectionMonitor: ACConnectionMontior?
     
     private var socket: ACWebSocketProtocol
-    private var subscriptions: Set<ACSubscription> = []
+    private var subscriptions: [ACChannelIdentifier: ACSubscription] = [:]
     private var taps: Set<ACClientTap> = []
     
     // MARK: Initialization
@@ -52,7 +52,10 @@ public final class ACClient {
             guard let message = ACMessage(string: text) else { return }
             
             self.taps.forEach() { $0.onMessage?(message) }
-            self.subscriptions.forEach() { $0.onMessage(message) }
+            
+            guard let channelIdentifier = message.identifier, let subscription = self.subscriptions[channelIdentifier] else { return }
+
+            subscription.onMessage(message)
         }
     }
     
@@ -85,9 +88,9 @@ public final class ACClient {
         
         let subscription = ACSubscription(client: self, channelIdentifier: channelIdentifier, onMessage: messageHandler)
         
-        guard !subscriptions.contains(subscription) else { return nil }
+        guard subscriptions[subscription.channelIdentifier] == nil else { return nil }
 
-        subscriptions.insert(subscription)
+        subscriptions[subscription.channelIdentifier] = subscription
         send(text: subscribe)
         
         return subscription
@@ -95,11 +98,11 @@ public final class ACClient {
     
     @discardableResult
     public func unsubscribe(from subscription: ACSubscription) -> Bool {
-        guard subscriptions.contains(subscription) else { return false }
+        guard subscriptions[subscription.channelIdentifier] != nil else { return false }
         
         guard let command = ACCommand(type: .unsubscribe, identifier: subscription.channelIdentifier), let unsubscribe = command.string else { return false }
-                
-        subscriptions.remove(subscription)
+        
+        subscriptions.removeValue(forKey: subscription.channelIdentifier)
         send(text: unsubscribe)
         
         return true

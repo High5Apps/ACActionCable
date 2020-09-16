@@ -96,4 +96,45 @@ final class ACClientTests: XCTestCase {
         unsubscribed = client.unsubscribe(from: subscription)
         XCTAssertFalse(unsubscribed)
     }
+    
+    func testShouldOnlyNotifyTheIdentifiedSubscriber() throws {
+        let socket = ACFakeWebSocket()
+        let client = ACClient(ws: socket)
+        client.connect()
+        
+        for i in 0..<3 {
+            let channelIdentifier = ACChannelIdentifier(channelName: "TestChannel", identifier: ["test_id": i])!
+            let subscribe = expectation(description: "Subscribe\(i)")
+            let _ = client.subscribe(to: channelIdentifier, with: { (message) in
+                switch message.type {
+                case .confirmSubscription:
+                    subscribe.fulfill()
+                default:
+                    break
+                }
+            })!
+            socket.confirmSubscription(to: channelIdentifier)
+            wait(for: [subscribe], timeout: 1)
+        }
+    }
+    
+    func testShouldNotNotifyOnceUnsubscribed() throws {
+        let socket = ACFakeWebSocket()
+        let client = ACClient(ws: socket)
+        client.connect()
+        let channelIdentifier = ACChannelIdentifier(channelName: "TestChannel", identifier: ["test_id": 1])!
+        let subscribe = expectation(description: "Subscribe")
+        let subscription = client.subscribe(to: channelIdentifier, with: { (message) in
+            switch message.type {
+            case .confirmSubscription:
+                subscribe.fulfill()
+            default:
+                break
+            }
+        })!
+        socket.confirmSubscription(to: channelIdentifier)
+        wait(for: [subscribe], timeout: 1)
+        client.unsubscribe(from: subscription)
+        socket.confirmSubscription(to: channelIdentifier)
+    }
 }

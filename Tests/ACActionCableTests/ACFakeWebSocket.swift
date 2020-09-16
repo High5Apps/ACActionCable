@@ -53,4 +53,11 @@ class ACFakeWebSocket: ACWebSocketProtocol {
         onSendText?(text)
         completion?()
     }
+    
+    // MARK: Fake responses
+    
+    func confirmSubscription(to channelIdentifier: ACChannelIdentifier) {
+        let confirmation = String(format: #"{"identifier":%@,"type":"confirm_subscription"}"#, channelIdentifier.string.debugDescription)
+        onText?(confirmation)
+    }
 }
