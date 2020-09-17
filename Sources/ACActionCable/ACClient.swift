@@ -28,16 +28,16 @@ public final class ACClient {
     
     // MARK: Initialization
     
-    public init(ws: ACWebSocketProtocol, headers: ACRequestHeaders? = nil, connectionMonitorTimeout: TimeInterval? = nil) {
-        self.socket = ws
+    public init(socket: ACWebSocketProtocol, headers: ACRequestHeaders? = nil, connectionMonitorTimeout: TimeInterval? = nil) {
+        self.socket = socket
         self.headers = headers
-        setupWSCallbacks()
+        setupCallbacks()
         if let timeout = connectionMonitorTimeout {
             connectionMonitor = ACConnectionMontior(client: self, staleThreshold: timeout)
         }
     }
     
-    private func setupWSCallbacks() {
+    private func setupCallbacks() {
         socket.onConnected = { (headers) in
             self.taps.forEach() { $0.onConnected?(headers) }
         }

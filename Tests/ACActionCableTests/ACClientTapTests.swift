@@ -16,7 +16,7 @@ class ACClientTapTests: XCTestCase {
         ]
         
         let socket = ACFakeWebSocket()
-        let client = ACClient(ws: socket, headers: expectedHeaders)
+        let client = ACClient(socket: socket, headers: expectedHeaders)
         let semaphore = DispatchSemaphore(value: 0)
         let tap = ACClientTap(onConnected: { (headers) in
             XCTAssertEqual(expectedHeaders, headers)
@@ -33,7 +33,7 @@ class ACClientTapTests: XCTestCase {
         let expectedReason = "foo"
         
         let socket = ACFakeWebSocket(disconnectReason: expectedReason)
-        let client = ACClient(ws: socket)
+        let client = ACClient(socket: socket)
         let semaphore = DispatchSemaphore(value: 0)
         let tap = ACClientTap(onDisconnected: { (reason) in
             XCTAssertEqual(expectedReason, reason)

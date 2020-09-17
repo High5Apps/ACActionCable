@@ -39,7 +39,7 @@ class ACSubscriptionTests: XCTestCase {
                 send.fulfill()
             }
         })
-        let client = ACClient(ws: socket)
+        let client = ACClient(socket: socket)
         client.connect()
         let channelIdentifier = ACChannelIdentifier(channelName: "TestChannel", identifier: ["test_id": 32])!
         let subscription = client.subscribe(to: channelIdentifier, with: { (_) in })!

@@ -13,12 +13,12 @@ class ACWebSocket: ACWebSocketProtocol, WebSocketDelegate {
 
     var url: URL
     
-    private var ws: WebSocket
+    private var socket: WebSocket
 
     init(stringURL: String) {
         url = URL(string: stringURL)!
-        ws = WebSocket(request: URLRequest(url: url))
-        ws.delegate = self
+        socket = WebSocket(request: URLRequest(url: url))
+        socket.delegate = self
     }
 
     var onConnected: ACConnectionHandler?
@@ -26,16 +26,16 @@ class ACWebSocket: ACWebSocketProtocol, WebSocketDelegate {
     var onText: ACTextHandler?
 
     func connect(headers: ACRequestHeaders?) {
-        ws.request.allHTTPHeaderFields = headers
-        ws.connect()
+        socket.request.allHTTPHeaderFields = headers
+        socket.connect()
     }
 
     func disconnect() {
-        ws.disconnect()
+        socket.disconnect()
     }
 
     func send(text: String, _ completion: ACEventHandler?) {
-        ws.write(string: text, completion: completion)
+        socket.write(string: text, completion: completion)
     }
 
     func didReceive(event: WebSocketEvent, client: WebSocket) {

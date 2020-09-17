@@ -14,7 +14,7 @@ class ACConnectionMonitorTests: XCTestCase {
     
     override func setUp() {
         socket = ACFakeWebSocket()
-        let client = ACClient(ws: socket)
+        let client = ACClient(socket: socket)
         monitor = ACConnectionMontior(client: client, staleThreshold: 6)
         ACConnectionMontior.now = { Date() }
         ACConnectionMontior.pollIntervalRange = 3..<30

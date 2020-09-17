@@ -24,7 +24,7 @@ final class ACClientTests: XCTestCase {
             semaphore.signal()
         })
         
-        let client = ACClient(ws: socket, headers: expectedHeaders)
+        let client = ACClient(socket: socket, headers: expectedHeaders)
         client.connect()
         
         let timeout: DispatchTime = .now() + .seconds(1)
@@ -35,7 +35,7 @@ final class ACClientTests: XCTestCase {
     
     func testShouldNotStartConnectionMonitorWithNilTimeout() throws {
         let socket = ACFakeWebSocket()
-        let client = ACClient(ws: socket, connectionMonitorTimeout: nil)
+        let client = ACClient(socket: socket, connectionMonitorTimeout: nil)
         client.connect()
         XCTAssertNil(client.connectionMonitor)
     }
@@ -43,7 +43,7 @@ final class ACClientTests: XCTestCase {
     func testShouldStartConnectionMonitorWithTimeout() throws {
         let expected = 6.0
         let socket = ACFakeWebSocket()
-        let client = ACClient(ws: socket, connectionMonitorTimeout: expected)
+        let client = ACClient(socket: socket, connectionMonitorTimeout: expected)
         client.connect()
         XCTAssertNotNil(client.connectionMonitor)
         XCTAssertEqual(expected, client.connectionMonitor!.staleThreshold)
@@ -53,7 +53,7 @@ final class ACClientTests: XCTestCase {
     
     func testShouldStopConnectionMonitorOnDisconnect() throws {
         let socket = ACFakeWebSocket()
-        let client = ACClient(ws: socket, connectionMonitorTimeout: 6)
+        let client = ACClient(socket: socket, connectionMonitorTimeout: 6)
         client.connect()
         XCTAssert(client.connectionMonitor!.isRunning)
         client.disconnect()
@@ -74,7 +74,7 @@ final class ACClientTests: XCTestCase {
                 unsubscribe.fulfill()
             }
         })
-        let client = ACClient(ws: socket)
+        let client = ACClient(socket: socket)
         client.connect()
         let channelIdentifier = ACChannelIdentifier(channelName: "TestChannel", identifier: ["test_id": 32])!
         let subscription = client.subscribe(to: channelIdentifier, with:  { (_) in })!
@@ -85,7 +85,7 @@ final class ACClientTests: XCTestCase {
     
     func testSubscribeShouldNoOpWhenAlreadySubscribed() throws {
         let socket = ACFakeWebSocket()
-        let client = ACClient(ws: socket)
+        let client = ACClient(socket: socket)
         client.connect()
         let channelIdentifier = ACChannelIdentifier(channelName: "TestChannel", identifier: ["test_id": 32])!
         let subscription = client.subscribe(to: channelIdentifier, with: { (_) in })
@@ -96,7 +96,7 @@ final class ACClientTests: XCTestCase {
     
     func testUnsubscribeShouldNoOpWhenNotSubscribed() throws {
         let socket = ACFakeWebSocket()
-        let client = ACClient(ws: socket)
+        let client = ACClient(socket: socket)
         client.connect()
         let channelIdentifier = ACChannelIdentifier(channelName: "TestChannel", identifier: ["test_id": 32])!
         let subscription = client.subscribe(to: channelIdentifier, with: { (_) in })!
@@ -108,7 +108,7 @@ final class ACClientTests: XCTestCase {
     
     func testShouldOnlyNotifyTheIdentifiedSubscriber() throws {
         let socket = ACFakeWebSocket()
-        let client = ACClient(ws: socket)
+        let client = ACClient(socket: socket)
         client.connect()
         
         for i in 0..<3 {
@@ -129,7 +129,7 @@ final class ACClientTests: XCTestCase {
     
     func testShouldNotNotifyOnceUnsubscribed() throws {
         let socket = ACFakeWebSocket()
-        let client = ACClient(ws: socket)
+        let client = ACClient(socket: socket)
         client.connect()
         let channelIdentifier = ACChannelIdentifier(channelName: "TestChannel", identifier: ["test_id": 1])!
         let subscribe = expectation(description: "Subscribe")

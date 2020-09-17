@@ -28,7 +28,7 @@ class MyClient {
 
     private init() {
         let socket = MyWebSocket(stringURL: "https://myrailsapp.com/cable") // Concrete implementation of ACWebSocketProtocol (see above)
-        client = ACClient(ws: socket, connectionMonitorTimeout: 6) // Leave connectionMonitorTimeout nil to disable connection monitoring
+        client = ACClient(socket: socket, connectionMonitorTimeout: 6) // Leave connectionMonitorTimeout nil to disable connection monitoring
     }
 }
 ```
