@@ -86,6 +86,7 @@ class ChatChannel {
     private var subscription: ACSubscription?
 
     func subscribe(to roomId: Int) {
+        guard subscription == nil else { return }
         let channelIdentifier = ACChannelIdentifier(channelName: "ChatChannel", identifier: ["room_id": roomId])!
         subscription = MyClient.shared.subscribe(to: channelIdentifier, with: handleMessage(_:))
     }
@@ -93,6 +94,7 @@ class ChatChannel {
     func unsubscribe() {
         guard let subscription = subscription else { return }
         MyClient.shared.unsubscribe(from: subscription)
+        self.subscription = nil
     }
 
     private func handleMessage(_ message: ACMessage) {
