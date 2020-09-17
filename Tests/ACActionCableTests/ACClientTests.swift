@@ -118,6 +118,24 @@ final class ACClientTests: XCTestCase {
         XCTAssertNotNil(subscription2)
     }
     
+    func testShouldResubscribeOnReconnection() throws {
+        let expectedSubscribe = #"{"command":"subscribe","identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}"}"#
+        let twoSubscribes = expectation(description: "Subscribe twice")
+        twoSubscribes.expectedFulfillmentCount = 2
+        let socket = ACFakeWebSocket(onSendText: { (text) in
+            if text == expectedSubscribe {
+                twoSubscribes.fulfill()
+            }
+        })
+        let client = ACClient(socket: socket)
+        client.connect()
+        let channelIdentifier = ACChannelIdentifier(channelName: "TestChannel", identifier: ["test_id": 32])!
+        let _ = client.subscribe(to: channelIdentifier, with: { (_) in })
+        socket.onDisconnected?(nil)
+        socket.onConnected?(nil)
+        wait(for: [twoSubscribes], timeout: 1)
+    }
+    
     func testShouldOnlyNotifyTheIdentifiedSubscriber() throws {
         let socket = ACFakeWebSocket()
         let client = ACClient(socket: socket)

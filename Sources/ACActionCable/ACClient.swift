@@ -45,6 +45,11 @@ public final class ACClient {
     
     private func onSocketConnected(headers: ACRequestHeaders?) {
         taps.forEach() { $0.onConnected?(headers) }
+        
+        subscriptions.keys.forEach() {
+            guard let command = ACCommand(type: .subscribe, identifier: $0) else { return }
+            send(command)
+        }
     }
     
     private func onSocketDisconnected(reason: String?) {
