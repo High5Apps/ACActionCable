@@ -9,7 +9,7 @@ import Foundation
 import ACActionCable
 import Starscream
 
-class ACWebSocket: ACWebSocketProtocol, WebSocketDelegate {
+class ACStarscreamWebSocket: ACWebSocketProtocol, WebSocketDelegate {
 
     var url: URL
     
