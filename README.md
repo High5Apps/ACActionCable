@@ -1,5 +1,5 @@
 # ACActionCable
-[ACActionCable](https://github.com/High5Apps/ACActionCable) is a Swift 5.1 client for [Ruby on Rails](https://rubyonrails.org/) 6's [Action Cable](https://guides.rubyonrails.org/action_cable_overview.html) WebSocket server. It is a hard fork of [Action-Cable-Swift](https://github.com/nerzh/Action-Cable-Swift). It aims to be testable, dependency-free, and compliant with the Rails 6 Action Cable server.
+[ACActionCable](https://github.com/High5Apps/ACActionCable) is a Swift 5 client for [Ruby on Rails](https://rubyonrails.org/) 6's [Action Cable](https://guides.rubyonrails.org/action_cable_overview.html) WebSocket server. It is a hard fork of [Action-Cable-Swift](https://github.com/nerzh/Action-Cable-Swift). It aims to be well-tested, dependency-free, and easy to use.
 
 ## Installation
 ### CocoaPods
