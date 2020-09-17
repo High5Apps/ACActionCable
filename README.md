@@ -27,18 +27,18 @@ class MyClient {
     private let client: ACClient
 
     private init() {
-        let socket = MyWebSocket(stringURL: "https://myrailsapp.com/cable") // Concrete implementation of ACWebSocketProtocol
+        let socket = MyWebSocket(stringURL: "https://myrailsapp.com/cable") // Concrete implementation of ACWebSocketProtocol (see above)
         client = ACClient(ws: socket, connectionMonitorTimeout: 6) // Leave connectionMonitorTimeout nil to disable connection monitoring
     }
 }
 ```
 
 ### Connect and disconnect
+You can set custom headers based on your server's requirements
 ```swift
 // MyClient.swift
 
 func connect() {
-    // Customize these optional headers based on your requirements
     client.headers = [
         "Auth": "Token",
         "Origin": "https://myrailsapp.com",
@@ -50,6 +50,7 @@ func disconnect() {
     client.disconnect()
 }
 ```
+You probably want to connect and disconnect when your app becomes active or resigns active.
 ```swift
 // SceneDelegate.swift
 
@@ -61,7 +62,7 @@ func sceneWillResignActive(_ scene: UIScene) {
     MyClient.shared.disconnect()
 }
 ```
-You probably also want to connect/disconnect when a user logs in or out.
+You probably also want to connect or disconnect when a user logs in or out.
 
 ### Subscribe and unsubscribe
 ```swift
@@ -99,40 +100,42 @@ class ChatChannel {
         case .confirmSubscription:
             print("ChatChannel subscribed")
         default:
-            // TODO: Use MyMessage (see below)
+            // TODO: Use MyObject (see below)
             break
         }
     }
 }
 ```
 
-### Register your `Decodable` messages
+### Register your [`Decodable`](https://developer.apple.com/documentation/foundation/archives_and_serialization/encoding_and_decoding_custom_types) messages
 ACActionCable automatically decodes your models. For example, if your server broadcasts the following message:
 ```json
 {
   "identifier":"{\"channel\":\"ChatChannel\",\"room_id\":42}",
   "message": {
-    "my_message":{
+    "my_object":{
       "sender_id": 311,
       "text": "Hello, room 42!"
     }
   }
 }
 ```
+Then ACActionCable can automatically decode it into the following object:
 ```swift
-// MyMessage.swift
+// MyObject.swift
 
-struct MyMessage: Decodable { // Must implement Decodable
+struct MyObject: Codable { // Must implement Decodable or Codable
     let senderId: Int
     let text: String
 }
 ```
+All you have to do is register the object.
 ```swift
 // MyClient.swift
 
-init() {
+private init() {
   // ...
-  ACMessageBodyObject.register(MyMessage.self)
+  ACMessageBodyObject.register(MyObject.self)
 }
 ```
 ```swift
@@ -146,8 +149,8 @@ private func handleMessage(_ message: ACMessage) {
         switch message.body {
         case .dictionary(let dictionary):
             switch dictionary.object {
-            case let myMessage as MyMessage:
-                print("Received message from sender \(myMessage.senderId): \(myMessage.text)")
+            case let myObject as MyObject:
+                print("Received message from sender \(myObject.senderId): \(myObject.text)")
                 // Received message from sender 311: "Hello, room 42!"
             default:
                 print("Warning: ChatChannel ignored unrecognized message")
@@ -161,16 +164,36 @@ private func handleMessage(_ message: ACMessage) {
 ```
 
 ### Send messages
+ACActionCable automatically encodes your [`Encodable`](https://developer.apple.com/documentation/foundation/archives_and_serialization/encoding_and_decoding_custom_types) objects too:
+```swift
+// MyObject.swift
+
+struct MyObject: Codable { // Must implement Encodable or Codable
+    let senderId: Int
+    let text: String
+}
+```
 ```swift
 // ChatChannel.swift
 
 func speak(_ text: String) {
-    let data: [String: Any] = [
-        "sender_id": 99,
-        "text": text,
-    ]
-    subscription?.send(actionName: "speak", data: data)
+    subscription?.send(actionName: "speak", object: MyObject(senderId: 99, text: text))
 }
+```
+Calling `channel.speak("my message")` would cause the following to be sent:
+```json
+{
+    "command":"message",
+    "data":"{\"action\":\"speak\",\"my_object\":{\"sender_id\":99,\"text\":\"my message\"}}",
+    "identifier":"{\"channel\":\"ChatChannel\",\"room_id\":42}"
+}
+```
+
+### (Optional) Modify encoder/decoder date formatting
+By default, `Date` objects are encoded or decoded using [`.secondsSince1970`](https://developer.apple.com/documentation/foundation/jsonencoder/dateencodingstrategy/secondssince1970). If you need to change to another format:
+```swift
+ACCommand.encoder.dateEncodingStrategy = .iso8601 // or any other JSONEncoder.DateEncodingStrategy
+ACMessage.decoder.dateDecodingStrategy = .iso8601 // or any other JSONDecoder.DateDecodingStrategy
 ```
 
 ### (Optional) Add an ACClientTap
@@ -178,7 +201,7 @@ If you need to listen to the internal state of `ACClient`, use `ACClientTap`.
 ```swift
 // MyClient.swift
 
-init() {
+private init() {
     // ...
     let tap = ACClientTap(
         onConnected: { (headers) in
@@ -195,4 +218,4 @@ init() {
 ```
 
 ## Contributing
-Instead of opening an issue, please fix it yourself and then [create a pull request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork). Please add new tests for your feature or bug fix, and don't forget to make sure the tests all pass!
+Instead of opening an issue, please fix it yourself and then [create a pull request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork). Please add new tests for your feature or fix, and don't forget to make sure that all the tests pass!
