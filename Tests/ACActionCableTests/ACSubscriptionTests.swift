@@ -12,7 +12,7 @@ class ACSubscriptionTests: XCTestCase {
     func testShouldSend() throws {
         let expectedSend = #"{"command":"message","data":"{\"action\":\"speak\"}","identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}"}"#
         let (subscription, expectation) = expectMessage(expectedSend)
-        subscription.send(actionName: "speak")
+        subscription.send(action: "speak")
         wait(for: [expectation], timeout: 1)
     }
     

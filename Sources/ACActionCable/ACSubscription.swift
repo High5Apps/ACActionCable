@@ -31,8 +31,8 @@ public class ACSubscription {
         client.send(command, completion: completion)
     }
     
-    public func send(actionName: String, completion: ACEventHandler? = nil) {
-        guard let command = ACCommand(type: .message, identifier: self.channelIdentifier, action: actionName) else { return }
+    public func send(action: String, completion: ACEventHandler? = nil) {
+        guard let command = ACCommand(type: .message, identifier: self.channelIdentifier, action: action) else { return }
         client.send(command)
     }
 }
