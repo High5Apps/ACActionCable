@@ -44,8 +44,8 @@ class ACStarscreamWebSocket: ACWebSocketProtocol, WebSocketDelegate {
             onConnected?(headers)
         case .disconnected(let reason, _):
             onDisconnected?(reason)
-        case .text(let string):
-            onText?(string)
+        case .text(let text):
+            onText?(text)
         default:
             break
         }
