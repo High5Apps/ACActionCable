@@ -16,10 +16,15 @@ class ACSubscriptionTests: XCTestCase {
         wait(for: [expectation], timeout: 1)
     }
     
-    func testShouldSendWithData() throws {
-        let expectedSend = #"{"command":"message","data":"{\"action\":\"speak\",\"bar\":1}","identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}"}"#
+    func testShouldSendWithEncodable() throws {
+        struct MyObject: Encodable {
+            let myProperty: Int
+        }
+
+        let expectedSend = #"{"command":"message","data":"{\"action\":\"speak\",\"my_object\":{\"my_property\":1}}","identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}"}"#
+        let object = MyObject(myProperty: 1)
         let (subscription, expectation) = expectMessage(expectedSend)
-        subscription.send(actionName: "speak", data: ["bar": 1])
+        subscription.send(action: "speak", object: object)
         wait(for: [expectation], timeout: 1)
     }
     

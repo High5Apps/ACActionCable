@@ -105,7 +105,7 @@ public struct ACMessageBodyObject: Decodable {
     }
 }
 
-private struct DynamicKey: CodingKey {
+struct DynamicKey: CodingKey {
     var intValue: Int?
     var stringValue: String
     

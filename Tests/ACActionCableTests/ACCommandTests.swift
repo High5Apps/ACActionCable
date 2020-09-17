@@ -24,9 +24,14 @@ class ACCommandTests: XCTestCase {
     }
     
     func testShouldEncodeMessage() throws {
-        let expected = #"{"command":"message","data":"{\"action\":\"foo\",\"bar\":1}","identifier":"{\"channel\":\"TestChannel\",\"test_id\":42}"}"#
+        struct MyObject: Encodable {
+            let myInt: Int
+            let myString: String
+        }
+        
+        let expected = #"{"command":"message","data":"{\"action\":\"my_action\",\"my_object\":{\"my_int\":1,\"my_string\":\"test\"}}","identifier":"{\"channel\":\"TestChannel\",\"test_id\":42}"}"#
         let identifier = ACChannelIdentifier(channelName: "TestChannel", identifier: ["test_id": 42])!
-        let command = ACCommand(type: .message, identifier: identifier, action: "foo", data: ["bar": 1])
+        let command = ACCommand(type: .message, identifier: identifier, action: "my_action", object: MyObject(myInt: 1, myString: "test"))
         XCTAssertEqual(expected, command?.string)
     }
 }

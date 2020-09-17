@@ -75,23 +75,22 @@ public final class ACClient {
     
     // MARK: Sending
     
-    public func send(text: String, _ completion: ACEventHandler? = nil) {
-        socket.send(text: text) {
-            completion?()
-        }
+    func send(_ command: ACCommand, completion: ACEventHandler? = nil) {
+        guard let text = command.string else { return }
+        socket.send(text: text, completion)
     }
     
     // MARK: Subscriptions
     
     public func subscribe(to channelIdentifier: ACChannelIdentifier, with messageHandler: @escaping ACMessageHandler) -> ACSubscription? {
-        guard let command = ACCommand(type: .subscribe, identifier: channelIdentifier), let subscribe = command.string else { return nil }
+        guard let command = ACCommand(type: .subscribe, identifier: channelIdentifier) else { return nil }
         
         let subscription = ACSubscription(client: self, channelIdentifier: channelIdentifier, onMessage: messageHandler)
         
         guard subscriptions[subscription.channelIdentifier] == nil else { return nil }
 
         subscriptions[subscription.channelIdentifier] = subscription
-        send(text: subscribe)
+        send(command)
         
         return subscription
     }
@@ -100,10 +99,10 @@ public final class ACClient {
     public func unsubscribe(from subscription: ACSubscription) -> Bool {
         guard subscriptions[subscription.channelIdentifier] != nil else { return false }
         
-        guard let command = ACCommand(type: .unsubscribe, identifier: subscription.channelIdentifier), let unsubscribe = command.string else { return false }
+        guard let command = ACCommand(type: .unsubscribe, identifier: subscription.channelIdentifier) else { return false }
         
         subscriptions.removeValue(forKey: subscription.channelIdentifier)
-        send(text: unsubscribe)
+        send(command)
         
         return true
     }
