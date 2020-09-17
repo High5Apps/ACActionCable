@@ -74,10 +74,6 @@ public enum ACMessageBody: Decodable {
 public struct ACMessageBodyObject: Decodable {
     public let object: Any?
     
-    private enum CodingKeys: String, CodingKey {
-        case object
-    }
-    
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: DynamicKey.self)
         guard container.allKeys.count == 1, let firstKey = container.allKeys.first else {
@@ -104,6 +100,8 @@ public struct ACMessageBodyObject: Decodable {
         }
     }
 }
+
+// MARK: DynamicKey
 
 struct DynamicKey: CodingKey {
     var intValue: Int?
