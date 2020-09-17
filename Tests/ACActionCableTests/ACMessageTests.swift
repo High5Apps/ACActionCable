@@ -70,7 +70,7 @@ class ACMessageTests: XCTestCase {
         }
     }
     
-    func testShouldDecodeConfirmationSubscription() throws {
+    func testShouldDecodeConfirmSubscription() throws {
         let string = #"{"identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}","type":"confirm_subscription"}"#
         let message = ACMessage(string: string)!
         XCTAssertEqual(.confirmSubscription, message.type)
@@ -79,7 +79,7 @@ class ACMessageTests: XCTestCase {
         XCTAssertEqual(channelIdentifier, message.identifier)
     }
     
-    func testShouldDecodeConfirmationRejection() throws {
+    func testShouldDecodeRejectSubscription() throws {
         let string = #"{"identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}","type":"reject_subscription"}"#
         let message = ACMessage(string: string)!
         XCTAssertEqual(.rejectSubscription, message.type)
