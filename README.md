@@ -47,7 +47,7 @@ func connect() {
 }
 
 func disconnect() {
-    client.disconnect(allowReconnect: false)
+    client.disconnect()
 }
 ```
 ```swift

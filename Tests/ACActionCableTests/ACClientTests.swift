@@ -51,6 +51,15 @@ final class ACClientTests: XCTestCase {
         XCTAssert(client.connectionMonitor!.isRunning)
     }
     
+    func testShouldStopConnectionMonitorOnDisconnect() throws {
+        let socket = ACFakeWebSocket()
+        let client = ACClient(ws: socket, connectionMonitorTimeout: 6)
+        client.connect()
+        XCTAssert(client.connectionMonitor!.isRunning)
+        client.disconnect()
+        XCTAssertFalse(client.connectionMonitor!.isRunning)
+    }
+    
     // MARK: Subscriptions
     
     func testShouldSubscribeAndUnsubscribe() throws {

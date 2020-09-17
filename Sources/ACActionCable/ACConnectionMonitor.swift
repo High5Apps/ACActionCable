@@ -78,7 +78,7 @@ class ACConnectionMontior {
     func reconnectIfStale() {
         guard isConnectionStale && !disconnectedRecently else { return }
         reconnectAttempts += 1
-        client?.disconnect()
+        client?.disconnect(allowReconnect: true)
         sleep(Self.reconnectDelay)
         client?.connect()
     }

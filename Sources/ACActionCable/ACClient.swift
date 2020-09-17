@@ -65,7 +65,7 @@ public final class ACClient {
         socket.connect(headers: headers)
     }
     
-    public func disconnect(allowReconnect: Bool = true) {
+    public func disconnect(allowReconnect: Bool = false) {
         if !allowReconnect {
             connectionMonitor?.stop()
         }
