@@ -60,4 +60,9 @@ class ACFakeWebSocket: ACWebSocketProtocol {
         let confirmation = String(format: #"{"identifier":%@,"type":"confirm_subscription"}"#, channelIdentifier.string.debugDescription)
         onText?(confirmation)
     }
+    
+    func rejectSubscription(to channelIdentifier: ACChannelIdentifier) {
+        let rejection = String(format: #"{"identifier":%@,"type":"reject_subscription"}"#, channelIdentifier.string.debugDescription)
+        onText?(rejection)
+    }
 }

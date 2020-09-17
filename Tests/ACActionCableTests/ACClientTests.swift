@@ -106,6 +106,18 @@ final class ACClientTests: XCTestCase {
         XCTAssertFalse(unsubscribed)
     }
     
+    func testShouldBeAbleToResubscribeAfterRejection() throws {
+        let socket = ACFakeWebSocket()
+        let client = ACClient(socket: socket)
+        client.connect()
+        let channelIdentifier = ACChannelIdentifier(channelName: "TestChannel", identifier: ["test_id": 32])!
+        let subscription1 = client.subscribe(to: channelIdentifier, with: { (_) in })
+        XCTAssertNotNil(subscription1)
+        socket.rejectSubscription(to: channelIdentifier)
+        let subscription2 = client.subscribe(to: channelIdentifier, with: { (_) in })
+        XCTAssertNotNil(subscription2)
+    }
+    
     func testShouldOnlyNotifyTheIdentifiedSubscriber() throws {
         let socket = ACFakeWebSocket()
         let client = ACClient(socket: socket)

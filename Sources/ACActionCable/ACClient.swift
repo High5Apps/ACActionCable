@@ -30,32 +30,43 @@ public final class ACClient {
     
     public init(socket: ACWebSocketProtocol, headers: ACRequestHeaders? = nil, connectionMonitorTimeout: TimeInterval? = nil) {
         self.socket = socket
+        self.socket.onConnected = onSocketConnected(headers:)
+        self.socket.onDisconnected = onSocketDisconnected(reason:)
+        self.socket.onText = onSocketText(text:)
+        
         self.headers = headers
-        setupCallbacks()
+        
         if let timeout = connectionMonitorTimeout {
             connectionMonitor = ACConnectionMontior(client: self, staleThreshold: timeout)
         }
     }
     
-    private func setupCallbacks() {
-        socket.onConnected = { (headers) in
-            self.taps.forEach() { $0.onConnected?(headers) }
-        }
+    // MARK: Socket Callbacks
+    
+    private func onSocketConnected(headers: ACRequestHeaders?) {
+        taps.forEach() { $0.onConnected?(headers) }
+    }
+    
+    private func onSocketDisconnected(reason: String?) {
+        taps.forEach() { $0.onDisconnected?(reason) }
+    }
+    
+    private func onSocketText(text: String) {
+        taps.forEach() { $0.onText?(text) }
         
-        socket.onDisconnected = { (reason) in
-            self.taps.forEach() { $0.onDisconnected?(reason) }
-        }
+        guard let message = ACMessage(string: text) else { return }
         
-        socket.onText = { (text) in
-            self.taps.forEach() { $0.onText?(text) }
-            
-            guard let message = ACMessage(string: text) else { return }
-            
-            self.taps.forEach() { $0.onMessage?(message) }
-            
-            guard let channelIdentifier = message.identifier, let subscription = self.subscriptions[channelIdentifier] else { return }
+        taps.forEach() { $0.onMessage?(message) }
+        
+        guard let channelIdentifier = message.identifier, let subscription = subscriptions[channelIdentifier] else { return }
 
-            subscription.onMessage(message)
+        subscription.onMessage(message)
+        
+        switch message.type {
+        case .rejectSubscription:
+            self.subscriptions.removeValue(forKey: subscription.channelIdentifier)
+        default:
+            break
         }
     }
     

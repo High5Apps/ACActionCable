@@ -99,6 +99,8 @@ class ChatChannel {
         switch message.type {
         case .confirmSubscription:
             print("ChatChannel subscribed")
+        case .rejectSubscription:
+            print("Server rejected ChatChannel subscription")
         default:
             // TODO: Use MyObject (see below)
             break
@@ -145,6 +147,8 @@ private func handleMessage(_ message: ACMessage) {
     switch message.type {
     case .confirmSubscription:
         print("Subscribed")
+    case .rejectSubscription:
+        print("Server rejected ChatChannel subscription")
     default:
         switch message.body {
         case .dictionary(let dictionary):
