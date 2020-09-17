@@ -25,7 +25,7 @@ public struct ACChannelIdentifier {
         self.string = string
     }
     
-    public init?(string: String) {
+    private init?(string: String) {
         self.string = string
         
         guard let data = string.data(using: .utf8), let dictionary = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else { return nil }
@@ -43,6 +43,7 @@ public struct ACChannelIdentifier {
 // MARK: Equatable
 
 extension ACChannelIdentifier: Equatable {
+    
     public static func == (lhs: ACChannelIdentifier, rhs: ACChannelIdentifier) -> Bool {
         lhs.string == rhs.string
     }
@@ -60,6 +61,7 @@ extension ACChannelIdentifier: Hashable {
 // MARK: Decodable
 
 extension ACChannelIdentifier: Decodable {
+    
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         guard let string = try? container.decode(String.self), let channelIdentifier = ACChannelIdentifier(string: string) else {
