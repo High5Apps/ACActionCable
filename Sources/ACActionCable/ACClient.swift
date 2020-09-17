@@ -77,7 +77,7 @@ public final class ACClient {
     
     func send(_ command: ACCommand, completion: ACEventHandler? = nil) {
         guard let text = command.string else { return }
-        socket.send(text: text, completion)
+        socket.send(text: text, completion: completion)
     }
     
     // MARK: Subscriptions

@@ -16,5 +16,5 @@ public protocol ACWebSocketProtocol {
 
     func connect(headers: ACRequestHeaders?)
     func disconnect()
-    func send(text: String, _ completion: ACEventHandler?)
+    func send(text: String, completion: ACEventHandler?)
 }

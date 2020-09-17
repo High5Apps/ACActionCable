@@ -34,7 +34,7 @@ class ACStarscreamWebSocket: ACWebSocketProtocol, WebSocketDelegate {
         socket.disconnect()
     }
 
-    func send(text: String, _ completion: ACEventHandler?) {
+    func send(text: String, completion: ACEventHandler?) {
         socket.write(string: text, completion: completion)
     }
 

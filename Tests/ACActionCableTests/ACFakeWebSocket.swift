@@ -49,7 +49,7 @@ class ACFakeWebSocket: ACWebSocketProtocol {
     
     // MARK: Sending
     
-    func send(text: String, _ completion: ACEventHandler?) {
+    func send(text: String, completion: ACEventHandler?) {
         onSendText?(text)
         completion?()
     }
