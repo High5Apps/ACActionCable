@@ -14,7 +14,6 @@ class ACConnectionMontior {
     static var now: () -> Date = { Date() }
     static var pollIntervalRange: Range<UInt32> = 3..<30
     static var pollIntervalMultiplier = 5.0
-    static var reconnectDelay: UInt32 = 1
     
     var startedAt: Date?
     var stoppedAt: Date?
@@ -78,9 +77,7 @@ class ACConnectionMontior {
     func reconnectIfStale() {
         guard isConnectionStale && !disconnectedRecently else { return }
         reconnectAttempts += 1
-        client?.disconnect(allowReconnect: true)
-        sleep(Self.reconnectDelay)
-        client?.connect()
+        client?.reconnect()
     }
     
     func stop() {
@@ -98,7 +95,6 @@ class ACConnectionMontior {
         reconnectAttempts = 0
         recordPing()
         disconnectedAt = nil
-        start()
     }
     
     private func onDisconnected(_ reason: String?) {

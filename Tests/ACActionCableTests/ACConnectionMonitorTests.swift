@@ -18,7 +18,7 @@ class ACConnectionMonitorTests: XCTestCase {
         monitor = ACConnectionMontior(client: client, staleThreshold: 6)
         ACConnectionMontior.now = { Date() }
         ACConnectionMontior.pollIntervalRange = 3..<30
-        ACConnectionMontior.reconnectDelay = 0
+        ACClient.reconnectDelay = 0
     }
     
     func testStartStop() {
@@ -43,12 +43,6 @@ class ACConnectionMonitorTests: XCTestCase {
         let stoppedAt = monitor.stoppedAt
         monitor.stop()
         XCTAssertEqual(stoppedAt, monitor.stoppedAt)
-    }
-    
-    func testShouldStartOnClientConnected() throws {
-        XCTAssert(!monitor.isRunning)
-        socket.onConnected?(nil)
-        XCTAssert(monitor.isRunning)
     }
     
     func testShouldRecordPingOnActionCablePing() throws {

@@ -20,6 +20,8 @@ public final class ACClient {
     
     public var headers: ACRequestHeaders? = nil
     
+    static var reconnectDelay: UInt32 = 1
+    
     var connectionMonitor: ACConnectionMontior?
     
     private var socket: ACWebSocketProtocol
@@ -78,6 +80,7 @@ public final class ACClient {
     // MARK: Connections
     
     public func connect() {
+        connectionMonitor?.start()
         socket.connect(headers: headers)
     }
     
@@ -87,6 +90,12 @@ public final class ACClient {
         }
         
         socket.disconnect()
+    }
+    
+    func reconnect() {
+        socket.disconnect()
+        sleep(Self.reconnectDelay)
+        socket.connect(headers: headers)
     }
     
     // MARK: Sending

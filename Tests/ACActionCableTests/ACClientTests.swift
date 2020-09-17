@@ -47,7 +47,6 @@ final class ACClientTests: XCTestCase {
         client.connect()
         XCTAssertNotNil(client.connectionMonitor)
         XCTAssertEqual(expected, client.connectionMonitor!.staleThreshold)
-        socket.onConnected?(nil)
         XCTAssert(client.connectionMonitor!.isRunning)
     }
     
