@@ -28,10 +28,11 @@ class MyClient {
 
     private init() {
         let socket = ACStarscreamWebSocket(stringURL: "https://myrailsapp.com/cable") // Your concrete implementation of ACWebSocketProtocol (see above)
-        client = ACClient(socket: socket, connectionMonitorTimeout: 6) // Leave connectionMonitorTimeout nil to disable connection monitoring
+        client = ACClient(socket: socket, connectionMonitorTimeout: 6)
     }
 }
 ```
+If you set a `connectionMonitorTimeout` and no ping is received for that many seconds, then [`ACConnectionMonitor`](https://github.com/High5Apps/ACActionCable/blob/master/Sources/ACActionCable/ACConnectionMonitor.swift) will periodically attempt to reconnect. Leave `connectionMonitorTimeout` nil to disable connection monitoring.
 
 ### Connect and disconnect
 You can set custom headers based on your server's requirements
@@ -50,19 +51,20 @@ func disconnect() {
     client.disconnect()
 }
 ```
-You probably want to connect and disconnect when your app becomes active or resigns active.
+You probably want to connect when the user's session begins and disconnect when the user logs out.
 ```swift
-// SceneDelegate.swift
+// User.swift
 
-func sceneDidBecomeActive(_ scene: UIScene) {
-   MyClient.shared.connect()
+func onSessionCreated() {
+    MyClient.shared.connect()
+    // ...
 }
 
-func sceneWillResignActive(_ scene: UIScene) {
+func logOut() {
+    // ...
     MyClient.shared.disconnect()
 }
 ```
-You probably also want to connect or disconnect when a user logs in or out.
 
 ### Subscribe and unsubscribe
 ```swift
@@ -110,6 +112,7 @@ class ChatChannel {
     }
 }
 ```
+Subscriptions are resubscribed on reconnection, so beware that `.confirmSubscription` may be called multiple times per subscription.
 
 ### Register your [`Decodable`](https://developer.apple.com/documentation/foundation/archives_and_serialization/encoding_and_decoding_custom_types) messages
 ACActionCable automatically decodes your models. For example, if your server broadcasts the following message:
