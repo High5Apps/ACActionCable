@@ -70,6 +70,63 @@ class ACMessageTests: XCTestCase {
         }
     }
     
+    func testShoulDecodeDateUsingSecondsSince1970() throws {
+        struct MyDate: Decodable {
+            let date: Date
+        }
+        ACMessageBodyObject.register(MyDate.self)
+        
+        let expected = Date()
+        let format = #"{"identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}","message":{"my_date":{"date":%f}}}"#
+        let string = String(format: format, expected.timeIntervalSince1970)
+        print(string)
+        
+        ACMessage.decoder.dateDecodingStrategy = .secondsSince1970
+        let message = ACMessage(string: string)
+
+        switch message?.body {
+        case .dictionary(let bodyObject):
+            switch bodyObject.object {
+            case let myDate as MyDate:
+                XCTAssertEqual(expected.timeIntervalSince1970, myDate.date.timeIntervalSince1970, accuracy: 1e-3)
+            default:
+                XCTFail()
+            }
+        default:
+            XCTFail()
+        }
+    }
+    
+    func testShoulDecodeDateUsingDecoderDateStrategy() throws {
+        struct MyDate: Decodable {
+            let date: Date
+        }
+        ACMessageBodyObject.register(MyDate.self)
+        
+        let expected = Date()
+        let format = #"{"identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}","message":{"my_date":{"date":%@}}}"#
+        let string = String(format: format, ISO8601DateFormatter().string(from: expected).debugDescription)
+        
+        ACMessage.decoder.dateDecodingStrategy = .iso8601
+        let message = ACMessage(string: string)
+        print(string)
+        print(message)
+        ACMessage.decoder.dateDecodingStrategy = .secondsSince1970
+
+        switch message?.body {
+        case .dictionary(let bodyObject):
+            switch bodyObject.object {
+            case let myDate as MyDate:
+                // Note that .iso8601 does not allow fractional seconds
+                XCTAssertEqual(floor(expected.timeIntervalSince1970), myDate.date.timeIntervalSince1970)
+            default:
+                XCTFail()
+            }
+        default:
+            XCTFail()
+        }
+    }
+    
     func testShouldDecodeConfirmSubscription() throws {
         let string = #"{"identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}","type":"confirm_subscription"}"#
         let message = ACMessage(string: string)!

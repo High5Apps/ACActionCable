@@ -123,7 +123,8 @@ ACActionCable automatically decodes your models. For example, if your server bro
   "message":{
     "my_object":{
       "sender_id": 311,
-      "text": "Hello, room 42!"
+      "text": "Hello, room 42!",
+      "created_at": 1600545466.294104
     }
   }
 }
@@ -135,6 +136,7 @@ Then ACActionCable can automatically decode it into the following object:
 struct MyObject: Codable { // Must implement Decodable or Codable
     let senderId: Int
     let text: String
+    let createdAt: Date
 }
 ```
 All you have to do is register the object.
@@ -160,10 +162,10 @@ private func handleMessage(_ message: ACMessage) {
         case .dictionary(let dictionary):
             switch dictionary.object {
             case let myObject as MyObject:
-                print("Received message from sender \(myObject.senderId): \(myObject.text)")
-                // Received message from sender 311: "Hello, room 42!"
+            print("\(myObject.text.debugDescription) from Sender \(myObject.senderId) at \(myObject.createdAt)")
+                // "Hello, room 42!" from Sender 311 at 2020-09-19 19:57:46 +0000
             default:
-                print("Warning: ChatChannel ignored unrecognized message")
+                print("Warning: ChatChannel ignored message")
             }
         default:
             break
@@ -202,9 +204,10 @@ Calling `channel.speak("my message")` would cause the following to be sent:
 ### (Optional) Modify encoder/decoder date formatting
 By default, `Date` objects are encoded or decoded using [`.secondsSince1970`](https://developer.apple.com/documentation/foundation/jsonencoder/dateencodingstrategy/secondssince1970). If you need to change to another format:
 ```swift
-ACCommand.encoder.dateEncodingStrategy = .iso8601 // or any other JSONEncoder.DateEncodingStrategy
-ACMessage.decoder.dateDecodingStrategy = .iso8601 // or any other JSONDecoder.DateDecodingStrategy
+ACCommand.encoder.dateEncodingStrategy = .iso8601 // for dates like "2020-09-19T20:09:04Z"
+ACMessage.decoder.dateDecodingStrategy = .iso8601 
 ```
+Note that `.iso8601` is quite strict and doesn't allow fractional seconds. If you need them, consider using `.secondsSince1970`, `millisecondsSince1970`, `.formatted`, or `.custom`.
 
 ### (Optional) Add an ACClientTap
 If you need to listen to the internal state of `ACClient`, use `ACClientTap`.
