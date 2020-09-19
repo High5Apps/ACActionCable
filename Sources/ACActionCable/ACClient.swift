@@ -7,13 +7,6 @@
 
 import Foundation
 
-public typealias ACRequestHeaders = [String: String]
-public typealias ACConnectionHandler = (_ headers: ACRequestHeaders?) -> Void
-public typealias ACDisconnectionHandler = (_ reason: String?) -> Void
-public typealias ACEventHandler = () -> Void
-public typealias ACTextHandler = (_ text: String) -> Void
-public typealias ACMessageHandler = (ACMessage) -> Void
-
 public final class ACClient {
     
     // MARK: Properties

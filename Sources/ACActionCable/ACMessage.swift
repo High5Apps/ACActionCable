@@ -7,6 +7,8 @@
 
 import Foundation
 
+public typealias ACMessageHandler = (ACMessage) -> Void
+
 public struct ACMessage: Decodable {
     
     // MARK: Properties
