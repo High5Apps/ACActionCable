@@ -124,7 +124,7 @@ ACActionCable automatically decodes your models. For example, if your server bro
     "my_object":{
       "sender_id": 311,
       "text": "Hello, room 42!",
-      "created_at": 1600545466.294104
+      "sent_at": 1600545466.294104
     }
   }
 }
@@ -136,7 +136,7 @@ Then ACActionCable can automatically decode it into the following object:
 struct MyObject: Codable { // Must implement Decodable or Codable
     let senderId: Int
     let text: String
-    let createdAt: Date
+    let sentAt: Date
 }
 ```
 All you have to do is register the object.
@@ -162,7 +162,7 @@ private func handleMessage(_ message: ACMessage) {
         case .dictionary(let dictionary):
             switch dictionary.object {
             case let myObject as MyObject:
-            print("\(myObject.text.debugDescription) from Sender \(myObject.senderId) at \(myObject.createdAt)")
+                print("\(myObject.text.debugDescription) from Sender \(myObject.senderId) at \(myObject.sentAt)")
                 // "Hello, room 42!" from Sender 311 at 2020-09-19 19:57:46 +0000
             default:
                 print("Warning: ChatChannel ignored message")
@@ -183,20 +183,22 @@ ACActionCable automatically encodes your [`Encodable`](https://developer.apple.c
 struct MyObject: Codable { // Must implement Encodable or Codable
     let senderId: Int
     let text: String
+    let sentAt: Date
 }
 ```
 ```swift
 // ChatChannel.swift
 
 func speak(_ text: String) {
-    subscription?.send(actionName: "speak", object: MyObject(senderId: 99, text: text))
+    let myObject = MyObject(senderId: 99, text: text, sentAt: Date())
+    subscription?.send(actionName: "speak", object: myObject)
 }
 ```
 Calling `channel.speak("my message")` would cause the following to be sent:
 ```json
 {
     "command":"message",
-    "data":"{\"action\":\"speak\",\"my_object\":{\"sender_id\":99,\"text\":\"my message\"}}",
+    "data":"{\"action\":\"speak\",\"my_object\":{\"sender_id\":99,\"sent_at\":1600545466.294104,\"text\":\"my message\"}}",
     "identifier":"{\"channel\":\"ChatChannel\",\"room_id\":42}"
 }
 ```

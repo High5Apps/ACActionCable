@@ -79,7 +79,6 @@ class ACMessageTests: XCTestCase {
         let expected = Date()
         let format = #"{"identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}","message":{"my_date":{"date":%f}}}"#
         let string = String(format: format, expected.timeIntervalSince1970)
-        print(string)
         
         ACMessage.decoder.dateDecodingStrategy = .secondsSince1970
         let message = ACMessage(string: string)
@@ -109,8 +108,6 @@ class ACMessageTests: XCTestCase {
         
         ACMessage.decoder.dateDecodingStrategy = .iso8601
         let message = ACMessage(string: string)
-        print(string)
-        print(message)
         ACMessage.decoder.dateDecodingStrategy = .secondsSince1970
 
         switch message?.body {
