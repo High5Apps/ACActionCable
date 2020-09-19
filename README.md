@@ -7,8 +7,9 @@ If your project doesn't use [CocoaPods](https://cocoapods.org/) yet, [follow thi
 
 Add the following line to your `Podfile`:
 ```ruby
-pod 'ACActionCable', '~> 1.0.0'
+pod 'ACActionCable', '~> 1.0'
 ```
+ACActionCable uses [semantic versioning](https://semver.org/).
 
 ## Usage
 
@@ -119,7 +120,7 @@ ACActionCable automatically decodes your models. For example, if your server bro
 ```json
 {
   "identifier":"{\"channel\":\"ChatChannel\",\"room_id\":42}",
-  "message": {
+  "message":{
     "my_object":{
       "sender_id": 311,
       "text": "Hello, room 42!"
