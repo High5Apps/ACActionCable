@@ -107,7 +107,6 @@ class ChatChannel {
         case .rejectSubscription:
             print("Server rejected ChatChannel subscription")
         default:
-            // TODO: Use MyObject (see below)
             break
         }
     }
@@ -152,24 +151,21 @@ private init() {
 // ChatChannel.swift
 
 private func handleMessage(_ message: ACMessage) {
-    switch message.type {
-    case .confirmSubscription:
-        print("Subscribed")
-    case .rejectSubscription:
+    switch (message.type, message.body) {
+    case (.confirmSubscription, _):
+        print("ChatChannel subscribed")
+    case (.rejectSubscription, _):
         print("Server rejected ChatChannel subscription")
-    default:
-        switch message.body {
-        case .dictionary(let dictionary):
-            switch dictionary.object {
-            case let myObject as MyObject:
-                print("\(myObject.text.debugDescription) from Sender \(myObject.senderId) at \(myObject.sentAt)")
-                // "Hello, room 42!" from Sender 311 at 2020-09-19 19:57:46 +0000
-            default:
-                print("Warning: ChatChannel ignored message")
-            }
+    case (_, .dictionary(let dictionary)):
+        switch dictionary.object {
+        case let myObject as MyObject:
+            print("\(myObject.text.debugDescription) from Sender \(myObject.senderId) at \(myObject.sentAt)")
+            // "Hello, room 42!" from Sender 311 at 2020-09-19 19:57:46 +0000
         default:
-            break
+            print("Warning: ChatChannel ignored message")
         }
+    default:
+        break
     }
 }
 
