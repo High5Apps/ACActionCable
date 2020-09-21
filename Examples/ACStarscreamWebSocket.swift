@@ -59,7 +59,7 @@ extension ACStarscreamWebSocket: WebSocketDelegate {
     }
     
     private func onSocketDisconnected(_ reason: String? = nil) {
-        onDisconnected?(reason)
         socket = nil
+        onDisconnected?(reason)
     }
 }
