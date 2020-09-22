@@ -71,8 +71,12 @@ func logOut() {
 ```swift
 // MyClient.swift
 
-func subscribe(to channelIdentifier: ACChannelIdentifier, with messageHandler: @escaping ACMessageHandler) -> ACSubscription {
-    client.subscribe(to: channelIdentifier, with: messageHandler)!
+func subscribe(to channelIdentifier: ACChannelIdentifier, with messageHandler: @escaping ACMessageHandler) -> ACSubscription? {
+    guard let subscription = client.subscribe(to: channelIdentifier, with: messageHandler) else {
+        print("Warning: MyClient ignored attempt to double subscribe. You are already subscribed to \(channelIdentifier)")
+        return nil
+    }
+    return subscription
 }
 
 func unsubscribe(from subscription: ACSubscription) {
