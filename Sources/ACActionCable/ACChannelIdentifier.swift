@@ -16,7 +16,7 @@ public struct ACChannelIdentifier {
     
     // MARK: Initialization
     
-    public init?(channelName: String, identifier: [String: Any]) {
+    public init?(channelName: String, identifier: [String: Any] = [:]) {
         var dictionary = identifier
         dictionary["channel"] = channelName
         self.dictionary = dictionary
