@@ -21,13 +21,24 @@ class ACSubscriptionTests: XCTestCase {
             let myProperty: Int
         }
 
-        let expectedSend = #"{"command":"message","data":"{\"action\":\"speak\",\"my_object\":{\"my_property\":1}}","identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}"}"#
+        let expectedSend = #"{"command":"message","data":"{\"my_property\":1}","identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}"}"#
         let object = MyObject(myProperty: 1)
         let (subscription, expectation) = expectMessage(expectedSend)
-        subscription.send(action: "speak", object: object)
+        subscription.send(object: object)
         wait(for: [expectation], timeout: 1)
     }
-    
+
+    func testShouldSendWithAction() throws {
+        struct MyObject: Encodable {
+            let myProperty: Int
+        }
+
+        let expectedSend = #"{"command":"message","data":"{\"action\":\"my_action\"}","identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}"}"#
+        let (subscription, expectation) = expectMessage(expectedSend)
+        subscription.send(action: "my_action")
+        wait(for: [expectation], timeout: 1)
+    }
+
     private func expectMessage(_ expectedSend: String) -> (ACSubscription, XCTestExpectation) {
         let expectedSubscribe = #"{"command":"subscribe","identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}"}"#
         let subscribe = expectation(description: "Subscribe")

@@ -24,7 +24,6 @@ public struct ACCommand {
     
     private var type: ACCommandType
     private var identifier: ACChannelIdentifier
-    private var action: String?
     private var data: [String: Any]?
     
     private var dictionary: [String: Any] {
@@ -34,8 +33,7 @@ public struct ACCommand {
         ]
         
         if type == .message {
-            var data = self.data ?? [:]
-            data["action"] = action!
+            let data = self.data ?? [:]
             dictionary["data"] = json(from: data)
         }
         
@@ -47,19 +45,21 @@ public struct ACCommand {
     init?(type: ACCommandType, identifier: ACChannelIdentifier, action: String? = nil) {
         self.type = type
         self.identifier = identifier
-        self.action = action
+
         if type == .message {
-            guard action != nil else { return nil }
+            guard let action else { return nil }
+
+            self.data = ["action": action]
         }
     }
     
-    init?<T: Encodable>(type: ACCommandType, identifier: ACChannelIdentifier, action: String, object: T) {
+    init?<T: Encodable>(type: ACCommandType, identifier: ACChannelIdentifier, object: T) {
         self.type = type
         self.identifier = identifier
-        self.action = action
-        let namedEncodable = ACNamedEncodable<T>(encodable: object)
-        guard let data = try? Self.encoder.encode(namedEncodable), let object = try? JSONSerialization.jsonObject(with: data, options: []), let dictionary = object as? [String: Any] else { return nil }
-        self.data = dictionary
+
+        // special handling of data
+        guard let data = try? Self.encoder.encode(object), let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []) else { return nil }
+        self.data = jsonObject as? [String: Any]
     }
     
     // MARK: Helpers
@@ -76,16 +76,4 @@ enum ACCommandType: String {
     case subscribe
     case unsubscribe
     case message
-}
-
-// MARK: ACNamedEncodable
-
-private struct ACNamedEncodable<T: Encodable>: Encodable {
-    let encodable: T
-    
-    func encode(to encoder: Encoder) throws {
-        let typeName = String(describing: T.self)
-        var container = encoder.container(keyedBy: DynamicKey.self)
-        try container.encode(encodable, forKey: DynamicKey(stringValue: typeName)!)
-    }
 }

@@ -142,13 +142,24 @@ struct MyObject: Codable { // Must implement Decodable or Codable
     let sentAt: Date
 }
 ```
-All you have to do is register the object.
+All you have to do is register the object - either for a _single_ key or for the whole `message`.
 ```swift
 // MyClient.swift
 
 private init() {
-  // ...
-  ACMessageBodyObject.register(MyObject.self)
+  // Decode the single object for key `my_object` within `message`
+  ACMessageBodySingleObject.register(type: MyObject.self)
+}
+```
+```swift
+// ChatChannel.swift
+
+```swift
+// MyClient.swift
+
+private init() {
+  // Decode the whole `message` object
+  ACMessageBody.register(type: MyObject.self, forChannelIdentifier: channelIdentifier)
 }
 ```
 ```swift
@@ -160,8 +171,8 @@ private func handleMessage(_ message: ACMessage) {
         print("ChatChannel subscribed")
     case (.rejectSubscription, _):
         print("Server rejected ChatChannel subscription")
-    case (_, .dictionary(let dictionary)):
-        switch dictionary.object {
+    case (_, .object(let object)):
+        switch object {
         case let myObject as MyObject:
             print("\(myObject.text.debugDescription) from Sender \(myObject.senderId) at \(myObject.sentAt)")
             // "Hello, room 42!" from Sender 311 at 2020-09-19 19:57:46 +0000

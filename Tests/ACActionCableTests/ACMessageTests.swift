@@ -29,7 +29,7 @@ class ACMessageTests: XCTestCase {
         }
     }
     
-    func testShouldDecodeCustomMessage() throws {
+    func testShouldDecodeCustomMessageWithSingleObject() throws {
         struct Foo: Decodable {
             let bar: Int
             let zap: String
@@ -39,9 +39,9 @@ class ACMessageTests: XCTestCase {
             let bimBam: String
         }
         
-        ACMessageBodyObject.register(Foo.self)
-        ACMessageBodyObject.register(BarBaz.self)
-        
+        ACMessageBodySingleObject.register(type: Foo.self)
+        ACMessageBodySingleObject.register(type: BarBaz.self)
+
         [
             #"{"identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}","message":{"bar_baz":{"bim_bam":"moz"}}}"#,
             #"{"identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}","message":{"foo":{"bar":1,"zap":"bam"}}}"#,
@@ -51,8 +51,8 @@ class ACMessageTests: XCTestCase {
             let message = ACMessage(string: string)!
             XCTAssertNil(message.type)
             switch message.body {
-            case .dictionary(let bodyObject):
-                switch bodyObject.object {
+            case .object(let bodyObject):
+                switch bodyObject {
                 case let foo as Foo:
                     XCTAssertEqual(1, foo.bar)
                     XCTAssertEqual("bam", foo.zap)
@@ -69,13 +69,63 @@ class ACMessageTests: XCTestCase {
             XCTAssertEqual(channelIdentifier, message.identifier)
         }
     }
-    
+
+    func testShouldDecodeCustomMessage() throws {
+        struct Foo: Decodable {
+            let bar: Int
+            let zap: String
+        }
+
+        struct BarBaz: Decodable {
+            let bimBam: String
+        }
+
+        struct MessageType: Decodable {
+            let foo: Foo?
+            let barBaz: BarBaz?
+        }
+
+        let channelIdentifier = ACChannelIdentifier(channelName: "TestChannel", identifier: ["test_id": 32])!
+        ACMessage.register(type: MessageType.self, forChannelIdentifier: channelIdentifier)
+
+        [
+            #"{"identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}","message":{"bar_baz":{"bim_bam":"moz"}}}"#,
+            #"{"identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}","message":{"foo":{"bar":1,"zap":"bam"}}}"#,
+            #"{"identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}","message":{"bar_baz":{"bim_bam":"moz"}}}"#,
+            #"{"identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}","message":{"foo":{"bar":1,"zap":"bam"}}}"#,
+        ].forEach { (string) in
+            let message = ACMessage(string: string)!
+            XCTAssertNil(message.type)
+            switch message.body {
+            case .object(let bodyObject):
+                guard let message = bodyObject as? MessageType else {
+                    XCTFail()
+                    return;
+                }
+
+                if let foo = message.foo {
+                    XCTAssertEqual(1, foo.bar)
+                    XCTAssertEqual("bam", foo.zap)
+                } else if let bar = message.barBaz {
+                    XCTAssertEqual("moz", bar.bimBam)
+                } else {
+                    XCTFail()
+                }
+            default:
+                XCTFail()
+            }
+
+            let channelIdentifier = ACChannelIdentifier(channelName: "TestChannel", identifier: ["test_id": 32])
+            XCTAssertEqual(channelIdentifier, message.identifier)
+        }
+    }
+
     func testShoulDecodeDateUsingSecondsSince1970() throws {
         struct MyDate: Decodable {
             let date: Date
         }
-        ACMessageBodyObject.register(MyDate.self)
-        
+        ACMessageBodySingleObject.register(type: MyDate.self)
+
         let expected = Date()
         let format = #"{"identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}","message":{"my_date":{"date":%f}}}"#
         let string = String(format: format, expected.timeIntervalSince1970)
@@ -84,8 +134,8 @@ class ACMessageTests: XCTestCase {
         let message = ACMessage(string: string)
 
         switch message?.body {
-        case .dictionary(let bodyObject):
-            switch bodyObject.object {
+        case .object(let bodyObject):
+            switch bodyObject {
             case let myDate as MyDate:
                 XCTAssertEqual(expected.timeIntervalSince1970, myDate.date.timeIntervalSince1970, accuracy: 1e-3)
             default:
@@ -100,8 +150,8 @@ class ACMessageTests: XCTestCase {
         struct MyDate: Decodable {
             let date: Date
         }
-        ACMessageBodyObject.register(MyDate.self)
-        
+        ACMessageBodySingleObject.register(type: MyDate.self)
+
         let expected = Date()
         let format = #"{"identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}","message":{"my_date":{"date":%@}}}"#
         let string = String(format: format, ISO8601DateFormatter().string(from: expected).debugDescription)
@@ -111,8 +161,8 @@ class ACMessageTests: XCTestCase {
         ACMessage.decoder.dateDecodingStrategy = .secondsSince1970
 
         switch message?.body {
-        case .dictionary(let bodyObject):
-            switch bodyObject.object {
+        case .object(let bodyObject):
+            switch bodyObject {
             case let myDate as MyDate:
                 // Note that .iso8601 does not allow fractional seconds
                 XCTAssertEqual(floor(expected.timeIntervalSince1970), myDate.date.timeIntervalSince1970)
