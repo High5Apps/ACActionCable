@@ -40,6 +40,14 @@ public struct ACMessage: Decodable {
         messageTypes[identifier.string] = type
     }
 
+    public static func unregisterType(forChannelIdentifier identifier: ACChannelIdentifier) {
+        messageTypes.removeValue(forKey: identifier.string)
+    }
+
+    public static func unregisterAllTypes() {
+        messageTypes.removeAll()
+    }
+
     // MARK: Initialization
     
     init?(string: String) {

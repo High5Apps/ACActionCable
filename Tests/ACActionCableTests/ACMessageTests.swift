@@ -8,7 +8,11 @@
 import XCTest
 
 class ACMessageTests: XCTestCase {
-    
+
+    override func setUp() async throws {
+        ACMessage.unregisterAllTypes()
+    }
+
     func testShouldDecodeWelcome() throws {
         let string = #"{"type":"welcome"}"#
         let message = ACMessage(string: string)!
