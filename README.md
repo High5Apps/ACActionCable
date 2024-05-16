@@ -223,7 +223,7 @@ All you have to do is register the `Codable` struct for the whole `message` obje
 
 private init() {
   // Decode the whole `message` object
-  ACMessage.register(type: MyObject.self, forChannelIdentifier: channelIdentifier)
+  ACMessage.register(type: MessageType.self, forChannelIdentifier: channelIdentifier)
 }
 ```
 
