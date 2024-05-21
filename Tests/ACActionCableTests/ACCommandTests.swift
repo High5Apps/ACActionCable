@@ -31,10 +31,19 @@ class ACCommandTests: XCTestCase {
         }
         
         let date = Date(timeIntervalSince1970: 1600545466)
-        let format = #"{"command":"message","data":"{\"action\":\"my_action\",\"my_object\":{\"my_date\":%d,\"my_int\":1,\"my_string\":\"test\"}}","identifier":"{\"channel\":\"TestChannel\",\"test_id\":42}"}"#
+        let format = #"{"command":"message","data":"{\"my_date\":%d,\"my_int\":1,\"my_string\":\"test\"}","identifier":"{\"channel\":\"TestChannel\",\"test_id\":42}"}"#
         let expected = String(format: format, Int(date.timeIntervalSince1970))
         let identifier = ACChannelIdentifier(channelName: "TestChannel", identifier: ["test_id": 42])!
-        let command = ACCommand(type: .message, identifier: identifier, action: "my_action", object: MyObject(myInt: 1, myString: "test", myDate: date))
+        let command = ACCommand(type: .message, identifier: identifier, object: MyObject(myInt: 1, myString: "test", myDate: date))
+        XCTAssertEqual(expected, command?.string)
+    }
+
+    func testShouldEncodeActionMessage() throws {
+        let date = Date(timeIntervalSince1970: 1600545466)
+        let format = #"{"command":"message","data":"{\"action\":\"my_action\"}","identifier":"{\"channel\":\"TestChannel\",\"test_id\":42}"}"#
+        let expected = String(format: format, Int(date.timeIntervalSince1970))
+        let identifier = ACChannelIdentifier(channelName: "TestChannel", identifier: ["test_id": 42])!
+        let command = ACCommand(type: .message, identifier: identifier, action: "my_action")
         XCTAssertEqual(expected, command?.string)
     }
 }
