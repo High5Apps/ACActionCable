@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |spec|
   spec.name                  = 'ACActionCable'
-  spec.version               = '2.0.0'
+  spec.version               = '2.1.0'
   spec.license               = { :type => 'MIT', :file => 'LICENSE' }
   spec.homepage              = 'https://github.com/High5Apps/ACActionCable'
   spec.authors               = { 'Julian Tigler' => 'high5apps@gmail.com', 'Fabian Jäger' => 'fabian@mailbutler.io' }
