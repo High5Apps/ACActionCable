@@ -11,7 +11,7 @@ If your project doesn't use [CocoaPods](https://cocoapods.org/) yet, [follow thi
 Add the following line to your `Podfile`:
 
 ```ruby
-pod 'ACActionCable', '~> 2.1'
+pod 'ACActionCable', '~> 2'
 ```
 
 ACActionCable uses [semantic versioning](https://semver.org/).
