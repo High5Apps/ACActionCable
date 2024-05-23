@@ -124,6 +124,16 @@ class ACMessageTests: XCTestCase {
         }
     }
 
+    func testShouldAllowAccessToRawBodyData() throws {
+        let message = ACMessage(string: #"{"identifier":"{\"channel\":\"TestChannel\",\"test_id\":32}","message":{"bar_baz":{"bim_bam":"moz"}}}"#)!
+        XCTAssertNil(message.type)
+
+        XCTAssertEqual(#"{"bar_baz":{"bim_bam":"moz"}}"#, String(data: message.bodyData!, encoding: .utf8))
+
+        let channelIdentifier = ACChannelIdentifier(channelName: "TestChannel", identifier: ["test_id": 32])
+        XCTAssertEqual(channelIdentifier, message.identifier)
+    }
+
     func testShoulDecodeDateUsingSecondsSince1970() throws {
         struct MyDate: Decodable {
             let date: Date

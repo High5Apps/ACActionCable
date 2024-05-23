@@ -11,7 +11,7 @@ If your project doesn't use [CocoaPods](https://cocoapods.org/) yet, [follow thi
 Add the following line to your `Podfile`:
 
 ```ruby
-pod 'ACActionCable', '~> 2.0'
+pod 'ACActionCable', '~> 2'
 ```
 
 ACActionCable uses [semantic versioning](https://semver.org/).
@@ -248,6 +248,29 @@ private func handleMessage(_ message: ACMessage) {
         }
     default:
         break
+    }
+}
+```
+
+### Accessing the raw message body data
+
+ACActionCable also provides access to the raw message body data for more involved processing:
+
+```swift
+// ChatChannel.swift
+
+private func handleMessage(_ message: ACMessage) {
+    switch (message.type) {
+    case (.confirmSubscription):
+        print("ChatChannel subscribed")
+    case (.rejectSubscription):
+        print("Server rejected ChatChannel subscription")
+    default:
+        guard let bodyData = message.bodyData else {
+            return
+        }
+
+        // do something fancy with the raw `Data`
     }
 }
 ```

@@ -24,6 +24,7 @@ public struct ACMessage: Decodable {
 
     public var type: ACMessageType?
     public var body: ACMessageBody?
+    public var bodyData: Data?
     public var identifier: ACChannelIdentifier?
     public var disconnectReason: ACDisconnectReason?
     public var reconnect: Bool?
@@ -51,7 +52,12 @@ public struct ACMessage: Decodable {
     // MARK: Initialization
     
     init?(string: String) {
-        guard let data = string.data(using: .utf8), let message = try? Self.decoder.decode(ACMessage.self, from: data) else { return nil }
+        guard let data = string.data(using: .utf8), var message = try? Self.decoder.decode(ACMessage.self, from: data) else { return nil }
+
+        if let jsonMessage = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any], let decodedBody = jsonMessage["message"]  {
+            message.bodyData = try? JSONSerialization.data(withJSONObject: decodedBody)
+        }
+
         self = message
     }
 
@@ -68,7 +74,7 @@ public struct ACMessage: Decodable {
             let bodyObject = try container.decodeIfPresent(messageType, forKey: .body)
             body = ACMessageBody.object(bodyObject)
         } else {
-            body = try container.decodeIfPresent(ACMessageBody.self, forKey: .body)
+            body = try? container.decodeIfPresent(ACMessageBody.self, forKey: .body)
         }
     }
 }
