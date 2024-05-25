@@ -54,9 +54,14 @@ public struct ACMessage: Decodable {
     init?(string: String) {
         guard let data = string.data(using: .utf8), var message = try? Self.decoder.decode(ACMessage.self, from: data) else { return nil }
 
-        if let jsonMessage = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any], let decodedBody = jsonMessage["message"]  {
-            message.bodyData = try? JSONSerialization.data(withJSONObject: decodedBody)
+        do {
+            if let jsonMessage = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any], let decodedBody = jsonMessage["message"] as? [String: Any]  {
+                message.bodyData = try JSONSerialization.data(withJSONObject: decodedBody)
+            }
+        } catch {
+            message.bodyData = nil
         }
+
 
         self = message
     }
