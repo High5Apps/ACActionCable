@@ -15,6 +15,4 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Build, Analyze and Test
-        run: xcodebuild clean build analyze test -project ACActionCable.xcodeproj -scheme ACActionCable-Package | xcpretty && exit ${PIPESTATUS[0]}
-      - name: Test only
-        run: xcodebuild clean test -project ACActionCable.xcodeproj -scheme ACActionCable-Package | xcpretty && exit ${PIPESTATUS[0]}
+        run: xcodebuild clean build analyze test -project ACActionCable.xcodeproj -scheme ACActionCable-Package -destination 'platform=macOS,name=Any Mac' | xcpretty && exit ${PIPESTATUS[0]}
