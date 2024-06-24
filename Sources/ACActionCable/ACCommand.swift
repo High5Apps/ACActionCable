@@ -42,6 +42,22 @@ public struct ACCommand {
     
     // MARK: Initialization
     
+    init?<T: Encodable>(type: ACCommandType, identifier: ACChannelIdentifier, action: String? = nil, object: T? = nil) {
+        self.type = type
+        self.identifier = identifier
+
+        if let object, let data = try? Self.encoder.encode(object) {
+            self.data = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+        }
+
+        if type == .message, let action {
+            self.data = self.data ?? [:]
+            self.data?["action"] = action
+        }
+
+        if type == .message && (self.data ?? [:]).isEmpty { return nil }
+    }
+
     init?(type: ACCommandType, identifier: ACChannelIdentifier, action: String? = nil) {
         self.type = type
         self.identifier = identifier
@@ -52,16 +68,7 @@ public struct ACCommand {
             self.data = ["action": action]
         }
     }
-    
-    init?<T: Encodable>(type: ACCommandType, identifier: ACChannelIdentifier, object: T) {
-        self.type = type
-        self.identifier = identifier
 
-        // special handling of data
-        guard let data = try? Self.encoder.encode(object), let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []) else { return nil }
-        self.data = jsonObject as? [String: Any]
-    }
-    
     // MARK: Helpers
     
     private func json(from dictionary: [String: Any]) -> String? {
