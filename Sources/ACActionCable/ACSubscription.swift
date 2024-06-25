@@ -26,13 +26,8 @@ public class ACSubscription {
     
     // MARK: Sending
     
-    public func send<T: Encodable>(action: String? = nil, object: T, completion: ACEventHandler? = nil) {
+    public func send(action: String? = nil, object: Encodable? = nil, completion: ACEventHandler? = nil) {
         guard let command = ACCommand(type: .message, identifier: channelIdentifier, action: action, object: object) else { return }
-        client.send(command, completion: completion)
-    }
-    
-    public func send(action: String, completion: ACEventHandler? = nil) {
-        guard let command = ACCommand(type: .message, identifier: channelIdentifier, action: action) else { return }
         client.send(command, completion: completion)
     }
 }

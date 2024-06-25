@@ -42,7 +42,7 @@ public struct ACCommand {
     
     // MARK: Initialization
     
-    init?<T: Encodable>(type: ACCommandType, identifier: ACChannelIdentifier, action: String? = nil, object: T? = nil) {
+    init?(type: ACCommandType, identifier: ACChannelIdentifier, action: String? = nil, object: Encodable? = nil) {
         self.type = type
         self.identifier = identifier
 
@@ -56,17 +56,6 @@ public struct ACCommand {
         }
 
         if type == .message && (self.data ?? [:]).isEmpty { return nil }
-    }
-
-    init?(type: ACCommandType, identifier: ACChannelIdentifier, action: String? = nil) {
-        self.type = type
-        self.identifier = identifier
-
-        if type == .message {
-            guard let action else { return nil }
-
-            self.data = ["action": action]
-        }
     }
 
     // MARK: Helpers
